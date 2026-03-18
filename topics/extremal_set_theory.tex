@@ -1,0 +1,68 @@
+\section{Extremal Set Theory}
+
+\begin{lemma}
+    (LYMB) Let $\mathcal{A} \subset \mathcal{P}([n])$ be an anti-chain, then
+    \[
+        \sum_{A \in \mathcal{A}} \binom{n}{|A|}^{-1} \leq 1
+    \]
+\end{lemma}
+
+\begin{proof}
+    (Sketch) Take a random permutation and consider the indicator random variables $X_A$ that the first $|A|$ elements form $A$.
+    We find that $\Ex \sum X_A = \sum_{A \in \mathcal{A}} \binom{n}{|A|}^{-1}$, but $\sum X_A \leq 1$.
+\end{proof}
+
+\begin{corollary}
+    (Sperner) If $\mathcal{A}$ is an anti-chain, $|\mathcal{A}| \leq \binom{n}{n/2}$.
+\end{corollary}
+
+\begin{corollary}
+    (Littlewood-Offord) Given $a_1, a_2, \dots a_n \in \R \setminus \{0\}$. Consider $x_1, \dots x_n \in \{-1,1\}$ u.i.i.d r.v's, 
+    then $\Pr(\sum a_i x_i = 0) \leq 2^{-n}\binom{n}{n/2}$.
+\end{corollary}
+\begin{proof}
+    By simmetry of the $x_i$, we may assume that all $a_i$ are positive. Now consider the collection 
+    $\mathcal{A} := \{A \subset [n] : \sum_{i \in A} a_i - \sum_{i \not \in A} a_i = 0\}$. $\mathcal{A}$ is an anti-chain.
+\end{proof}
+
+\begin{theorem} (Erdos-Ko-Rado, Katona)
+    Let $\mathcal{A} \subset \binom{[n]}{k}$ be an intersecting family with $2k < n$, then $|\mathcal{A}| \leq \binom{n-1}{k-1}$.
+\end{theorem}
+\begin{proof}
+    (Sketch) Take a random circular permutation of $[n]$, let $X_A$ be the indicator of $A$ appearing as an interval on the circle.
+    We find that $\sum X_A \leq k$ - partition the intervals that intersect A and use pigeonhole. Calculating expectation and rearranging gives the result.
+\end{proof}
+
+\begin{theorem}
+    (Exercise ERK) There is $n_0(k,l)$ such that if $n \geq n_0$ and $\mathcal{A} \subset \binom{[n]}{k}$ is an $l$-intersecting family,
+    then $|\mathcal{A}| \leq \binom{n-l}{k-l}$. Hints:
+    \begin{enumerate}
+        \item Show that there exists $L \subset [n]$, $|L| = l$ such that $L = A \cap B$ for $A,B \in \mathcal{A}$.
+        \item Show that either $\mathcal{A} \subset \partial L := \{A \in \binom{[n]}{k}: L \subset A\}$ or $|\mathcal{A}| = O(n^{k - l - 1})$.
+    \end{enumerate}    
+\end{theorem}
+
+\begin{proof}
+    For the first step, assume $\mathcal{A}$ is not empty and for every $A,B \in \mathcal{A}$, $|A \cap B| \geq l+1$.
+    Choose any element $C$ from $\mathcal{A}$ and notice that every set in the family must intersect at least with $l+1$ elements from $C$,
+    so the number of sets in $\mathcal{A}$ is bounded by
+    \[
+        |\mathcal{A}| \leq \binom{k}{l+1}\binom{n-l-1}{k-l-1} = O(n^{k - l - 1}).
+    \]
+
+    So we may assume that there are $A,B,L$ as in the hint. Now, either $\mathcal{A} \subset \partial L$ and we are done, or there exists
+    $C \in \mathcal{A}$ such that $L \not \subset C$. How many such $C$ can exists? Because $A \cap B = L$, $L \not \subset C$, $|A \cap C| \geq l$ and $|B \cap C| \geq l$
+    we find that
+    \[
+        |C \cap (A \cup B)| = |C \cap (A \cap B)| + |C \cap(A \setminus B)| + |C \cap (B \setminus A)| \geq l+1
+    \]
+    where we used the fact that $l \leq |C \cap A| = |C \cap L| + |C \cap (A \setminus B)|$ and so $|C \cap (A \setminus B)| \geq 1$.
+    So the number of such $C$ is at most $\binom{|A \cup B|}{l+1}\binom{n - |A \cup B|}{k - l - 1} =  O(n^{k - l - 1})$. And now, fix any such $C$,
+    how many elements of $\mathcal{A}$ may contain $L$? Because they all intersect in $C$ an element outside of $L$, 
+    we have at most 
+    \[
+        |C \setminus L| \binom{n - l - 1}{k - l - 1} = O(n^{k - l - 1}).
+    \]
+    such elements, which completes the proof.
+\end{proof}
+
