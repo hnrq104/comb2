@@ -20,7 +20,7 @@ The upperbound follows easily from the Erdös-Szekeres proof.
 
   Let $G$ on $n$-vtx be a triangle-free with no independet set of size $k$,
   we know every neighborhood is an independent set so $\Delta(G) < k$.
-  Know we greedily get one vtx at a time removing their neighbors.
+  Now we greedily get one vtx at a time removing their neighbors.
   Pick $v_1$ and $N(v_1)$ with $|N(v_1)| \leq k-1$, then pick $v_2$,
   notice that the neighborhood of $v_2$ (after removing $v_1$ and its neighbors)
   has size at most $k-2$, if not $\{v_1\} \cup N(v_2)$ would be a
@@ -132,3 +132,30 @@ beautiful lemma.
 
 The second ingredient is noting that if you're a bit bigger (say twice) than the independent size, you already have many 
 edges (at least half of what is expected).
+
+\begin{lemma}
+    Let $k \geq C\log(n)/p$, then 
+    \[
+        \Pr\bigg(\exists \text{ k-set } S, e(G(n,p)[S]) < p\binom{k}{2}/2\bigg) = o(1)
+    \]
+    for some $C > 0$.
+\end{lemma}
+\begin{proof}
+    Let $\mathcal{E}$ be the event that there exists a k-set $S$ with $e(G(n,p)[S]) < p\binom{k}{2}/2$.
+    We will do a union bound and use Chernoff to bound its probability. 
+    
+    Let $S$ be any $k$-set. Note that (letting $B(n,p)$ be the binomial with parameters $n$ and $p$) we have
+    \[e(G(n,p)[S]) \equiv B\bigg(\binom{k}{2},p\bigg). \]
+    So by Chernoff (or Hoeffding) [\ref{trm:chernoff}] (need to add proofs for these inequalities),
+    \begin{align*}
+        \Pr\bigg(e(G(n,p)) < \frac{p}{2}\binom{k}{2}\bigg) &\leq \Pr\bigg(\bigg|B\bigg(\binom{k}{2}, p\bigg) - p\binom{k}{2}\bigg| \geq \frac{p}{2}\binom{k}{2}\bigg)\\
+        &\leq e^{-c p\binom{k}{2}}
+    \end{align*}
+    for some $c > 0$.
+
+    Now, doing the union bound over $k$-sets we find that (taking $C > 3c^{-1}$)
+    \begin{align*}
+        \Pr(\mathcal{E}) \leq \binom{n}{k}e^{-c p\binom{k}{2}} \leq \bigg(\frac{en}{e^{cp(k-1)/2}k}\bigg)^k \leq \bigg(\frac{e}{k}\bigg)^k \to 0.
+    \end{align*}
+
+\end{proof}
