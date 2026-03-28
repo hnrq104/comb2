@@ -1,0 +1,134 @@
+\section{Ramsey Theory}
+Just for sake of completeness, we define
+\[
+  R(k,l) = \min\{ n : K_k \not \subset G \subset K_n \Rightarrow
+  \alpha(G) \geq l \}.
+\]
+In coloring terms, it's the smallest $n$ such that any red and blue
+coloring of $E(K_n)$ contains a red $K_k$ or a blue $K_l$.
+
+\subsection{Bounds on \mbox{R(3,k)}}
+We have two very simple bounds that are easy to prove,
+\[
+  \bigg(\frac{k}{\log(k)}\bigg)^{3/2} \leq R(3,k) \leq \binom{k+1}{2}.
+\]
+The upperbound follows easily from the Erdös-Szekeres proof.
+\begin{theorem}
+  $R(3,k) \leq \binom{k+1}{2}$
+\end{theorem}
+\begin{proof}
+
+  Let $G$ on $n$-vtx be a triangle-free with no independet set of size $k$,
+  we know every neighborhood is an independent set so $\Delta(G) < k$.
+  Know we greedily get one vtx at a time removing their neighbors.
+  Pick $v_1$ and $N(v_1)$ with $|N(v_1)| \leq k-1$, then pick $v_2$,
+  notice that the neighborhood of $v_2$ (after removing $v_1$ and its neighbors)
+  has size at most $k-2$, if not $\{v_1\} \cup N(v_2)$ would be a
+  independent set of size $k$. We proceed like this for $v_1, v_2, \dots v_t$,
+  where each step we discard at most $k-(i-1)$ vtxs. Because we can't do this
+  process $k$ times, for some $i < k$ we must fail (meaning there are
+  no vertex left),
+  so $n = |V(G)| \leq \sum_{j=0}^{k-2} k - j \leq \binom{k+1}{2} - 1$.
+\end{proof}
+
+The lowerbound is a beautiful application of the probabilistic
+method. The main idea is to choose $G(n,p)$
+as to have few triangles (linearly small in $n$) and relatively low
+independence number.
+
+\begin{theorem}
+  $R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^{3/2}$
+\end{theorem}
+
+We need a \textbf{very important} lemma first.
+\begin{lemma}
+  With high probability, the independence number of $G(n,p) \leq
+  2\log(n)/p$. That is
+  \[
+    \Pr(\alpha(G(n,p)) \geq 2\log(n)/p + 1) = 1 - o_{(n,p(n))}(1)
+  \]
+  where $p$ can be taken polynomially small in $n$.
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    \Pr(\alpha(G(n,p)) \geq k) &\leq \Ex[\#\text{independent k sets}
+    \in G(n,p)]\\
+    &= \binom{n}{k}(1-p)^{\binom{k}{2}} \leq
+    \bigg(\frac{en}{k}\bigg)^k\cdot e^{-pk(k-1)/2}\\
+    &= \bigg(\frac{en}{e^{p(k-1)/2}k}\bigg)^k
+  \end{align*}
+  Taking $k \geq 2\log(n)/p + 1$ we get that
+  \[
+    \Pr(\alpha(G(n,p)) \geq k) \leq
+    \bigg(\frac{ep}{2\log(n)}\bigg)^{2\log(n)/p} \to 0
+  \]
+  very fast even! (faster than any polynomial).
+\end{proof}
+
+The strategy will be to remove triangles from $G(n,p)$ by removing
+one vertex from each. This cannot increase
+the independence number, so we hope the resulting graph still has
+many vertices to yield a Ramsey construction.
+
+So let's see what this alteration may give us.
+\begin{proof}
+  (Of the Theorem) We choose $p$ small such that the number of
+  triangles is no larger than a small linear in $n$ (say $n/2$).
+  \[
+    \Ex[\# K_3 \subset G(n,p)] = \binom{n}{3}p^3 = (1 + o(1))\frac{(pn)^3}{6}
+  \]
+  We want
+  \[
+    \Pr( \# K_3 \in G(n,p) \geq n/2) < (1 + o(1))\frac{p^3n^2}{3} < 1/2
+  \]
+  so taking $p = \eps n^{-2/3}$ for some small $\eps$ we get the
+  inequality. But what does this $p$ gives in independence number?
+  We have w.h.p (say bigger than one half)
+  \[
+    \alpha(G(n,p)) \leq 2\eps^{-1}\log(n)n^{2/3}.
+  \]
+  So $\Pr(K_3(G(n,p)) < n/2) > 1/2$ and $\Pr(\alpha(G(n,p) <
+  C\log(n)n^{2/3})) > 1/2$, meaning there exists
+  $G$ satisfying both statements. Remove one vtx from each triangle
+  in $G$, we are left with a triangle-free graph $G'$ with at least $n/2$ vtxs
+  and $\alpha(G) < C\log(n)n^{2/3}$.
+  Setting $k = C\log(n)n^{2/3}$, we get that
+  \[
+    V(G') = n/2 \geq c\bigg(\frac{k}{\log(k)}\bigg)^{3/2}
+  \]
+\end{proof}
+
+Now for a better (and astounishingly beautiful) bound.
+\begin{theorem}
+  \[
+    R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^2.
+  \]
+\end{theorem}
+The idea of this bound is removing edges. Maybe we can kill the
+triangles by removing few edges and not
+increase the independence number too much. For this we will need a
+beautiful lemma.
+
+\begin{lemma}
+  (Erdös-Tetalli) Let $\{A_1, A_2, \dots A_m\}$ be a family of events
+  in some probability space $(\Omega, P)$. Let
+  $\mathcal{E}_t$ be the event that at least $t$ different
+  independent $A_i$ happen. We have that
+  \[
+    \Pr(\mathcal{E}_t) \leq \frac{1}{t!}\bigg(\sum_{i=1}^{m} A_i\bigg)^t.
+  \]
+\end{lemma}
+\begin{proof}
+  We get this one from just opening the terms
+  \[
+    \Pr(\mathcal{E}_t) = \Pr\bigg(\bigcup_{\substack{i_1 < \dots <
+    i_t\\ A_{i_j} \not\sim A_{i_k}}} \bigcap_{j = 1}^{t} A_{i_j}\bigg)
+    \leq \sum_{\substack{i_1 < \dots < i_t\\ A_{i_j} \not\sim
+    A_{i_k}}} \prod_{j = 1}^t \Pr(A_{i_j}) \leq \sum_{\substack{i_1
+    \leq \dots \leq i_t}} \prod_{j = 1}^t \Pr(A_{i_j}) =
+    \frac{1}{t!}\bigg(\sum_{i=1}^{m} A_i\bigg)^t.
+  \]
+\end{proof}
+
+The second ingredient is noting that if you're a bit bigger (say twice) than the independent size, you already have many 
+edges (at least half of what is expected).

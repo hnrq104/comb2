@@ -1,68 +1,229 @@
 \section{Extremal Set Theory}
 
 \begin{lemma}
-    (LYMB) Let $\mathcal{A} \subset \mathcal{P}([n])$ be an anti-chain, then
-    \[
-        \sum_{A \in \mathcal{A}} \binom{n}{|A|}^{-1} \leq 1
-    \]
+  (LYMB) Let $\mathcal{A} \subset \mathcal{P}([n])$ be an anti-chain, then
+  \[
+    \sum_{A \in \mathcal{A}} \binom{n}{|A|}^{-1} \leq 1
+  \]
 \end{lemma}
 
 \begin{proof}
-    (Sketch) Take a random permutation and consider the indicator random variables $X_A$ that the first $|A|$ elements form $A$.
-    We find that $\Ex \sum X_A = \sum_{A \in \mathcal{A}} \binom{n}{|A|}^{-1}$, but $\sum X_A \leq 1$.
+  (Sketch) Take a random permutation and consider the indicator
+  random variables $X_A$ that the first $|A|$ elements form $A$.
+  We find that $\Ex \sum X_A = \sum_{A \in \mathcal{A}}
+  \binom{n}{|A|}^{-1}$, but $\sum X_A \leq 1$.
 \end{proof}
 
 \begin{corollary}
-    (Sperner) If $\mathcal{A}$ is an anti-chain, $|\mathcal{A}| \leq \binom{n}{n/2}$.
+  (Sperner) If $\mathcal{A}$ is an anti-chain, $|\mathcal{A}| \leq
+  \binom{n}{n/2}$.
 \end{corollary}
 
 \begin{corollary}
-    (Littlewood-Offord) Given $a_1, a_2, \dots a_n \in \R \setminus \{0\}$. Consider $x_1, \dots x_n \in \{-1,1\}$ u.i.i.d r.v's, 
-    then $\Pr(\sum a_i x_i = 0) \leq 2^{-n}\binom{n}{n/2}$.
+  (Littlewood-Offord) Given $a_1, a_2, \dots a_n \in \R \setminus
+  \{0\}$. Consider $x_1, \dots x_n \in \{-1,1\}$ u.i.i.d r.v's,
+  then $\Pr(\sum a_i x_i = 0) \leq 2^{-n}\binom{n}{n/2}$.
 \end{corollary}
 \begin{proof}
-    By simmetry of the $x_i$, we may assume that all $a_i$ are positive. Now consider the collection 
-    $\mathcal{A} := \{A \subset [n] : \sum_{i \in A} a_i - \sum_{i \not \in A} a_i = 0\}$. $\mathcal{A}$ is an anti-chain.
+  By simmetry of the $x_i$, we may assume that all $a_i$ are
+  positive. Now consider the collection
+  $\mathcal{A} := \{A \subset [n] : \sum_{i \in A} a_i - \sum_{i \not
+  \in A} a_i = 0\}$. $\mathcal{A}$ is an anti-chain.
 \end{proof}
 
 \begin{theorem} (Erdos-Ko-Rado, Katona)
-    Let $\mathcal{A} \subset \binom{[n]}{k}$ be an intersecting family with $2k < n$, then $|\mathcal{A}| \leq \binom{n-1}{k-1}$.
+  Let $\mathcal{A} \subset \binom{[n]}{k}$ be an intersecting family
+  with $2k < n$, then $|\mathcal{A}| \leq \binom{n-1}{k-1}$.
 \end{theorem}
 \begin{proof}
-    (Sketch) Take a random circular permutation of $[n]$, let $X_A$ be the indicator of $A$ appearing as an interval on the circle.
-    We find that $\sum X_A \leq k$ - partition the intervals that intersect A and use pigeonhole. Calculating expectation and rearranging gives the result.
+  (Sketch) Take a random circular permutation of $[n]$, let $X_A$ be
+  the indicator of $A$ appearing as an interval on the circle.
+  We find that $\sum X_A \leq k$ - partition the intervals that
+  intersect A and use pigeonhole. Calculating expectation and
+  rearranging gives the result.
 \end{proof}
 
 \begin{theorem}
-    (Exercise ERK) There is $n_0(k,l)$ such that if $n \geq n_0$ and $\mathcal{A} \subset \binom{[n]}{k}$ is an $l$-intersecting family,
-    then $|\mathcal{A}| \leq \binom{n-l}{k-l}$. Hints:
-    \begin{enumerate}
-        \item Show that there exists $L \subset [n]$, $|L| = l$ such that $L = A \cap B$ for $A,B \in \mathcal{A}$.
-        \item Show that either $\mathcal{A} \subset \partial L := \{A \in \binom{[n]}{k}: L \subset A\}$ or $|\mathcal{A}| = O(n^{k - l - 1})$.
-    \end{enumerate}    
+  (Exercise ERK) There is $n_0(k,l)$ such that if $n \geq n_0$ and
+  $\mathcal{A} \subset \binom{[n]}{k}$ is an $l$-intersecting family,
+  then $|\mathcal{A}| \leq \binom{n-l}{k-l}$. Hints:
+  \begin{enumerate}
+    \item Show that there exists $L \subset [n]$, $|L| = l$ such that
+      $L = A \cap B$ for $A,B \in \mathcal{A}$.
+    \item Show that either $\mathcal{A} \subset \partial L := \{A \in
+      \binom{[n]}{k}: L \subset A\}$ or $|\mathcal{A}| = O(n^{k - l - 1})$.
+  \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-    For the first step, assume $\mathcal{A}$ is not empty and for every $A,B \in \mathcal{A}$, $|A \cap B| \geq l+1$.
-    Choose any element $C$ from $\mathcal{A}$ and notice that every set in the family must intersect at least with $l+1$ elements from $C$,
-    so the number of sets in $\mathcal{A}$ is bounded by
-    \[
-        |\mathcal{A}| \leq \binom{k}{l+1}\binom{n-l-1}{k-l-1} = O(n^{k - l - 1}).
-    \]
+  For the first step, assume $\mathcal{A}$ is not empty and for every
+  $A,B \in \mathcal{A}$, $|A \cap B| \geq l+1$.
+  Choose any element $C$ from $\mathcal{A}$ and notice that every set
+  in the family must intersect at least with $l+1$ elements from $C$,
+  so the number of sets in $\mathcal{A}$ is bounded by
+  \[
+    |\mathcal{A}| \leq \binom{k}{l+1}\binom{n-l-1}{k-l-1} = O(n^{k - l - 1}).
+  \]
 
-    So we may assume that there are $A,B,L$ as in the hint. Now, either $\mathcal{A} \subset \partial L$ and we are done, or there exists
-    $C \in \mathcal{A}$ such that $L \not \subset C$. How many such $C$ can exists? Because $A \cap B = L$, $L \not \subset C$, $|A \cap C| \geq l$ and $|B \cap C| \geq l$
-    we find that
-    \[
-        |C \cap (A \cup B)| = |C \cap (A \cap B)| + |C \cap(A \setminus B)| + |C \cap (B \setminus A)| \geq l+1
-    \]
-    where we used the fact that $l \leq |C \cap A| = |C \cap L| + |C \cap (A \setminus B)|$ and so $|C \cap (A \setminus B)| \geq 1$.
-    So the number of such $C$ is at most $\binom{|A \cup B|}{l+1}\binom{n - |A \cup B|}{k - l - 1} =  O(n^{k - l - 1})$. And now, fix any such $C$,
-    how many elements of $\mathcal{A}$ may contain $L$? Because they all intersect in $C$ an element outside of $L$, 
-    we have at most 
-    \[
-        |C \setminus L| \binom{n - l - 1}{k - l - 1} = O(n^{k - l - 1}).
-    \]
-    such elements, which completes the proof.
+  So we may assume that there are $A,B,L$ as in the hint. Now, either
+  $\mathcal{A} \subset \partial L$ and we are done, or there exists
+  $C \in \mathcal{A}$ such that $L \not \subset C$. How many such $C$
+  can exists? Because $A \cap B = L$, $L \not \subset C$, $|A \cap C|
+  \geq l$ and $|B \cap C| \geq l$
+  we find that
+  \[
+    |C \cap (A \cup B)| = |C \cap (A \cap B)| + |C \cap(A \setminus
+    B)| + |C \cap (B \setminus A)| \geq l+1
+  \]
+  where we used the fact that $l \leq |C \cap A| = |C \cap L| + |C
+  \cap (A \setminus B)|$ and so $|C \cap (A \setminus B)| \geq 1$.
+  So the number of such $C$ is at most $\binom{|A \cup
+  B|}{l+1}\binom{n - |A \cup B|}{k - l - 1} =  O(n^{k - l - 1})$. And
+  now, fix any such $C$,
+  how many elements of $\mathcal{A}$ may contain $L$? Because they
+  all intersect in $C$ an element outside of $L$,
+  we have at most
+  \[
+    |C \setminus L| \binom{n - l - 1}{k - l - 1} = O(n^{k - l - 1}).
+  \]
+  such elements, which completes the proof.
 \end{proof}
 
+I really liked Rob's motivation for continuing to study these extremal problems.
+
+\begin{enumerate}[label=(\alph*)]
+  \item An explicit construction that gives $R(k) \geq k^C$ for any fixed $C$!
+  \item The chromatic number of $\R^n$. We define $\chi(\R^n)$
+    % \[
+    %     \xi(\R^n) = \min \{k \in \N : \exists f : \R \to [k]
+    % \text{s.t.} \forall x,y \in \R^n, |x-y| = 1, f(x) \neq f(y)\}
+    % \]
+    as the minimal number of colors $k$ such that there exists a
+    function $f:\R^n \to [k]$ satisfying
+    that for every $x,y \in \R^n$ with $|x-y| = 1$, we have that
+    $f(x) \neq f(y)$.
+    For example, we know by taking a simplex on $\R^n$ that
+    $\chi(\R^n) \geq n+1$.
+    It is possible to show (by considering a tesselation by cubes
+    with diameter less than $1$) that the number is well defined for
+    any dimension.
+    We will use extremal stuff to prove some order of growth in $n$
+    of this parameter.
+
+  \item (Borsuk's Conjecture) Show that for every set $X \subset
+    \R^n$ it is possible to decompose it in $n+1$ sets $X_1, \dots X_{n+1}$
+    s.t. $\text{diam}(X_i) < X$.
+\end{enumerate}
+
+Now lets go back to some theorems. The next few ones are nice
+applications of linear algebra.
+\begin{definition}
+  Given $L \subset [n]$, we say a family $\mathcal{A} \subset
+  \mathcal{P}(n)$ is $L$-intersecting if for every $A\neq B \in \mathcal{A}$
+  we have that $|A \cap B| \in L$.
+\end{definition}
+
+\begin{theorem}
+  \label{trm:mfkw}
+  Let $\mathcal{A} \subset \mathcal{P}(n)$ and let $L\subseteq \Z_p$
+  with $|L| = s$. If $\mathcal{A}$ is $L$-intersecting
+  and for every $A \in \mathcal{A}$, $A \pmod p \not \in L$, then
+  \[
+    |\mathcal{A}| \leq \sum_{i=0}^s \binom{n}{i}
+  \]
+\end{theorem}
+
+\begin{proof}
+  Consider the L.I set
+  \[
+    f_A(X) = \prod_{l \in L} (X\cdot \id_{A} - l)
+  \]
+  in $\mathbb{F}_p[x_1, x_2 \dots x_n]$ and calculate the dimension.
+\end{proof}
+
+\begin{theorem}
+  \label{trm:fkw_size_k}
+  Let $\mathcal{A} \subset \binom{n}{k}$ be $L$ intersecting, then
+  $|\mathcal{A}| \leq \binom{n}{\leq|L|}$.
+\end{theorem}
+\begin{proof}
+  Consider $f_A = \prod_{l \in L} (X\cdot \id_{A} - l) \in
+  \R[x_1,\dots, x_n]$, this always has degree less than $|L|$ and all
+  monomials (after correcting the exponents) have degree at most $|L|$.
+  So, by the dimension bound (of vectors being L.I), we know that
+  $|\mathcal{A}| \leq \binom{n}{\leq |L|}$.
+\end{proof}
+
+Now let's sketch some applications.
+\begin{theorem}
+  There is a explicit coloring that shows $R(m) \geq m^C$ for any constant $C$.
+  (In our setup) There exists a sequence of graphs on $N$ vertices
+  with no clique or independent set
+  of size $N^{o(1)}$.
+\end{theorem}
+\begin{proof}
+  The idea is to consider a graph, such that cliques and independent
+  sets correspond to L intersecting families.
+  So let's fix our $V(K_N) = \binom{[n]}{k}$. And consider a coloring
+  of $E[K_N]$ by making
+  \[
+    c(A,B) =
+    \begin{cases}
+      \text{R} & \text{if} \quad |A\cap B| \in L\\
+      \text{G} & \text{if} \quad |A\cap B| \not \in L\\
+    \end{cases}
+  \]
+  where $L \subset [k-1]$. Now, what's the maximum size of a red
+  clique? We know by [\ref{trm:fkw_size_k}], that it is at most by
+  $\binom{n}{\leq|L|}$.
+  So if $L$ is relatively small, we can expect to win something. What
+  about green cliques? Then we turn to the modular theorem [\ref{trm:mfkw}].
+  If we suppose $k = p^2 - 1$ and let $L = \Z_p \setminus \{-1\}$. We
+  would have that each green clique satisfies the hypothesis of \ref{trm:mfkw},
+  and so has size at most $\binom{n}{\leq p-1}$.
+
+  So thats the idea, we take $L = \{p-1,2p -1, \dots p(p-1) - 1\}$ so
+  our coloring has no red clique of size $\binom{n}{\leq p-1}$,
+  and no green clique of size $\binom{n}{\leq p-1}$.
+
+  Suffices to show that if $N = \binom{n}{k}$, then $\binom{n}{\leq
+  \sqrt{k}} = N^{o(1)}$.
+\end{proof}
+
+\begin{theorem}
+  $\chi(\R^n) \geq \exp(cn)$
+\end{theorem}
+\begin{proof}
+  The proof follows similarly, we somehow want to find a finite
+  embeddable graph in $\R^n$ with small independence number.
+  Then $\chi(\R^n) \geq \chi(G) \geq |V(G)|/\alpha(G)$. So, let's
+  look into our setting again of
+  $V(G) = \binom{[n]}{k}$, and to embedd stuff in $\R^n$ we will
+  consider the indicator functions $k$-sets in $\R^n$ (which are vectors
+  of $n$ dimensions).
+
+  Now we want to forbid a distance between these vectors (which will
+  make our sets independent). So let's forbid a specific distance (which
+  we can always scale to be the right thing) and say
+  \[
+    E(G) = \{
+      (A,B) : |A \cap B| \neq t
+    \}
+  \]
+  For some $t \in \Z$. Here as we don't really care about the clique
+  number (only the independence), so we need to bound the size
+  of a independent set. So in order to get the strongest bound, we
+  use theorem [\ref{trm:mfkw}] and suppose $k = 2p - 1$ for some $p$
+  and $L = t \pmod p$. We get
+  $\alpha(G) \leq \binom{n}{1}$. So by taking $k$ very big (say
+  $n/2$) we get the result.
+
+\end{proof}
+
+\begin{theorem}
+  (Disproof of Borsuk's Conjecture) $\text{Bor}(\R^n) \geq (1+\eps)^{\sqrt{n}}$.
+\end{theorem}
+\begin{proof}
+  The proof can be found in Rob's book from 2010 with Imbuzeiro, but
+  follows the same paradigm.
+\end{proof}
