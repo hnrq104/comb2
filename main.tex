@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 
-\usepackage{amsmath,amssymb,amsthm,bbm,mathtools,calc,verbatim,enumitem,tikz,url,mathrsfs,cite,fullpage,hyperref,bm, marvosym}
+\usepackage{amsmath,amssymb,amsthm,bbm,mathtools,calc,verbatim,enumitem,tikz,url,mathrsfs,cite,fullpage,hyperref,bm,
+marvosym}
 \usepackage{dsfont}
 \usepackage{float}
 \usepackage{subcaption}
@@ -38,23 +39,25 @@
 % my custom problems
 \newtheorem{innercustomexercise}{Exercise}
 \newenvironment{customexercise}[1]
-  {\renewcommand\theinnercustomexercise{#1}\innercustomexercise}
-  {\endinnercustomexercise}
+{\renewcommand\theinnercustomexercise{#1}\innercustomexercise}
+{\endinnercustomexercise}
 
-\newenvironment{clmproof}[1]{\begin{proof}[Proof of Claim~\ref{#1}]\let\qednow\qedsymbol\renewcommand{\qedsymbol}{}}{\; \qednow \end{proof}}
+\newenvironment{clmproof}[1]{
+  \begin{proof}[Proof of
+  Claim~\ref{#1}]\let\qednow\qedsymbol\renewcommand{\qedsymbol}{}}{\; \qednow
+\end{proof}}
 
 \newcounter{step}
 \newenvironment{proofsteps}{
   \setcounter{step}{0}
   \begin{list}{\textbf{Step \arabic{step}.}}{\usecounter{step}
-  \setlength{\leftmargin}{1.5em}
-  \setlength{\itemsep}{0.3em}}
-}{
+      \setlength{\leftmargin}{1.5em}
+    \setlength{\itemsep}{0.3em}}
+  }{
   \end{list}
 }
 
 \newcommand{\stepcomment}[1]{\hfill {\small\textit{#1}}}
-
 
 \newcommand\N{\mathbb{N}}
 \newcommand\R{\mathbb{R}}
@@ -76,10 +79,15 @@
 \newcommand\eps{\varepsilon}
 \newcommand{\floor}[1]{\lfloor #1 \rfloor}
 \newcommand{\ceil}[1]{\lceil #1 \rceil}
-\newcommand{\prob}{\begin{problem} \end{problem}}
-\newcommand{\exer}{\begin{exercise} \end{exercise}}
-\newcommand{\cexer}[1]{\begin{customprob}{#1}\end{customprob}}
-
+\newcommand{\prob}{
+  \begin{problem}
+\end{problem}}
+\newcommand{\exer}{
+  \begin{exercise}
+\end{exercise}}
+\newcommand{\cexer}[1]{
+  \begin{customprob}{#1}
+\end{customprob}}
 
 \renewcommand{\leq}{\leqslant}
 \renewcommand{\geq}{\geqslant}
@@ -139,15 +147,15 @@
 \def\vp{\varphi}
 
 \hypersetup{
-	colorlinks=true,
-	linkcolor=blue,
-	urlcolor=blue,
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
 }
 
 \pagestyle{plain}
 \author{
-	Henrique
-	}
+  Henrique
+}
 \title{Notas de Combinatória 2}
 
 \begin{document}
@@ -157,14 +165,19 @@
 \setcounter{section}{-1}
 
 \section{Informações importantes}
-Devo guardar notas de aula e exercícios interessantes do curso. Por enquanto nenhuma notação muito esotérica apareceu,
-se sim devo listá-las aqui. O objetivo dessas notas é serem breves, de forma que é possível recuperar formalmente as provas dos 
-teoremas enunciados. Não serei estritamente rigoroso, o que pode levar a alguns erros. A linguagem pode variar intermintentemente entre 
+Devo guardar notas de aula e exercícios interessantes do curso. Por
+enquanto nenhuma notação muito esotérica apareceu,
+se sim devo listá-las aqui. O objetivo dessas notas é serem breves,
+de forma que é possível recuperar formalmente as provas dos
+teoremas enunciados. Não serei estritamente rigoroso, o que pode
+levar a alguns erros. A linguagem pode variar intermintentemente entre
 português e inglês.
 
-O código fonte desse arquivo pode ser encontrado em \url{https://github.com/hnrq104/comb2/tree/main}.
+O código fonte desse arquivo pode ser encontrado em
+\url{https://github.com/hnrq104/comb2/tree/main}.
 
 \input{topics/extremal_set_theory.tex}
 \input{topics/ramsey_theory.tex}
+\input{topics/tailbounds.tex}
 
 \end{document}

@@ -100,7 +100,7 @@ So let's see what this alteration may give us.
 
 Now for a better (and astounishingly beautiful) bound.
 \begin{theorem}
-    \label{trm:krivilevich_r3k}
+  \label{trm:krivilevich_r3k}
   \[
     R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^2.
   \]
@@ -111,7 +111,7 @@ increase the independence number too much. For this we will need a
 beautiful lemma.
 
 \begin{lemma}
-    \label{lemma:erdos_tettali}
+  \label{lemma:erdos_tettali}
   (Erdös-Tetalli) Let $\{A_1, A_2, \dots A_m\}$ be a family of events
   in some probability space $(\Omega, P)$. Let
   $\mathcal{E}_t$ be the event that at least $t$ different
@@ -132,60 +132,92 @@ beautiful lemma.
   \]
 \end{proof}
 
-The second ingredient is noting that if you're a bit bigger (say a constant times) than the independent size, you already have many 
+The second ingredient is noting that if you're a bit bigger (say a
+constant times) than the independent size, you already have many
 edges (at least half of what is expected).
 
 \begin{lemma}
-    \label{lemma:concentration_edges}
-    Let $k \geq C\log(n)/p$, then 
-    \[
-        \Pr\bigg(\exists \text{ k-set } S, e(G(n,p)[S]) < p\binom{k}{2}/2\bigg) = o(1)
-    \]
-    for some $C > 0$.
+  \label{lemma:concentration_edges}
+  Let $k \geq C\log(n)/p$, then
+  \[
+    \Pr\bigg(\exists \text{ k-set } S, e(G(n,p)[S]) <
+    p\binom{k}{2}/2\bigg) = o(1)
+  \]
+  for some $C > 0$.
 \end{lemma}
 \begin{proof}
-    Let $\mathcal{E}$ be the event that there exists a k-set $S$ with $e(G(n,p)[S]) < p\binom{k}{2}/2$.
-    We will do a union bound and use Chernoff to bound its probability. 
-    
-    Let $S$ be any $k$-set. Note that (letting $B(n,p)$ be the binomial with parameters $n$ and $p$) we have
-    \[e(G(n,p)[S]) \equiv B\bigg(\binom{k}{2},p\bigg). \]
-    So by Chernoff (or Hoeffding) [\ref{trm:chernoff}] (need to add proofs for these inequalities),
-    \begin{align*}
-        \Pr\bigg(e(G(n,p)) < \frac{p}{2}\binom{k}{2}\bigg) &\leq \Pr\bigg(\bigg|B\bigg(\binom{k}{2}, p\bigg) - p\binom{k}{2}\bigg| \geq \frac{p}{2}\binom{k}{2}\bigg)\\
-        &\leq e^{-c p\binom{k}{2}}
-    \end{align*}
-    for some $c > 0$.
+  Let $\mathcal{E}$ be the event that there exists a k-set $S$ with
+  $e(G(n,p)[S]) < p\binom{k}{2}/2$.
+  We will do a union bound and use Hoeffding (or Chernoff) to bound
+  its probability.
 
-    Now, doing the union bound over $k$-sets we find that (taking $C > 3c^{-1}$)
-    \begin{align*}
-        \Pr(\mathcal{E}) \leq \binom{n}{k}e^{-c p\binom{k}{2}} \leq \bigg(\frac{en}{e^{cp(k-1)/2}k}\bigg)^k \leq \bigg(\frac{e}{k}\bigg)^k \to 0.
-    \end{align*}
+  Let $S$ be any $k$-set. Note that (letting $B(n,p)$ be the binomial
+  with parameters $n$ and $p$) we have
+  \[e(G(n,p)[S]) \equiv B\bigg(\binom{k}{2},p\bigg). \]
+  So by Hoeffding and its bounds on the binomial
+  [\ref{lemma:expec_binomial_bounds}] (need to add
+  proofs for these inequalities),
+  \begin{align*}
+    \Pr\bigg(e(G(n,p)) < \frac{p}{2}\binom{k}{2}\bigg) &\leq
+    \Pr\bigg(\bigg|B\bigg(\binom{k}{2}, p\bigg) - p\binom{k}{2}\bigg|
+    \geq \frac{p}{2}\binom{k}{2}\bigg)\\
+    &\leq e^{-c p\binom{k}{2}}
+  \end{align*}
+  for some $c > 0$.
+
+  Now, doing the union bound over $k$-sets we find that (taking $C > 3c^{-1}$)
+  \begin{align*}
+    \Pr(\mathcal{E}) \leq \binom{n}{k}e^{-c p\binom{k}{2}} \leq
+    \bigg(\frac{en}{e^{cp(k-1)/2}k}\bigg)^k \leq
+    \bigg(\frac{e}{k}\bigg)^k \to 0.
+  \end{align*}
 \end{proof}
 
-The idea to prove theorem \ref{trm:krivilevich_r3k} is to remove a maximal collection of edge-disjoint triangles from $G(n,p)$, (notice that this makes it triangle free).
-We use lemma \ref{lemma:erdos_tettali} to show that this procedure won't remove too many edges from any set $S$ with size $C\log(n)/p$.
+The idea to prove theorem \ref{trm:krivilevich_r3k} is to remove a
+maximal collection of edge-disjoint triangles from $G(n,p)$, (notice
+that this makes it triangle free).
+We use lemma \ref{lemma:erdos_tettali} to show that this procedure
+won't remove too many edges from any set $S$ with size $C\log(n)/p$.
 
 \begin{proof}
-    (Of Theorem \ref{trm:krivilevich_r3k}) Let $S$ be a set of size $k = C\log(n)/p$, for some $p$ we will determine later.
-    Let $\{T_1, \dots T_m\}$ be the set of all triangles that intersect with at least a pair in $S$. Note that $m \leq n\binom{|S|}{2}$.
-    Let $\mathcal{E}_S$ be the event that a edge disjoint set of these triangles with size bigger or equal to $\frac{p}{6}\binom{k}{2}$ are in $G(n,p)$. 
-    By [\ref{lemma:erdos_tettali}], we can bound $\Pr(\mathcal{E}_S)$,
+  (Of Theorem \ref{trm:krivilevich_r3k}) Let $S$ be a set of size $k
+  = C\log(n)/p$, for some $p$ we will determine later.
+  Let $\{T_1, \dots T_m\}$ be the set of all triangles that intersect
+  with at least a pair in $S$. Note that $m \leq n\binom{|S|}{2}$.
+  Let $\mathcal{E}_S$ be the event that a edge disjoint set of these
+  triangles with size bigger or equal to $\frac{p}{6}\binom{k}{2}$
+  are in $G(n,p)$.
+  By [\ref{lemma:erdos_tettali}], we can bound $\Pr(\mathcal{E}_S)$,
 
-    \[
-        \Pr(\mathcal{E}_S) \leq \frac{1}{[\frac{p}{6}\binom{k}{2}]!}\bigg(\sum_{i = 1}^{m} \Pr(T_i \in G(n,p))\bigg)^t \leq \bigg(\frac{24e}{pk^2}\bigg)^{pk^2/24}(p^3nk^2)^{pk^2/12}
-    \]
-    Replacing $k$ in the equation we get (and putting $C > 24e$)
-    \[
-        \Pr(\mathcal{E}_S) \leq \bigg(\frac{24ep}{C\log^2(n)}\bigg)^{\log(n)^2/(24p)}(pn\log(n)^2)^{\log(n)^2/(12p)} \leq (p^3n^2\log(n)^2)^{\log(n)^2/(24p)}
-    \]
-    So, if we take $p = \eps n^{-1/2}$ (might try to optimize more later), we already find that 
-    \[
-        \Pr(\mathcal{E}_S) \leq \bigg(\frac{\log(n)}{n^{1/2}}\bigg)^{n^{1/2}\log^2(n)} \ll \bigg(\frac{C\log(n)}{n^{1/2}}\bigg)^{C\log(n)n^{1/2}} \leq  \binom{n}{k}^{-1}
-    \]
-    So $\mathcal{E}_S$ does not happen for any $S$ with high probability. As w.h.p $S$ of size $k$ have more than $\frac{p}{2}\binom{k}{2}$ edges, and 
-    any maximal disjoint triangle family intersect too much with $S$. We can remove a maximal edge disjoint triangle family and not make any set of size $k$ independent.
-    This yields a triangle free graph on $n$ vtxs with independence number less than $C\log(n)n^{1/2}$, so 
-    \[
-        R(3,k) \geq c\bigg(\frac{k}{\log k}\bigg)^2.
-    \]
+  \[
+    \Pr(\mathcal{E}_S) \leq
+    \frac{1}{[\frac{p}{6}\binom{k}{2}]!}\bigg(\sum_{i = 1}^{m}
+    \Pr(T_i \in G(n,p))\bigg)^t \leq
+    \bigg(\frac{24e}{pk^2}\bigg)^{pk^2/24}(p^3nk^2)^{pk^2/12}
+  \]
+  Replacing $k$ in the equation we get (and putting $C > 24e$)
+  \[
+    \Pr(\mathcal{E}_S) \leq
+    \bigg(\frac{24ep}{C\log^2(n)}\bigg)^{\log(n)^2/(24p)}(pn\log(n)^2)^{\log(n)^2/(12p)}
+    \leq (p^3n^2\log(n)^2)^{\log(n)^2/(24p)}
+  \]
+  So, if we take $p = \eps n^{-1/2}$ (might try to optimize more
+  later), we already find that
+  \[
+    \Pr(\mathcal{E}_S) \leq
+    \bigg(\frac{\log(n)}{n^{1/2}}\bigg)^{n^{1/2}\log^2(n)} \ll
+    \bigg(\frac{C\log(n)}{n^{1/2}}\bigg)^{C\log(n)n^{1/2}} \leq
+    \binom{n}{k}^{-1}
+  \]
+  So $\mathcal{E}_S$ does not happen for any $S$ with high
+  probability. As w.h.p $S$ of size $k$ have more than
+  $\frac{p}{2}\binom{k}{2}$ edges, and
+  no maximal disjoint triangle family intersect too much with $S$. We
+  can remove a maximal edge disjoint triangle family and not make any
+  set of size $k$ independent.
+  This yields a triangle free graph on $n$ vtxs with independence
+  number less than $C\log(n)n^{1/2}$, so
+  \[
+    R(3,k) \geq c\bigg(\frac{k}{\log k}\bigg)^2.
+  \]
 \end{proof}
