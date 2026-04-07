@@ -38,7 +38,7 @@ independence number.
 
 \begin{theorem}
   \[
-  R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^{3/2}
+    R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^{3/2}
   \]
 \end{theorem}
 
@@ -224,160 +224,320 @@ won't remove too many edges from any set $S$ with size $C\log(n)/p$.
   \]
 \end{proof}
 
-
 Now let's find an upperbound of the right order.
 \begin{theorem}
-    \label{trm:r3k_aks}
-    (Ajtai, Komlós, Szemerédi)
-    \[
-        R(3,k) \leq C\frac{k^2}{\log k}
-    \]
+  \label{trm:r3k_aks}
+  (Ajtai, Komlós, Szemerédi)
+  \[
+    R(3,k) \leq C\frac{k^2}{\log k}
+  \]
 \end{theorem}
 
 The theorem will be immediately implied by the following lemma.
 \begin{lemma}
-    \label{lemma:independence_k3_free}
-    Let $G$ be $K_3$-free with $\Delta(G) \leq d$, then
-    \[
-        \alpha(G) \geq \frac{cn}{d}\log(d).
-    \]
-    for some universal constant $c > 0$.
+  \label{lemma:independence_k3_free}
+  Let $G$ be $K_3$-free with $\Delta(G) \leq d$, then
+  \[
+    \alpha(G) \geq \frac{cn}{d}\log(d).
+  \]
+  for some universal constant $c > 0$.
 \end{lemma}
 
 \begin{proof}
-    (Of the theorem assuming Lemma \ref{lemma:independence_k3_free}) Notice that $G$ is $K_3$ free and 
-    its independence number is less than $k$, then, as every neighborhood is a independent set, we have $\Delta(G) < k$.
-    Applying the lemma we get that 
-    \[
-        k > \alpha(G) \geq \frac{cn}{k}\log(k)
-    \]
-    which implies
-    \[
+  (Of the theorem assuming Lemma \ref{lemma:independence_k3_free})
+  Notice that $G$ is $K_3$ free and
+  its independence number is less than $k$, then, as every
+  neighborhood is a independent set, we have $\Delta(G) < k$.
+  Applying the lemma we get that
+  \[
+    k > \alpha(G) \geq \frac{cn}{k}\log(k)
+  \]
+  which implies
+  \[
     n \leq C\frac{k^2}{\log(k)}.
-    \]
+  \]
 \end{proof}
 
-The proof of the lemma is exceptionally fun. The main idea is to take a uniform random independent set in $G$, 
-and show that in expectation, its size is bigger than $\frac{cn}{d}\log(d)$ - which is very unnintuitive.
+The proof of the lemma is exceptionally fun. The main idea is to take
+a uniform random independent set in $G$,
+and show that in expectation, its size is bigger than
+$\frac{cn}{d}\log(d)$ - which is very unnintuitive.
 \begin{proof}
-    (Of Lemma \ref{lemma:independence_k3_free}) Let $I \in \mathcal{I}(G)$ be a uniformly chosen random independent set of $G$.
-    For each $v \in V(G)$, define the random variable 
-    \[
-        X_v = d \cdot \id[v \in I] + \sum_{u \in N(v)} \id[u \in I].
-    \]
-    Note that
-    \[
-        \Ex \sum_{v \in V(G)} X_v = d\cdot \Ex |I| + \sum_{v \in V(G)} \sum_{u \in N(v)} \Pr(u \in I) = 
-        d\cdot \Ex |I| + \sum_{u \in V(G)} d(u) \Pr(u \in I) \leq 2d\cdot \Ex |I|.
-    \]
-    So we have that $\Ex |I| \geq \frac{1}{2d} \Ex [\sum_{v \in V(G)} X_v]$. To prove the lemma,
-    it would suffice to show then that $\Ex X_v \geq \log(d)$ for all $v$ (as summing it would yield the result).
+  (Of Lemma \ref{lemma:independence_k3_free}) Let $I \in
+  \mathcal{I}(G)$ be a uniformly chosen random independent set of $G$.
+  For each $v \in V(G)$, define the random variable
+  \[
+    X_v = d \cdot \id[v \in I] + \sum_{u \in N(v)} \id[u \in I].
+  \]
+  Note that
+  \[
+    \Ex \sum_{v \in V(G)} X_v = d\cdot \Ex |I| + \sum_{v \in V(G)}
+    \sum_{u \in N(v)} \Pr(u \in I) =
+    d\cdot \Ex |I| + \sum_{u \in V(G)} d(u) \Pr(u \in I) \leq 2d\cdot \Ex |I|.
+  \]
+  So we have that $\Ex |I| \geq \frac{1}{2d} \Ex [\sum_{v \in V(G)}
+  X_v]$. To prove the lemma,
+  it would suffice to show then that $\Ex X_v \geq \log(d)$ for all
+  $v$ (as summing it would yield the result).
 
-    So let's lowerbound $\Ex X_v$. The idea is to condition it on something and find a bound that works \textbf{FOR EVERY} condition 
-    we take (which seems insane). 
-    
-    Fix $v$, let's divide the world into $U = \{v\} \cup N(v)$ and $W = V(G)\setminus U$ (both depend on $v$). Notice 
-    that the value of $X_v$ only changes for elements in $U$ that appear in $I$. So fix an independent set $S$ of $W$, and let's 
-    calculate $\Ex[X_v | I \cap W = S]$. 
-    
-    From the fact that $I$ has to be an independent set, we know it cannot have any neighbors
-    of elements in $S$. So let $Y = N(v) \cap N(S)$ and let 
-    $X = N(v) \setminus Y$ (note $v \not \in N(S)$). As $I$ is uniformly chosen, we now know that $I \cap U$ (conditioned on $I \cap W = S$),
-    is a uniformly chosen independent set of $\{v\} \cup X$. Let $|X| = t$, remembering that $X$ is an independent set, we find
-    \begin{align*}
-        \Ex[X_v | I \cap W = S] &= \Ex[X_v | v \in I, I \cap W = S]\cdot\Pr(v\in I | I \cap W = S)\\
-        &+ \Ex[X_v | v \not \in I, I \cap W = S]\cdot\Pr(v \not \in I | I \cap W = S)\\
-        &= \frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2} 
-    \end{align*}
-    where we used the fact that $I \cap U$ is an uniform independent set of the star $G[\{v\} \cup X]$. Now (here comes the crazy part),
-    notice that independent of what $t = |X|$ is, we have
-    \[
-        \frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2} \geq \frac{\log(d)}{8}.
-    \]
-    just take $t < \log(d)/2$ and $t \geq \log(d)/2$. But this means 
-    \[
-        \Ex X_v = \Ex[\Ex[X_v| I \cap W(v)]] \geq \frac{\log(d)}{8}
-    \]
-    yielding the result.
+  So let's lowerbound $\Ex X_v$. The idea is to condition it on
+  something and find a bound that works \textbf{FOR EVERY} condition
+  we take (which seems insane).
+
+  Fix $v$, let's divide the world into $U = \{v\} \cup N(v)$ and $W =
+  V(G)\setminus U$ (both depend on $v$). Notice
+  that the value of $X_v$ only changes for elements in $U$ that
+  appear in $I$. So fix an independent set $S$ of $W$, and let's
+  calculate $\Ex[X_v | I \cap W = S]$.
+
+  From the fact that $I$ has to be an independent set, we know it
+  cannot have any neighbors
+  of elements in $S$. So let $Y = N(v) \cap N(S)$ and let
+  $X = N(v) \setminus Y$ (note $v \not \in N(S)$). As $I$ is
+  uniformly chosen, we now know that $I \cap U$ (conditioned on $I \cap W = S$),
+  is a uniformly chosen independent set of $\{v\} \cup X$. Let $|X| =
+  t$, remembering that $X$ is an independent set, we find
+  \begin{align*}
+    \Ex[X_v | I \cap W = S] &= \Ex[X_v | v \in I, I \cap W =
+    S]\cdot\Pr(v\in I | I \cap W = S)\\
+    &+ \Ex[X_v | v \not \in I, I \cap W = S]\cdot\Pr(v \not \in I | I
+    \cap W = S)\\
+    &= \frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2}
+  \end{align*}
+  where we used the fact that $I \cap U$ is an uniform independent
+  set of the star $G[\{v\} \cup X]$. Now (here comes the crazy part),
+  notice that independent of what $t = |X|$ is, we have
+  \[
+    \frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2} \geq \frac{\log(d)}{8}.
+  \]
+  just take $t < \log(d)/2$ and $t \geq \log(d)/2$. But this means
+  \[
+    \Ex X_v = \Ex[\Ex[X_v| I \cap W(v)]] \geq \frac{\log(d)}{8}
+  \]
+  yielding the result.
 \end{proof}
 
 \subsection{Bounds on R(4,k)}
 
-By doing vertex deletion and Erdös-Szekeres, we may easily find (we need $p^6n^4 < n$, so $p = \eps n^{-1/2}$)
+By doing vertex deletion and Erdös-Szekeres, we may easily find (we
+need $p^6n^4 < n$, so $p = \eps n^{-1/2}$)
 \[
-    c\bigg(\frac{k}{\log(k)}\bigg)^2\leq R(4,k) \leq k^3.
+  c\bigg(\frac{k}{\log(k)}\bigg)^2\leq R(4,k) \leq k^3.
 \]
-Doing the Erdös-Tetali method [\ref{lemma:erdos_tetali}] (we need $p^6n^4 < pn^2$, so $p = \eps n^{-2/5}$)
-we get also 
+Doing the Erdös-Tetali method [\ref{lemma:erdos_tetali}] (we need
+$p^6n^4 < pn^2$, so $p = \eps n^{-2/5}$)
+we get also
 \[
-    c\bigg(\frac{k}{\log k}\bigg)^{5/2} \leq R(4,k).
+  c\bigg(\frac{k}{\log k}\bigg)^{5/2} \leq R(4,k).
 \]
-But we can do better on the upperbound by doing a similar strategy as in the $R(3,k)$ case. The next lemma Rob stated,
+But we can do better on the upperbound by doing a similar strategy as
+in the $R(3,k)$ case. The next lemma Rob stated,
 but I don't think we will use it.
 
 \begin{lemma}
-    Let $G$ on $n$ vtx be $K_4$-free and $\Delta(G) \leq d$, then 
-    \[
-        \alpha(G) \geq \frac{cn}{d}\frac{\log (d)}{\log\log(d)}.
-    \]
+  Let $G$ on $n$ vtx be $K_4$-free and $\Delta(G) \leq d$, then
+  \[
+    \alpha(G) \geq \frac{cn}{d}\frac{\log (d)}{\log\log(d)}.
+  \]
 \end{lemma}
 
 \begin{proof}
-    The proof of this is similar to lemma \ref{lemma:independence_k3_free}, we must however pick a uniformly independent
-    set from the now $K_3$-free $X$. (I will try to do the computations more carefully later)
+  The proof of this is similar to lemma
+  \ref{lemma:independence_k3_free}, we must however pick a uniformly independent
+  set from the now $K_3$-free $X$. (I will try to do the computations
+  more carefully later)
 \end{proof}
 
-To get an even better bound, we will need some kind of stability setting in these super sparse graphs.
+To get an even better bound, we will need some kind of stability
+setting in these super sparse graphs.
 \begin{lemma}
-    \label{lemma:AKSz}
-    (AKSz) Let $G$ be a graph on $n$-vtx with $\Delta(G) \leq d$ and $k_3(G) \leq (nd^2)/\lambda$,
-    then
-    \[
-        \alpha(G) \geq c\frac{n}{d}\log(\lambda)
-    \]
-    where $c > 0$ is an absolute constant.
+  \label{lemma:AKSz}
+  (AKSz) Let $G$ be a graph on $n$-vtx with $\Delta(G) \leq d$ and
+  $k_3(G) \leq (nd^2)/\lambda$,
+  then
+  \[
+    \alpha(G) \geq c\frac{n}{d}\log(\lambda)
+  \]
+  where $c > 0$ is an absolute constant.
 \end{lemma}
 
 With it we can prove the following strong bound,
 
 \begin{theorem}
-    \[
-        R(4,k) \leq C\frac{k^3}{\log(k)^2}.
-    \]
+  \label{trm:aksz_r4k}
+  \[
+    R(4,k) \leq C\frac{k^3}{\log(k)^2}.
+  \]
 \end{theorem}
 \begin{proof}
-    (Assuming [\ref{lemma:AKSz}]) Let $G$ be $n$-vtx, $K_4$-free graph with $\alpha(G) < k$,
-    we know by Erdös-Szekeres that $\Delta(G) < R(3,k)$. How many triangles can $G$ have?
-    Pick a vertex $v$ and let $S = N(v)$. We know that for any vertex $u \in S$, $N_{G[S]}(u)$ is independent
-    (because $G$ is $K_4$-free) and so $d_{G[S]}(u) < k$. This implies that 
-    \[
-        k_3(G) = \frac{1}{3} \sum_{v \in V(G)} e(G[N(v)]) \leq \frac{nk^2}{6}
-    \]
-    by our bound on $\Delta(G[S])$.
+  (Assuming [\ref{lemma:AKSz}]) Let $G$ be $n$-vtx, $K_4$-free graph
+  with $\alpha(G) < k$,
+  we know by Erdös-Szekeres that $\Delta(G) < R(3,k)$. How many
+  triangles can $G$ have?
+  Pick a vertex $v$ and let $S = N(v)$. We know that for any vertex
+  $u \in S$, $N_{G[S]}(u)$ is independent
+  (because $G$ is $K_4$-free) and so $d_{G[S]}(u) < k$. This implies that
+  \[
+    k_3(G) = \frac{1}{3} \sum_{v \in V(G)} e(G[N(v)]) \leq \frac{nk^2}{6}
+  \]
+  by our bound on $\Delta(G[S])$.
 
-    So applying [\ref{lemma:AKSz}] with $d = R(3,k)$ and $\lambda = (k/\log(k))^2$ yields 
-    \[
-        k > \alpha(G) > c\frac{n\log(k)^2}{k^2}
-    \]
-    which yields $n < Ck^3/\log(k)^2$.
+  So applying [\ref{lemma:AKSz}] with $d = R(3,k)$ and $\lambda =
+  (k/\log(k))^2$ yields
+  \[
+    k > \alpha(G) > c\frac{n\log(k)^2}{k^2}
+  \]
+  which yields $n < Ck^3/\log(k)^2$.
 \end{proof}
 
 So now it suffices to prove \ref{lemma:AKSz}.
 \begin{proof}
-    (Of the AKSz lemma) 
-    The idea will be to do some vertex deletion and apply \ref{lemma:independence_k3_free}, but we don't really
-    know how so we do it randomly. 
-    
-    To easy up the calculation (it only changes the constant in front), 
-    suppose $\Delta(G) \leq d$ and $k_3(G) \leq nd^2/\lambda^3$.
-    Take a $q$-random subset $Q$ of $V(G)$, we can estimate some statistics, we find:
-    \begin{enumerate}[label=(\roman*)]
-        \item $\Ex |Q| = qn$
-        \item $\Ex e(G[Q]) = q^2e(G)$
-        \item $\Ex k_3(G[Q]) = q^3k_3(G) \leq (q/\lambda)^3nd^2$
-        \item (This one is almost right) $\Ex \Delta(G[Q]) = q\Delta(G)$
-    \end{enumerate}
+  (Of the AKSz lemma)
+  The idea will be to do some vertex deletion and apply
+  \ref{lemma:independence_k3_free}, but we don't really
+  know how so we do it randomly.
 
-    By taking $q = \lambda/d$ and using Markov to remove triangles and high degree vtxs, we find a set of  size at least $qn/6$ with no triangles
-    and $\Delta(G[Q']) < 3q\Delta(G)$. Applying \ref{lemma:independence_k3_free} to this set yields the result.
+  To easy up the calculation (it only changes the constant in front),
+  suppose $\Delta(G) \leq d$ and $k_3(G) \leq nd^2/\lambda^3$.
+  Take a $q$-random subset $Q$ of $V(G)$, we can estimate some
+  statistics, we find:
+  \begin{enumerate}[label=(\roman*)]
+    \item $\Ex |Q| = qn$
+    \item $\Ex e(G[Q]) = q^2e(G) \leq q^2nd/2$
+    \item $\Ex k_3(G[Q]) = q^3k_3(G) \leq (q/\lambda)^3nd^2$
+  \end{enumerate}
+
+  By taking $q = \lambda/d$ and using Markov to remove triangles and
+  high degree vtxs, we find a set of  size at least $qn/6$ with no triangles
+  and $\Delta(G[Q']) < 3q\Delta(G)$. Applying
+  \ref{lemma:independence_k3_free} to this set yields the result.
+
+  (Formally)
+  We have very good concentration on $|Q|$ (as long as $qn \to
+  \infty$), so applying Chernoof and Markov (twice) we
+  see that
+  \begin{align*}
+    \Pr\bigg( \bigg(|Q| > \frac{qn}{2}\bigg) &\land \bigg(e(G[Q]) <
+      3q^2e(G)\bigg)
+    \land \bigg(k_3(G[Q]) < \frac{3q^3nd^2}{\lambda^3}\bigg) \bigg)\\
+    &= 1 -\Pr\bigg( \bigg(|Q| < \frac{qn}{2}\bigg) \lor \bigg(e(G[Q])
+      > 3q^2e(G)\bigg)
+    \lor \bigg(k_3(G[Q]) > \frac{3q^3nd^2}{\lambda^3}\bigg) \bigg)\\
+    &\geq 1 - o(1) - 1/3 - 1/3 > 0
+  \end{align*}
+
+  So we find a $G' = G[Q]$ for some good $Q$ satisfying all these
+  properties. $G'$ satisfies:
+  \begin{enumerate}[label=(\roman*)]
+    \item $v(G') \geq \frac{qn}{2}$
+    \item $e(G') \leq 3q^2e(G) \leq 3q^2nd/2$
+    \item $k_3(G') \leq \frac{3q^3nd^2}{\lambda^3}$
+  \end{enumerate}
+
+  By removing at most half of the vertices of $G'$ (using Markov) and
+  killing a vertex from each triangle,
+  we find triangle free $G''$ with $v(G') \geq \frac{qn}{4} - k_3(G')
+  \geq \frac{qn}{8}$ and $\Delta(G'') \leq 6q^2nd/2$.
+\end{proof}
+
+This seems like a very interesting strategy for off-diagonal Ramsey.
+We did the case $l = 3$,
+$l=4$, so a very natural conjecture would be:
+\begin{theorem}
+  \[
+    R(l,k) \leq C\frac{k^{l-1}}{(\log k)^{l-2}}
+  \]
+\end{theorem}
+\begin{proof}
+  We prove it by induction. The case $l = 3,4$ were already done.
+  Let's follow the proof of [\ref{trm:aksz_r4k}].
+  Suppose $G$ is an $n$-vtx, $K_l$-free graph with $\alpha(G) < k$.
+  We must have $\Delta(G) < R(l-1,k) \leq d$. How
+  many triangles can it have? We know that if $u \in N(v)$, then
+  $|N(u)\cap N(v)| < R(l-2,k)$. So, doing the same bound as before,
+  we see that $k_3(G) \leq ndR(l-2,k)/3$. So, to use \ref{lemma:AKSz}
+  we must have
+  \[
+    \frac{ndR(l-2,k)}{3} \leq \frac{nd^2}{\lambda}
+  \]
+  so
+  \[
+    \lambda \leq \frac{3d}{R(l-2,k)}
+  \]
+  and (by induction), it suffices that $\lambda$ satisfies
+  \[
+    \lambda \leq \frac{c d(\log k)^{l-2}}{k^{l-1}}
+  \]
+  applying \ref{lemma:AKSz} with $d = \frac{k^{l-1}}{(\log k)^{l-2}}
+  \geq R(l-1,k) > \Delta(G)$, we have by hypohesis,
+  \[
+    \alpha(G) \geq \frac{n}{d}\log(\lambda) \geq C_l
+    \frac{n\log(k)^{l-2}}{k^{l-2}}
+  \]
+  and therefore,
+  \[
+    n \leq C_l\frac{k^{l-1}}{(\log k)^{l-2}}
+  \]
+\end{proof}
+
+This proof can also be found in Rob's ICM manuscript.
+[\url{https://arxiv.org/pdf/2601.05221}].
+
+\subsection{Bounds on R(3,3,k)}
+So what are some easy bounds we can get on this? An easy lowerbound
+is $R(3,k)$, by doing Erdös-Szekeres,
+we can get the multinomial bound as well
+\[
+  R(3,k) \leq R(3,3,k) \leq 2kR(3,k) \leq C\frac{k^3}{\log k}.
+\]
+We can do a bit better on the upperbound by counting triangles and
+applying [\ref{lemma:AKSz}]!
+\begin{theorem}
+  \[R(3,3,k) \leq \frac{k^3}{(\log k)^2}\]
+\end{theorem}
+\begin{proof}
+  Suppose there is a coloring $\chi$ on $K_n$ that shows that
+  $R(3,3,k) \geq n$. Let $G = E_R(\chi(K_n)) \cup E_B(\chi(K_n))$
+  that is, $G$ is the graph of red and blue edges. Note that
+  $\alpha(G) < k$, as the coloring had no green $K_k$.
+  To apply [\ref{lemma:AKSz}], we must calculate $k_3(G)$ and we know
+  it does not have any full red, or any full blue triangles.
+  So let's bound the number of $\{R,R,B\}$ triangles in $G$ (the
+  number of $\{B,B,R\}$ by simmetry will be the same).
+  One way to count $\{R,R,B\}$ triangles is by picking the cherry vertex.
+  \[
+    k_{\{R,R,B\}}(G) = \sum_{v \in G} e_B(G[N_R(v)])
+  \]
+  By Erdös-Szekeres, we know that $N_R(v)$ is red-edge-free and
+  $|N_R(v)| \leq R(3,k)$ for any vertex $v$.
+  We also have that for any $u \in N_R(v)$, $N_B(u) \cap N_R(v)$ is a
+  independent set, by the previous observation and the
+  fact that we are blue triangle free. So $d_B[G[N_R(v)]](u) < k$
+  (here this monstrosity means that the blue degree of $u$ in
+  $N_R(v)$ is less than $k$).
+  This implies that $e_B(G[N_R(v)]) < R(3,k)k/2$ for any $v$ and therefore that
+  \[
+    k_{\{R,R,B\}}(G) < \frac{nR(3,k)k}{2}
+  \]
+  so the total number of triangles is also of order $nk^3/\log k$.
+  Applying [\ref{lemma:AKSz}] with $d = \frac{Ck^2}{\log k} \geq  R(3,k)$
+  and this $k_3(G) < ndk$ we get that we can use $\lambda = Cd/k \geq
+  \frac{Ck}{\log k}$. So we get
+  \[
+    k > \alpha(G) \geq \frac{n}{d} \log k \geq \frac{C' n (\log k)^2}{k^2}
+  \]
+  which implies $n \leq Ck^3/(\log k)^2$.
+\end{proof}
+
+Next class we will see a very cool lowerbound by Alon, who observed
+the following lemma:
+\begin{lemma}
+  If there exists $K_3$-free $G$ on $n$ vtx with number of
+  independent $k$ sets of $G$ less than $\binom{n}{k}^{1/2}$
+  then $R(3,3,k) > n$.
+\end{lemma}
+\begin{proof}
+  Embed $G$ randomly in $K_n$ with color red, do it again in color
+  blue. By the union bound, no independent $k$ set survive (so we win
+  by painting non edges with green).
 \end{proof}
