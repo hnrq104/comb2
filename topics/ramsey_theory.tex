@@ -160,10 +160,10 @@ edges (at least half of what is expected).
   [\ref{lemma:expec_binomial_bounds}] (need to add
   proofs for these inequalities),
   \begin{align*}
-    \Pr\bigg(e(G(n,p)) < \frac{p}{2}\binom{k}{2}\bigg) &\leq
+    \Pr\bigg(e(G(n,p)) < \frac{p}{2}\binom{k}{2}\bigg) &=
     \Pr\bigg(\bigg|B\bigg(\binom{k}{2}, p\bigg) - p\binom{k}{2}\bigg|
-    \geq \frac{p}{2}\binom{k}{2}\bigg)\\
-    &\leq e^{-c p\binom{k}{2}}
+    \geq \frac{p}{2}\binom{k}{2}\bigg)
+    \leq e^{-c p\binom{k}{2}}
   \end{align*}
   for some $c > 0$.
 
@@ -532,6 +532,7 @@ applying [\ref{lemma:AKSz}]!
 Next class we will see a very cool lowerbound by Alon, who observed
 the following lemma:
 \begin{lemma}
+  \label{lemma:few_indep_r(3,3,k)}
   If there exists $K_3$-free $G$ on $n$ vtx with number of
   independent $k$ sets of $G$ less than $\binom{n}{k}^{1/2}$
   then $R(3,3,k) > n$.
@@ -541,3 +542,53 @@ the following lemma:
   blue. By the union bound, no independent $k$ set survive (so we win
   by painting non edges with green).
 \end{proof}
+
+We will turn for a pseudo-random construction to prove the existence of a graph that satisfies [\ref{lemma:few_indep_r(3,3,k)}].
+For this, we need a good definiton of what pseudo-random means.
+\begin{definition}
+  We say that a $n$-vtx graph $G$ is $(p,\beta)$-jumbled if $e(G) = p\binom{n}{2}$ and for every $S,T \subset V(G)$, we have that 
+  \[
+    |e(S,T) - p|S||T|| \leq \beta\sqrt{|S||T|}.
+  \]
+  where here $e(S,T)$ is the number of edges that start in $S$ and end in $T$. Edges in $S \cap T$ are counted twice.
+\end{definition}
+
+The most pseudo-random graph (the best $\beta$ you can get) is with $G(n,p)$, I don't know anyway to prove this now,
+but let's calculate how jumbled $G(n,p)$ is.
+
+\begin{theorem}
+  $G(n,p)$ is $(p',\beta)$-jumbled with $p' = e(G(n,p))/\binom{n}{2} = (1 + o(1))p$ and $\beta = O(\sqrt{pn})$ w.h.p.
+\end{theorem}
+\begin{proof}
+  We use Chernoff inequality [\ref{lemma:expec_binomial_bounds}], to note that for absolute $C,c > 0$ and taking $A$ suffciently big,
+  \[
+    \Pr( |e(S,T) - p|S||T|| \geq A\sqrt{pn|S||T|}) \leq C\exp(-cA^2n) \ll 4^{-n},
+  \]
+  so $G(n,p)$ is $\beta = A\sqrt{np}$-jumbled w.h.p by the union bound.
+\end{proof}
+
+This yields the following definition
+\begin{definition}
+  A graph is said to be \textbf{optimally pseudorandom} if it is $(p,\beta)$-jumbled with $\beta = O(\sqrt{pn})$.
+\end{definition}
+
+The following question is at the core of this method. How many independent $k$-sets can a $(p,\beta)$-jumbled graph have? We now have 
+a deterministic fact about our graph and we can try to count. I won't do it here, but the idea is to count sequences $(v_1, \dots, v_k)$
+of vertices that can make a independent set. Using the $(p,\beta)$ jumbled condition, we can count how many "bad" vertices there are 
+in each extension when trying to grow the sequence. We can make few "good" steps (extension steps where our non-neighborhood decreases with correct size),
+as they reduce the non-neighborhood by a $(1-p)$ ratio which is too fast. And each "bad" step  (steps which don't reduce the non-neighborhood much) 
+we are obliged to choose from a relatively small set. So counting everything yields a result.
+
+
+
+The following lemma will be stated without proof, it is an algebraic construction.
+\begin{lemma}
+  (Quadrangle) There exists a $n$-vertex, $n^{1/3}$-regular, $n^{1/3}$-uniform hypergraph $H$ that satisfies:
+  \begin{enumerate}[label=(\roman*)]
+    \item $\forall e_1, e_2 \in E(H), \quad |e_1 \cap e_2| \neq 2$.
+    \item $\forall e_1,e_2,e_3 \in E(H)$ it does not hold that $|e_1 \cap e_2| = |e_2 \cap e_3| = |e_1 \cap e_3| = 1$. 
+  \end{enumerate}
+\end{lemma}
+
+Putting a randomly embedded $K_{t,t}$ with $t = n^{1/3}/2$ on each edge we get a $K_3$-free, optimally pseudorandom graph 
+where $p$ is the maximum it can be, $p = n^{-1/3}$. (As Rob pointed out an optimally pseudorandom, triangle-free graph must have density at most $p = n^{-1/3}$).

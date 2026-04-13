@@ -90,6 +90,36 @@ I just took these from my notes in random matrices.
   Apply [\ref{trm:McDiamird}] with $F(X_1, \dots X_n) = X_1 + \dots + X_n$.
 \end{proof}
 
+
+\begin{theorem}
+  \label{trm:chernoff} (Chernoff) Let $(X_i)_{i=1}^n$ be independent scalar random variables with $|X_i| < K$ a.s,
+  with mean $\mu_i$, and variance $\sigma_i^2$. Then for any $\lambda > 0$, one has
+  \[
+    \Pr(|S_n - \mu| \geq \lambda \sigma) \leq C\exp(-c \min(\lambda^2, \frac{\lambda \sigma}{K}))
+  \] 
+  for some absolute $C,c > 0$, where $S_n = \sum_{i=1}^{n} X_i$, $\mu = \sum_{i=1}^{n} \mu_i$ and $\sigma^2 = \sum_{i=1}^{n} \sigma_i^2$.
+\end{theorem}
+
+\begin{proof}
+  The proof is again the use of the exponential moment with lemma [\ref{lemma:hoeff}]. Suppose we normalize  each variable 
+  so that $K \leq 1$ and $\mu_i = 0$, then $\mu = 0$ and for any $0 \leq t \leq 1$,
+  \[
+    \Ex(\exp(tS_n)) = \prod_{i=1}^{n} \Ex(\exp(tX_i)) = \prod_{i=1}^n (1 + O(t^2\sigma_i^2\exp(O(t)))).
+  \]
+  using the usual $1 + x \leq e^x$ ineq, we find
+  \[
+    \Ex(\exp(tS_n)) \leq \exp(t\Ex(S_n))\exp(O(t^2)\exp(O(t))\sigma^2) = \exp(O(t^2\sigma^2)),
+  \]
+  now we use Markov and optimize on $t$ following the restraint on $0 \leq t \leq 1$. (Suppose the hidden constant is $D$)
+  we have that 
+  \[
+    \Pr(S_n \geq \lambda\sigma) \leq \exp(D t^2\sigma^2 - t\lambda\sigma)
+  \]
+  which yields the result after optimizing $t$ following the constraints. The other inequality is equivalent.
+  
+  
+\end{proof}
+
 \begin{corollary}
   \label{lemma:expec_binomial_bounds}
   (Tailbounds for the Binomial distribution) Let $B(n,p)$ be the
@@ -106,7 +136,7 @@ I just took these from my notes in random matrices.
     \Pr(|B(n,p) - np| \geq \lambda \sqrt{np}) \leq \Pr(|B(n,p) - np|
     \geq \lambda \sqrt{np(1-p)}) \leq C\exp(-c\lambda^2)
   \]
-  by \ref{trm:hoeffding_ineq}. Applying it with $\lambda = \delta
+  by \ref{trm:chernoff}. Applying it with $\lambda = \delta
   \sqrt{np}$ yields the result.
 \end{proof}
 
