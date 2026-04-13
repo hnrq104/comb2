@@ -1,8 +1,8 @@
 \section{Ramsey Theory}
 Just for sake of completeness, we define
 \[
-  R(k,l) = \min\{ n : K_k \not \subset G \subset K_n \Rightarrow
-  \alpha(G) \geq l \}.
+	R(k,l) = \min\{ n : K_k \not \subset G \subset K_n \Rightarrow
+	\alpha(G) \geq l \}.
 \]
 In coloring terms, it's the smallest $n$ such that any red and blue
 coloring of $E(K_n)$ contains a red $K_k$ or a blue $K_l$.
@@ -10,25 +10,25 @@ coloring of $E(K_n)$ contains a red $K_k$ or a blue $K_l$.
 \subsection{Bounds on \mbox{R(3,k)}}
 We have two very simple bounds that are easy to prove,
 \[
-  \bigg(\frac{k}{\log(k)}\bigg)^{3/2} \leq R(3,k) \leq \binom{k+1}{2}.
+	\bigg(\frac{k}{\log(k)}\bigg)^{3/2} \leq R(3,k) \leq \binom{k+1}{2}.
 \]
 The upperbound follows easily from the Erdös-Szekeres proof.
 \begin{theorem}
-  $R(3,k) \leq \binom{k+1}{2}$
+	$R(3,k) \leq \binom{k+1}{2}$
 \end{theorem}
 \begin{proof}
 
-  Let $G$ on $n$-vtx be a triangle-free with no independet set of size $k$,
-  we know every neighborhood is an independent set so $\Delta(G) < k$.
-  Now we greedily get one vtx at a time removing their neighbors.
-  Pick $v_1$ and $N(v_1)$ with $|N(v_1)| \leq k-1$, then pick $v_2$,
-  notice that the neighborhood of $v_2$ (after removing $v_1$ and its neighbors)
-  has size at most $k-2$, if not $\{v_1\} \cup N(v_2)$ would be a
-  independent set of size $k$. We proceed like this for $v_1, v_2, \dots v_t$,
-  where each step we discard at most $k-(i-1)$ vtxs. Because we can't do this
-  process $k$ times, for some $i < k$ we must fail (meaning there are
-  no vertex left),
-  so $n = |V(G)| \leq \sum_{j=0}^{k-2} k - j \leq \binom{k+1}{2} - 1$.
+	Let $G$ on $n$-vtx be a triangle-free with no independet set of size $k$,
+	we know every neighborhood is an independent set so $\Delta(G) < k$.
+	Now we greedily get one vtx at a time removing their neighbors.
+	Pick $v_1$ and $N(v_1)$ with $|N(v_1)| \leq k-1$, then pick $v_2$,
+	notice that the neighborhood of $v_2$ (after removing $v_1$ and its neighbors)
+	has size at most $k-2$, if not $\{v_1\} \cup N(v_2)$ would be a
+	independent set of size $k$. We proceed like this for $v_1, v_2, \dots v_t$,
+	where each step we discard at most $k-(i-1)$ vtxs. Because we can't do this
+	process $k$ times, for some $i < k$ we must fail (meaning there are
+	no vertex left),
+	so $n = |V(G)| \leq \sum_{j=0}^{k-2} k - j \leq \binom{k+1}{2} - 1$.
 \end{proof}
 
 The lowerbound is a beautiful application of the probabilistic
@@ -37,34 +37,34 @@ as to have few triangles (linearly small in $n$) and relatively low
 independence number.
 
 \begin{theorem}
-  \[
-    R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^{3/2}
-  \]
+	\[
+		R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^{3/2}
+	\]
 \end{theorem}
 
 We need a \textbf{very important} lemma first.
 \begin{lemma}
-  With high probability, the independence number of $G(n,p) \leq
-  2\log(n)/p$. That is
-  \[
-    \Pr(\alpha(G(n,p)) \geq 2\log(n)/p + 1) = 1 - o_{(n,p(n))}(1)
-  \]
-  where $p$ can be taken polynomially small in $n$.
+	With high probability, the independence number of $G(n,p) \leq
+	2\log(n)/p$. That is
+	\[
+		\Pr(\alpha(G(n,p)) \geq 2\log(n)/p + 1) = 1 - o_{(n,p(n))}(1)
+	\]
+	where $p$ can be taken polynomially small in $n$.
 \end{lemma}
 \begin{proof}
-  \begin{align*}
-    \Pr(\alpha(G(n,p)) \geq k) &\leq \Ex[\#\text{independent k sets}
-    \in G(n,p)]\\
-    &= \binom{n}{k}(1-p)^{\binom{k}{2}} \leq
-    \bigg(\frac{en}{k}\bigg)^k\cdot e^{-pk(k-1)/2}\\
-    &= \bigg(\frac{en}{e^{p(k-1)/2}k}\bigg)^k
-  \end{align*}
-  Taking $k \geq 2\log(n)/p + 1$ we get that
-  \[
-    \Pr(\alpha(G(n,p)) \geq k) \leq
-    \bigg(\frac{ep}{2\log(n)}\bigg)^{2\log(n)/p} \to 0
-  \]
-  very fast even! (faster than any polynomial).
+	\begin{align*}
+		\Pr(\alpha(G(n,p)) \geq k) &\leq \Ex[\#\text{independent k sets}
+		\in G(n,p)]\\
+		&= \binom{n}{k}(1-p)^{\binom{k}{2}} \leq
+		\bigg(\frac{en}{k}\bigg)^k\cdot e^{-pk(k-1)/2}\\
+		&= \bigg(\frac{en}{e^{p(k-1)/2}k}\bigg)^k
+	\end{align*}
+	Taking $k \geq 2\log(n)/p + 1$ we get that
+	\[
+		\Pr(\alpha(G(n,p)) \geq k) \leq
+		\bigg(\frac{ep}{2\log(n)}\bigg)^{2\log(n)/p} \to 0
+	\]
+	very fast even! (faster than any polynomial).
 \end{proof}
 
 The strategy will be to remove triangles from $G(n,p)$ by removing
@@ -74,38 +74,38 @@ many vertices to yield a Ramsey construction.
 
 So let's see what this alteration may give us.
 \begin{proof}
-  (Of the Theorem) We choose $p$ small such that the number of
-  triangles is no larger than a small linear in $n$ (say $n/2$).
-  \[
-    \Ex[\# K_3 \subset G(n,p)] = \binom{n}{3}p^3 = (1 + o(1))\frac{(pn)^3}{6}
-  \]
-  We want
-  \[
-    \Pr( \# K_3 \in G(n,p) \geq n/2) < (1 + o(1))\frac{p^3n^2}{3} < 1/2
-  \]
-  so taking $p = \eps n^{-2/3}$ for some small $\eps$ we get the
-  inequality. But what does this $p$ gives in independence number?
-  We have w.h.p (say bigger than one half)
-  \[
-    \alpha(G(n,p)) \leq 2\eps^{-1}\log(n)n^{2/3}.
-  \]
-  So $\Pr(K_3(G(n,p)) < n/2) > 1/2$ and $\Pr(\alpha(G(n,p) <
-  C\log(n)n^{2/3})) > 1/2$, meaning there exists
-  $G$ satisfying both statements. Remove one vtx from each triangle
-  in $G$, we are left with a triangle-free graph $G'$ with at least $n/2$ vtxs
-  and $\alpha(G) < C\log(n)n^{2/3}$.
-  Setting $k = C\log(n)n^{2/3}$, we get that
-  \[
-    V(G') = n/2 \geq c\bigg(\frac{k}{\log(k)}\bigg)^{3/2}
-  \]
+	(Of the Theorem) We choose $p$ small such that the number of
+	triangles is no larger than a small linear in $n$ (say $n/2$).
+	\[
+		\Ex[\# K_3 \subset G(n,p)] = \binom{n}{3}p^3 = (1 + o(1))\frac{(pn)^3}{6}
+	\]
+	We want
+	\[
+		\Pr( \# K_3 \in G(n,p) \geq n/2) < (1 + o(1))\frac{p^3n^2}{3} < 1/2
+	\]
+	so taking $p = \eps n^{-2/3}$ for some small $\eps$ we get the
+	inequality. But what does this $p$ gives in independence number?
+	We have w.h.p (say bigger than one half)
+	\[
+		\alpha(G(n,p)) \leq 2\eps^{-1}\log(n)n^{2/3}.
+	\]
+	So $\Pr(K_3(G(n,p)) < n/2) > 1/2$ and $\Pr(\alpha(G(n,p) <
+	C\log(n)n^{2/3})) > 1/2$, meaning there exists
+	$G$ satisfying both statements. Remove one vtx from each triangle
+	in $G$, we are left with a triangle-free graph $G'$ with at least $n/2$ vtxs
+	and $\alpha(G) < C\log(n)n^{2/3}$.
+	Setting $k = C\log(n)n^{2/3}$, we get that
+	\[
+		V(G') = n/2 \geq c\bigg(\frac{k}{\log(k)}\bigg)^{3/2}
+	\]
 \end{proof}
 
 Now for a better (and astounishingly beautiful) bound.
 \begin{theorem}
-  \label{trm:krivilevich_r3k}
-  \[
-    R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^2.
-  \]
+	\label{trm:krivilevich_r3k}
+	\[
+		R(3,k) \geq \bigg(\frac{k}{\log(k)}\bigg)^2.
+	\]
 \end{theorem}
 The idea of this bound is removing edges. Maybe we can kill the
 triangles by removing few edges and not
@@ -113,25 +113,25 @@ increase the independence number too much. For this we will need a
 beautiful lemma.
 
 \begin{lemma}
-  \label{lemma:erdos_tetali}
-  (Erdös-Tetali) Let $\{A_1, A_2, \dots A_m\}$ be a family of events
-  in some probability space $(\Omega, P)$. Let
-  $\mathcal{E}_t$ be the event that at least $t$ different
-  independent $A_i$ happen. We have that
-  \[
-    \Pr(\mathcal{E}_t) \leq \frac{1}{t!}\bigg(\sum_{i=1}^{m} A_i\bigg)^t.
-  \]
+	\label{lemma:erdos_tetali}
+	(Erdös-Tetali) Let $\{A_1, A_2, \dots A_m\}$ be a family of events
+	in some probability space $(\Omega, P)$. Let
+	$\mathcal{E}_t$ be the event that at least $t$ different
+	independent $A_i$ happen. We have that
+	\[
+		\Pr(\mathcal{E}_t) \leq \frac{1}{t!}\bigg(\sum_{i=1}^{m} A_i\bigg)^t.
+	\]
 \end{lemma}
 \begin{proof}
-  We get this one from just opening the terms
-  \[
-    \Pr(\mathcal{E}_t) = \Pr\bigg(\bigcup_{\substack{i_1 < \dots <
-    i_t\\ A_{i_j} \not\sim A_{i_k}}} \bigcap_{j = 1}^{t} A_{i_j}\bigg)
-    \leq \sum_{\substack{i_1 < \dots < i_t\\ A_{i_j} \not\sim
-    A_{i_k}}} \prod_{j = 1}^t \Pr(A_{i_j}) \leq \sum_{\substack{i_1
-    < \dots < i_t}} \prod_{j = 1}^t \Pr(A_{i_j}) \leq
-    \frac{1}{t!}\bigg(\sum_{i=1}^{m} A_i\bigg)^t.
-  \]
+	We get this one from just opening the terms
+	\[
+		\Pr(\mathcal{E}_t) = \Pr\bigg(\bigcup_{\substack{i_1 < \dots <
+		i_t\\ A_{i_j} \not\sim A_{i_k}}} \bigcap_{j = 1}^{t} A_{i_j}\bigg)
+		\leq \sum_{\substack{i_1 < \dots < i_t\\ A_{i_j} \not\sim
+		A_{i_k}}} \prod_{j = 1}^t \Pr(A_{i_j}) \leq \sum_{\substack{i_1
+		< \dots < i_t}} \prod_{j = 1}^t \Pr(A_{i_j}) \leq
+		\frac{1}{t!}\bigg(\sum_{i=1}^{m} A_i\bigg)^t.
+	\]
 \end{proof}
 
 The second ingredient is noting that if you're a bit bigger (say a
@@ -139,40 +139,40 @@ constant times) than the independent size, you already have many
 edges (at least half of what is expected).
 
 \begin{lemma}
-  \label{lemma:concentration_edges}
-  Let $k \geq C\log(n)/p$, then
-  \[
-    \Pr\bigg(\exists \text{ k-set } S, e(G(n,p)[S]) <
-    p\binom{k}{2}/2\bigg) = o(1)
-  \]
-  for some $C > 0$.
+	\label{lemma:concentration_edges}
+	Let $k \geq C\log(n)/p$, then
+	\[
+		\Pr\bigg(\exists \text{ k-set } S, e(G(n,p)[S]) <
+		p\binom{k}{2}/2\bigg) = o(1)
+	\]
+	for some $C > 0$.
 \end{lemma}
 \begin{proof}
-  Let $\mathcal{E}$ be the event that there exists a k-set $S$ with
-  $e(G(n,p)[S]) < p\binom{k}{2}/2$.
-  We will do a union bound and use Hoeffding (or Chernoff) to bound
-  its probability.
+	Let $\mathcal{E}$ be the event that there exists a k-set $S$ with
+	$e(G(n,p)[S]) < p\binom{k}{2}/2$.
+	We will do a union bound and use Hoeffding (or Chernoff) to bound
+	its probability.
 
-  Let $S$ be any $k$-set. Note that (letting $B(n,p)$ be the binomial
-  with parameters $n$ and $p$) we have
-  \[e(G(n,p)[S]) \equiv B\bigg(\binom{k}{2},p\bigg). \]
-  So by Hoeffding and its bounds on the binomial
-  [\ref{lemma:expec_binomial_bounds}] (need to add
-  proofs for these inequalities),
-  \begin{align*}
-    \Pr\bigg(e(G(n,p)) < \frac{p}{2}\binom{k}{2}\bigg) &=
-    \Pr\bigg(\bigg|B\bigg(\binom{k}{2}, p\bigg) - p\binom{k}{2}\bigg|
-    \geq \frac{p}{2}\binom{k}{2}\bigg)
-    \leq e^{-c p\binom{k}{2}}
-  \end{align*}
-  for some $c > 0$.
+	Let $S$ be any $k$-set. Note that (letting $B(n,p)$ be the binomial
+	with parameters $n$ and $p$) we have
+	\[e(G(n,p)[S]) \equiv B\bigg(\binom{k}{2},p\bigg). \]
+	So by Hoeffding and its bounds on the binomial
+	[\ref{lemma:expec_binomial_bounds}] (need to add
+	proofs for these inequalities),
+	\begin{align*}
+		\Pr\bigg(e(G(n,p)) < \frac{p}{2}\binom{k}{2}\bigg) &=
+		\Pr\bigg(\bigg|B\bigg(\binom{k}{2}, p\bigg) - p\binom{k}{2}\bigg|
+		\geq \frac{p}{2}\binom{k}{2}\bigg)
+		\leq e^{-c p\binom{k}{2}}
+	\end{align*}
+	for some $c > 0$.
 
-  Now, doing the union bound over $k$-sets we find that (taking $C > 3c^{-1}$)
-  \begin{align*}
-    \Pr(\mathcal{E}) \leq \binom{n}{k}e^{-c p\binom{k}{2}} \leq
-    \bigg(\frac{en}{e^{cp(k-1)/2}k}\bigg)^k \leq
-    \bigg(\frac{e}{k}\bigg)^k \to 0.
-  \end{align*}
+	Now, doing the union bound over $k$-sets we find that (taking $C > 3c^{-1}$)
+	\begin{align*}
+		\Pr(\mathcal{E}) \leq \binom{n}{k}e^{-c p\binom{k}{2}} \leq
+		\bigg(\frac{en}{e^{cp(k-1)/2}k}\bigg)^k \leq
+		\bigg(\frac{e}{k}\bigg)^k \to 0.
+	\end{align*}
 \end{proof}
 
 The idea to prove theorem \ref{trm:krivilevich_r3k} is to remove a
@@ -182,80 +182,81 @@ We use lemma \ref{lemma:erdos_tetali} to show that this procedure
 won't remove too many edges from any set $S$ with size $C\log(n)/p$.
 
 \begin{proof}
-  (Of Theorem \ref{trm:krivilevich_r3k}) Let $S$ be a set of size $k
-  = C\log(n)/p$, for some $p$ we will determine later.
-  Let $\{T_1, \dots T_m\}$ be the set of all triangles that intersect
-  with at least a pair in $S$. Note that $m \leq n\binom{|S|}{2}$.
-  Let $\mathcal{E}_S$ be the event that a edge disjoint set of these
-  triangles with size bigger or equal to $\frac{p}{6}\binom{k}{2}$
-  are in $G(n,p)$.
-  By [\ref{lemma:erdos_tetali}], we can bound $\Pr(\mathcal{E}_S)$,
+	(Of Theorem \ref{trm:krivilevich_r3k}) Let $S$ be a set of size $k
+	= C\log(n)/p$, for some $p$ we will determine later.
+	Let $\{T_1, \dots T_m\}$ be the set of all triangles that intersect
+	with at least a pair in $S$. Note that $m \leq n\binom{|S|}{2}$.
+	Let $\mathcal{E}_S$ be the event that a edge disjoint set of these
+	triangles with size bigger or equal to $\frac{p}{6}\binom{k}{2}$
+	are in $G(n,p)$.
+	By [\ref{lemma:erdos_tetali}], we can bound $\Pr(\mathcal{E}_S)$,
 
-  \[
-    \Pr(\mathcal{E}_S) \leq
-    \frac{1}{[\frac{p}{6}\binom{k}{2}]!}\bigg(\sum_{i = 1}^{m}
-    \Pr(T_i \in G(n,p))\bigg)^t \leq
-    \bigg(\frac{24e}{pk^2}\bigg)^{pk^2/24}(p^3nk^2)^{pk^2/12}
-  \]
-  Replacing $k$ in the equation we get (and putting $C > 24e$)
-  \[
-    \Pr(\mathcal{E}_S) \leq
-    \bigg(\frac{24ep}{C\log^2(n)}\bigg)^{\log(n)^2/(24p)}(pn\log(n)^2)^{\log(n)^2/(12p)}
-    \leq (p^3n^2\log(n)^2)^{\log(n)^2/(24p)}
-  \]
-  So, if we take $p = \eps n^{-1/2}$ (might try to optimize more
-  later), we already find that
-  \[
-    \Pr(\mathcal{E}_S) \leq
-    \bigg(\frac{\log(n)}{n^{1/2}}\bigg)^{n^{1/2}\log^2(n)} \ll
-    \bigg(\frac{C\log(n)}{n^{1/2}}\bigg)^{C\log(n)n^{1/2}} \leq
-    \binom{n}{k}^{-1}
-  \]
-  So $\mathcal{E}_S$ does not happen for any $S$ with high
-  probability. As w.h.p $S$ of size $k$ have more than
-  $\frac{p}{2}\binom{k}{2}$ edges, and
-  no maximal disjoint triangle family intersect too much with $S$. We
-  can remove a maximal edge disjoint triangle family and not make any
-  set of size $k$ independent.
-  This yields a triangle free graph on $n$ vtxs with independence
-  number less than $C\log(n)n^{1/2}$, so
-  \[
-    R(3,k) \geq c\bigg(\frac{k}{\log k}\bigg)^2.
-  \]
+	\[
+		\Pr(\mathcal{E}_S) \leq
+		\frac{1}{[\frac{p}{6}\binom{k}{2}]!}\bigg(\sum_{i = 1}^{m}
+		\Pr(T_i \in G(n,p))\bigg)^t \leq
+		\bigg(\frac{24e}{pk^2}\bigg)^{pk^2/24}(p^3nk^2)^{pk^2/12}
+	\]
+	Replacing $k$ in the equation we get (and putting $C > 24e$)
+	\[
+		\Pr(\mathcal{E}_S) \leq
+		\bigg(\frac{24ep}{C\log^2(n)}\bigg)^{\log(n)^2/(24p)}
+		(pn\log(n)^2)^{\log(n)^2/(12p)}
+		\leq (p^3n^2\log(n)^2)^{\log(n)^2/(24p)}
+	\]
+	So, if we take $p = \eps n^{-1/2}$ (might try to optimize more
+	later), we already find that
+	\[
+		\Pr(\mathcal{E}_S) \leq
+		\bigg(\frac{\log(n)}{n^{1/2}}\bigg)^{n^{1/2}\log^2(n)} \ll
+		\bigg(\frac{C\log(n)}{n^{1/2}}\bigg)^{C\log(n)n^{1/2}} \leq
+		\binom{n}{k}^{-1}
+	\]
+	So $\mathcal{E}_S$ does not happen for any $S$ with high
+	probability. As w.h.p $S$ of size $k$ have more than
+	$\frac{p}{2}\binom{k}{2}$ edges, and
+	no maximal disjoint triangle family intersect too much with $S$. We
+	can remove a maximal edge disjoint triangle family and not make any
+	set of size $k$ independent.
+	This yields a triangle free graph on $n$ vtxs with independence
+	number less than $C\log(n)n^{1/2}$, so
+	\[
+		R(3,k) \geq c\bigg(\frac{k}{\log k}\bigg)^2.
+	\]
 \end{proof}
 
 Now let's find an upperbound of the right order.
 \begin{theorem}
-  \label{trm:r3k_aks}
-  (Ajtai, Komlós, Szemerédi)
-  \[
-    R(3,k) \leq C\frac{k^2}{\log k}
-  \]
+	\label{trm:r3k_aks}
+	(Ajtai, Komlós, Szemerédi)
+	\[
+		R(3,k) \leq C\frac{k^2}{\log k}
+	\]
 \end{theorem}
 
 The theorem will be immediately implied by the following lemma.
 \begin{lemma}
-  \label{lemma:independence_k3_free}
-  Let $G$ be $K_3$-free with $\Delta(G) \leq d$, then
-  \[
-    \alpha(G) \geq \frac{cn}{d}\log(d).
-  \]
-  for some universal constant $c > 0$.
+	\label{lemma:independence_k3_free}
+	Let $G$ be $K_3$-free with $\Delta(G) \leq d$, then
+	\[
+		\alpha(G) \geq \frac{cn}{d}\log(d).
+	\]
+	for some universal constant $c > 0$.
 \end{lemma}
 
 \begin{proof}
-  (Of the theorem assuming Lemma \ref{lemma:independence_k3_free})
-  Notice that $G$ is $K_3$ free and
-  its independence number is less than $k$, then, as every
-  neighborhood is a independent set, we have $\Delta(G) < k$.
-  Applying the lemma we get that
-  \[
-    k > \alpha(G) \geq \frac{cn}{k}\log(k)
-  \]
-  which implies
-  \[
-    n \leq C\frac{k^2}{\log(k)}.
-  \]
+	(Of the theorem assuming Lemma \ref{lemma:independence_k3_free})
+	Notice that $G$ is $K_3$ free and
+	its independence number is less than $k$, then, as every
+	neighborhood is a independent set, we have $\Delta(G) < k$.
+	Applying the lemma we get that
+	\[
+		k > \alpha(G) \geq \frac{cn}{k}\log(k)
+	\]
+	which implies
+	\[
+		n \leq C\frac{k^2}{\log(k)}.
+	\]
 \end{proof}
 
 The proof of the lemma is exceptionally fun. The main idea is to take
@@ -263,58 +264,58 @@ a uniform random independent set in $G$,
 and show that in expectation, its size is bigger than
 $\frac{cn}{d}\log(d)$ - which is very unnintuitive.
 \begin{proof}
-  (Of Lemma \ref{lemma:independence_k3_free}) Let $I \in
-  \mathcal{I}(G)$ be a uniformly chosen random independent set of $G$.
-  For each $v \in V(G)$, define the random variable
-  \[
-    X_v = d \cdot \id[v \in I] + \sum_{u \in N(v)} \id[u \in I].
-  \]
-  Note that
-  \[
-    \Ex \sum_{v \in V(G)} X_v = d\cdot \Ex |I| + \sum_{v \in V(G)}
-    \sum_{u \in N(v)} \Pr(u \in I) =
-    d\cdot \Ex |I| + \sum_{u \in V(G)} d(u) \Pr(u \in I) \leq 2d\cdot \Ex |I|.
-  \]
-  So we have that $\Ex |I| \geq \frac{1}{2d} \Ex [\sum_{v \in V(G)}
-  X_v]$. To prove the lemma,
-  it would suffice to show then that $\Ex X_v \geq \log(d)$ for all
-  $v$ (as summing it would yield the result).
+	(Of Lemma \ref{lemma:independence_k3_free}) Let $I \in
+	\mathcal{I}(G)$ be a uniformly chosen random independent set of $G$.
+	For each $v \in V(G)$, define the random variable
+	\[
+		X_v = d \cdot \id[v \in I] + \sum_{u \in N(v)} \id[u \in I].
+	\]
+	Note that
+	\[
+		\Ex \sum_{v \in V(G)} X_v = d\cdot \Ex |I| + \sum_{v \in V(G)}
+		\sum_{u \in N(v)} \Pr(u \in I) =
+		d\cdot \Ex |I| + \sum_{u \in V(G)} d(u) \Pr(u \in I) \leq 2d\cdot \Ex |I|.
+	\]
+	So we have that $\Ex |I| \geq \frac{1}{2d} \Ex [\sum_{v \in V(G)}
+	X_v]$. To prove the lemma,
+	it would suffice to show then that $\Ex X_v \geq \log(d)$ for all
+	$v$ (as summing it would yield the result).
 
-  So let's lowerbound $\Ex X_v$. The idea is to condition it on
-  something and find a bound that works \textbf{FOR EVERY} condition
-  we take (which seems insane).
+	So let's lowerbound $\Ex X_v$. The idea is to condition it on
+	something and find a bound that works \textbf{FOR EVERY} condition
+	we take (which seems insane).
 
-  Fix $v$, let's divide the world into $U = \{v\} \cup N(v)$ and $W =
-  V(G)\setminus U$ (both depend on $v$). Notice
-  that the value of $X_v$ only changes for elements in $U$ that
-  appear in $I$. So fix an independent set $S$ of $W$, and let's
-  calculate $\Ex[X_v | I \cap W = S]$.
+	Fix $v$, let's divide the world into $U = \{v\} \cup N(v)$ and $W =
+	V(G)\setminus U$ (both depend on $v$). Notice
+	that the value of $X_v$ only changes for elements in $U$ that
+	appear in $I$. So fix an independent set $S$ of $W$, and let's
+	calculate $\Ex[X_v | I \cap W = S]$.
 
-  From the fact that $I$ has to be an independent set, we know it
-  cannot have any neighbors
-  of elements in $S$. So let $Y = N(v) \cap N(S)$ and let
-  $X = N(v) \setminus Y$ (note $v \not \in N(S)$). As $I$ is
-  uniformly chosen, we now know that $I \cap U$ (conditioned on $I \cap W = S$),
-  is a uniformly chosen independent set of $\{v\} \cup X$. Let $|X| =
-  t$, remembering that $X$ is an independent set, we find
-  \begin{align*}
-    \Ex[X_v | I \cap W = S] &= \Ex[X_v | v \in I, I \cap W =
-    S]\cdot\Pr(v\in I | I \cap W = S)\\
-    &+ \Ex[X_v | v \not \in I, I \cap W = S]\cdot\Pr(v \not \in I | I
-    \cap W = S)\\
-    &= \frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2}
-  \end{align*}
-  where we used the fact that $I \cap U$ is an uniform independent
-  set of the star $G[\{v\} \cup X]$. Now (here comes the crazy part),
-  notice that independent of what $t = |X|$ is, we have
-  \[
-    \frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2} \geq \frac{\log(d)}{8}.
-  \]
-  just take $t < \log(d)/2$ and $t \geq \log(d)/2$. But this means
-  \[
-    \Ex X_v = \Ex[\Ex[X_v| I \cap W(v)]] \geq \frac{\log(d)}{8}
-  \]
-  yielding the result.
+	From the fact that $I$ has to be an independent set, we know it
+	cannot have any neighbors
+	of elements in $S$. So let $Y = N(v) \cap N(S)$ and let
+	$X = N(v) \setminus Y$ (note $v \not \in N(S)$). As $I$ is
+	uniformly chosen, we now know that $I \cap U$ (conditioned on $I \cap W = S$),
+	is a uniformly chosen independent set of $\{v\} \cup X$. Let $|X| =
+	t$, remembering that $X$ is an independent set, we find
+	\begin{align*}
+		\Ex[X_v | I \cap W = S] &= \Ex[X_v | v \in I, I \cap W =
+		S]\cdot\Pr(v\in I | I \cap W = S)\\
+		&+ \Ex[X_v | v \not \in I, I \cap W = S]\cdot\Pr(v \not \in I | I
+		\cap W = S)\\
+		&= \frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2}
+	\end{align*}
+	where we used the fact that $I \cap U$ is an uniform independent
+	set of the star $G[\{v\} \cup X]$. Now (here comes the crazy part),
+	notice that independent of what $t = |X|$ is, we have
+	\[
+		\frac{1}{2^t + 1}d + \frac{2^t}{2^t + 1} \frac{t}{2} \geq \frac{\log(d)}{8}.
+	\]
+	just take $t < \log(d)/2$ and $t \geq \log(d)/2$. But this means
+	\[
+		\Ex X_v = \Ex[\Ex[X_v| I \cap W(v)]] \geq \frac{\log(d)}{8}
+	\]
+	yielding the result.
 \end{proof}
 
 \subsection{Bounds on R(4,k)}
@@ -322,162 +323,162 @@ $\frac{cn}{d}\log(d)$ - which is very unnintuitive.
 By doing vertex deletion and Erdös-Szekeres, we may easily find (we
 need $p^6n^4 < n$, so $p = \eps n^{-1/2}$)
 \[
-  c\bigg(\frac{k}{\log(k)}\bigg)^2\leq R(4,k) \leq k^3.
+	c\bigg(\frac{k}{\log(k)}\bigg)^2\leq R(4,k) \leq k^3.
 \]
 Doing the Erdös-Tetali method [\ref{lemma:erdos_tetali}] (we need
 $p^6n^4 < pn^2$, so $p = \eps n^{-2/5}$)
 we get also
 \[
-  c\bigg(\frac{k}{\log k}\bigg)^{5/2} \leq R(4,k).
+	c\bigg(\frac{k}{\log k}\bigg)^{5/2} \leq R(4,k).
 \]
 But we can do better on the upperbound by doing a similar strategy as
 in the $R(3,k)$ case. The next lemma Rob stated,
 but I don't think we will use it.
 
 \begin{lemma}
-  Let $G$ on $n$ vtx be $K_4$-free and $\Delta(G) \leq d$, then
-  \[
-    \alpha(G) \geq \frac{cn}{d}\frac{\log (d)}{\log\log(d)}.
-  \]
+	Let $G$ on $n$ vtx be $K_4$-free and $\Delta(G) \leq d$, then
+	\[
+		\alpha(G) \geq \frac{cn}{d}\frac{\log (d)}{\log\log(d)}.
+	\]
 \end{lemma}
 
 \begin{proof}
-  The proof of this is similar to lemma
-  \ref{lemma:independence_k3_free}, we must however pick a uniformly independent
-  set from the now $K_3$-free $X$. (I will try to do the computations
-  more carefully later)
+	The proof of this is similar to lemma
+	\ref{lemma:independence_k3_free}, we must however pick a uniformly independent
+	set from the now $K_3$-free $X$. (I will try to do the computations
+	more carefully later)
 \end{proof}
 
 To get an even better bound, we will need some kind of stability
 setting in these super sparse graphs.
 \begin{lemma}
-  \label{lemma:AKSz}
-  (AKSz) Let $G$ be a graph on $n$-vtx with $\Delta(G) \leq d$ and
-  $k_3(G) \leq (nd^2)/\lambda$,
-  then
-  \[
-    \alpha(G) \geq c\frac{n}{d}\log(\lambda)
-  \]
-  where $c > 0$ is an absolute constant.
+	\label{lemma:AKSz}
+	(AKSz) Let $G$ be a graph on $n$-vtx with $\Delta(G) \leq d$ and
+	$k_3(G) \leq (nd^2)/\lambda$,
+	then
+	\[
+		\alpha(G) \geq c\frac{n}{d}\log(\lambda)
+	\]
+	where $c > 0$ is an absolute constant.
 \end{lemma}
 
 With it we can prove the following strong bound,
 
 \begin{theorem}
-  \label{trm:aksz_r4k}
-  \[
-    R(4,k) \leq C\frac{k^3}{\log(k)^2}.
-  \]
+	\label{trm:aksz_r4k}
+	\[
+		R(4,k) \leq C\frac{k^3}{\log(k)^2}.
+	\]
 \end{theorem}
 \begin{proof}
-  (Assuming [\ref{lemma:AKSz}]) Let $G$ be $n$-vtx, $K_4$-free graph
-  with $\alpha(G) < k$,
-  we know by Erdös-Szekeres that $\Delta(G) < R(3,k)$. How many
-  triangles can $G$ have?
-  Pick a vertex $v$ and let $S = N(v)$. We know that for any vertex
-  $u \in S$, $N_{G[S]}(u)$ is independent
-  (because $G$ is $K_4$-free) and so $d_{G[S]}(u) < k$. This implies that
-  \[
-    k_3(G) = \frac{1}{3} \sum_{v \in V(G)} e(G[N(v)]) \leq \frac{nk^2}{6}
-  \]
-  by our bound on $\Delta(G[S])$.
+	(Assuming [\ref{lemma:AKSz}]) Let $G$ be $n$-vtx, $K_4$-free graph
+	with $\alpha(G) < k$,
+	we know by Erdös-Szekeres that $\Delta(G) < R(3,k)$. How many
+	triangles can $G$ have?
+	Pick a vertex $v$ and let $S = N(v)$. We know that for any vertex
+	$u \in S$, $N_{G[S]}(u)$ is independent
+	(because $G$ is $K_4$-free) and so $d_{G[S]}(u) < k$. This implies that
+	\[
+		k_3(G) = \frac{1}{3} \sum_{v \in V(G)} e(G[N(v)]) \leq \frac{nk^2}{6}
+	\]
+	by our bound on $\Delta(G[S])$.
 
-  So applying [\ref{lemma:AKSz}] with $d = R(3,k)$ and $\lambda =
-  (k/\log(k))^2$ yields
-  \[
-    k > \alpha(G) > c\frac{n\log(k)^2}{k^2}
-  \]
-  which yields $n < Ck^3/\log(k)^2$.
+	So applying [\ref{lemma:AKSz}] with $d = R(3,k)$ and $\lambda =
+	(k/\log(k))^2$ yields
+	\[
+		k > \alpha(G) > c\frac{n\log(k)^2}{k^2}
+	\]
+	which yields $n < Ck^3/\log(k)^2$.
 \end{proof}
 
 So now it suffices to prove \ref{lemma:AKSz}.
 \begin{proof}
-  (Of the AKSz lemma)
-  The idea will be to do some vertex deletion and apply
-  \ref{lemma:independence_k3_free}, but we don't really
-  know how so we do it randomly.
+	(Of the AKSz lemma)
+	The idea will be to do some vertex deletion and apply
+	\ref{lemma:independence_k3_free}, but we don't really
+	know how so we do it randomly.
 
-  To easy up the calculation (it only changes the constant in front),
-  suppose $\Delta(G) \leq d$ and $k_3(G) \leq nd^2/\lambda^3$.
-  Take a $q$-random subset $Q$ of $V(G)$, we can estimate some
-  statistics, we find:
-  \begin{enumerate}[label=(\roman*)]
-    \item $\Ex |Q| = qn$
-    \item $\Ex e(G[Q]) = q^2e(G) \leq q^2nd/2$
-    \item $\Ex k_3(G[Q]) = q^3k_3(G) \leq (q/\lambda)^3nd^2$
-  \end{enumerate}
+	To easy up the calculation (it only changes the constant in front),
+	suppose $\Delta(G) \leq d$ and $k_3(G) \leq nd^2/\lambda^3$.
+	Take a $q$-random subset $Q$ of $V(G)$, we can estimate some
+	statistics, we find:
+	\begin{enumerate}[label=(\roman*)]
+		\item $\Ex |Q| = qn$
+		\item $\Ex e(G[Q]) = q^2e(G) \leq q^2nd/2$
+		\item $\Ex k_3(G[Q]) = q^3k_3(G) \leq (q/\lambda)^3nd^2$
+	\end{enumerate}
 
-  By taking $q = \lambda/d$ and using Markov to remove triangles and
-  high degree vtxs, we find a set of  size at least $qn/6$ with no triangles
-  and $\Delta(G[Q']) < 3q\Delta(G)$. Applying
-  \ref{lemma:independence_k3_free} to this set yields the result.
+	By taking $q = \lambda/d$ and using Markov to remove triangles and
+	high degree vtxs, we find a set of  size at least $qn/6$ with no triangles
+	and $\Delta(G[Q']) < 3q\Delta(G)$. Applying
+	\ref{lemma:independence_k3_free} to this set yields the result.
 
-  (Formally)
-  We have very good concentration on $|Q|$ (as long as $qn \to
-  \infty$), so applying Chernoof and Markov (twice) we
-  see that
-  \begin{align*}
-    \Pr\bigg( \bigg(|Q| > \frac{qn}{2}\bigg) &\land \bigg(e(G[Q]) <
-      3q^2e(G)\bigg)
-    \land \bigg(k_3(G[Q]) < \frac{3q^3nd^2}{\lambda^3}\bigg) \bigg)\\
-    &= 1 -\Pr\bigg( \bigg(|Q| < \frac{qn}{2}\bigg) \lor \bigg(e(G[Q])
-      > 3q^2e(G)\bigg)
-    \lor \bigg(k_3(G[Q]) > \frac{3q^3nd^2}{\lambda^3}\bigg) \bigg)\\
-    &\geq 1 - o(1) - 1/3 - 1/3 > 0
-  \end{align*}
+	(Formally)
+	We have very good concentration on $|Q|$ (as long as $qn \to
+	\infty$), so applying Chernoof and Markov (twice) we
+	see that
+	\begin{align*}
+		\Pr\bigg( \bigg(|Q| > \frac{qn}{2}\bigg) &\land \bigg(e(G[Q]) <
+			3q^2e(G)\bigg)
+		\land \bigg(k_3(G[Q]) < \frac{3q^3nd^2}{\lambda^3}\bigg) \bigg)\\
+		&= 1 -\Pr\bigg( \bigg(|Q| < \frac{qn}{2}\bigg) \lor \bigg(e(G[Q])
+			> 3q^2e(G)\bigg)
+		\lor \bigg(k_3(G[Q]) > \frac{3q^3nd^2}{\lambda^3}\bigg) \bigg)\\
+		&\geq 1 - o(1) - 1/3 - 1/3 > 0
+	\end{align*}
 
-  So we find a $G' = G[Q]$ for some good $Q$ satisfying all these
-  properties. $G'$ satisfies:
-  \begin{enumerate}[label=(\roman*)]
-    \item $v(G') \geq \frac{qn}{2}$
-    \item $e(G') \leq 3q^2e(G) \leq 3q^2nd/2$
-    \item $k_3(G') \leq \frac{3q^3nd^2}{\lambda^3}$
-  \end{enumerate}
+	So we find a $G' = G[Q]$ for some good $Q$ satisfying all these
+	properties. $G'$ satisfies:
+	\begin{enumerate}[label=(\roman*)]
+		\item $v(G') \geq \frac{qn}{2}$
+		\item $e(G') \leq 3q^2e(G) \leq 3q^2nd/2$
+		\item $k_3(G') \leq \frac{3q^3nd^2}{\lambda^3}$
+	\end{enumerate}
 
-  By removing at most half of the vertices of $G'$ (using Markov) and
-  killing a vertex from each triangle,
-  we find triangle free $G''$ with $v(G') \geq \frac{qn}{4} - k_3(G')
-  \geq \frac{qn}{8}$ and $\Delta(G'') \leq 6q^2nd/2$.
+	By removing at most half of the vertices of $G'$ (using Markov) and
+	killing a vertex from each triangle,
+	we find triangle free $G''$ with $v(G') \geq \frac{qn}{4} - k_3(G')
+	\geq \frac{qn}{8}$ and $\Delta(G'') \leq 6q^2nd/2$.
 \end{proof}
 
 This seems like a very interesting strategy for off-diagonal Ramsey.
 We did the case $l = 3$,
 $l=4$, so a very natural conjecture would be:
 \begin{theorem}
-  \[
-    R(l,k) \leq C\frac{k^{l-1}}{(\log k)^{l-2}}
-  \]
+	\[
+		R(l,k) \leq C\frac{k^{l-1}}{(\log k)^{l-2}}
+	\]
 \end{theorem}
 \begin{proof}
-  We prove it by induction. The case $l = 3,4$ were already done.
-  Let's follow the proof of [\ref{trm:aksz_r4k}].
-  Suppose $G$ is an $n$-vtx, $K_l$-free graph with $\alpha(G) < k$.
-  We must have $\Delta(G) < R(l-1,k) \leq d$. How
-  many triangles can it have? We know that if $u \in N(v)$, then
-  $|N(u)\cap N(v)| < R(l-2,k)$. So, doing the same bound as before,
-  we see that $k_3(G) \leq ndR(l-2,k)/3$. So, to use \ref{lemma:AKSz}
-  we must have
-  \[
-    \frac{ndR(l-2,k)}{3} \leq \frac{nd^2}{\lambda}
-  \]
-  so
-  \[
-    \lambda \leq \frac{3d}{R(l-2,k)}
-  \]
-  and (by induction), it suffices that $\lambda$ satisfies
-  \[
-    \lambda \leq \frac{c d(\log k)^{l-2}}{k^{l-1}}
-  \]
-  applying \ref{lemma:AKSz} with $d = \frac{k^{l-1}}{(\log k)^{l-2}}
-  \geq R(l-1,k) > \Delta(G)$, we have by hypohesis,
-  \[
-    \alpha(G) \geq \frac{n}{d}\log(\lambda) \geq C_l
-    \frac{n\log(k)^{l-2}}{k^{l-2}}
-  \]
-  and therefore,
-  \[
-    n \leq C_l\frac{k^{l-1}}{(\log k)^{l-2}}
-  \]
+	We prove it by induction. The case $l = 3,4$ were already done.
+	Let's follow the proof of [\ref{trm:aksz_r4k}].
+	Suppose $G$ is an $n$-vtx, $K_l$-free graph with $\alpha(G) < k$.
+	We must have $\Delta(G) < R(l-1,k) \leq d$. How
+	many triangles can it have? We know that if $u \in N(v)$, then
+	$|N(u)\cap N(v)| < R(l-2,k)$. So, doing the same bound as before,
+	we see that $k_3(G) \leq ndR(l-2,k)/3$. So, to use \ref{lemma:AKSz}
+	we must have
+	\[
+		\frac{ndR(l-2,k)}{3} \leq \frac{nd^2}{\lambda}
+	\]
+	so
+	\[
+		\lambda \leq \frac{3d}{R(l-2,k)}
+	\]
+	and (by induction), it suffices that $\lambda$ satisfies
+	\[
+		\lambda \leq \frac{c d(\log k)^{l-2}}{k^{l-1}}
+	\]
+	applying \ref{lemma:AKSz} with $d = \frac{k^{l-1}}{(\log k)^{l-2}}
+	\geq R(l-1,k) > \Delta(G)$, we have by hypohesis,
+	\[
+		\alpha(G) \geq \frac{n}{d}\log(\lambda) \geq C_l
+		\frac{n\log(k)^{l-2}}{k^{l-2}}
+	\]
+	and therefore,
+	\[
+		n \leq C_l\frac{k^{l-1}}{(\log k)^{l-2}}
+	\]
 \end{proof}
 
 This proof can also be found in Rob's ICM manuscript.
@@ -488,107 +489,128 @@ So what are some easy bounds we can get on this? An easy lowerbound
 is $R(3,k)$, by doing Erdös-Szekeres,
 we can get the multinomial bound as well
 \[
-  R(3,k) \leq R(3,3,k) \leq 2kR(3,k) \leq C\frac{k^3}{\log k}.
+	R(3,k) \leq R(3,3,k) \leq 2kR(3,k) \leq C\frac{k^3}{\log k}.
 \]
 We can do a bit better on the upperbound by counting triangles and
 applying [\ref{lemma:AKSz}]!
 \begin{theorem}
-  \[R(3,3,k) \leq \frac{k^3}{(\log k)^2}\]
+	\[R(3,3,k) \leq \frac{k^3}{(\log k)^2}\]
 \end{theorem}
 \begin{proof}
-  Suppose there is a coloring $\chi$ on $K_n$ that shows that
-  $R(3,3,k) \geq n$. Let $G = E_R(\chi(K_n)) \cup E_B(\chi(K_n))$
-  that is, $G$ is the graph of red and blue edges. Note that
-  $\alpha(G) < k$, as the coloring had no green $K_k$.
-  To apply [\ref{lemma:AKSz}], we must calculate $k_3(G)$ and we know
-  it does not have any full red, or any full blue triangles.
-  So let's bound the number of $\{R,R,B\}$ triangles in $G$ (the
-  number of $\{B,B,R\}$ by simmetry will be the same).
-  One way to count $\{R,R,B\}$ triangles is by picking the cherry vertex.
-  \[
-    k_{\{R,R,B\}}(G) = \sum_{v \in G} e_B(G[N_R(v)])
-  \]
-  By Erdös-Szekeres, we know that $N_R(v)$ is red-edge-free and
-  $|N_R(v)| \leq R(3,k)$ for any vertex $v$.
-  We also have that for any $u \in N_R(v)$, $N_B(u) \cap N_R(v)$ is a
-  independent set, by the previous observation and the
-  fact that we are blue triangle free. So $d_B[G[N_R(v)]](u) < k$
-  (here this monstrosity means that the blue degree of $u$ in
-  $N_R(v)$ is less than $k$).
-  This implies that $e_B(G[N_R(v)]) < R(3,k)k/2$ for any $v$ and therefore that
-  \[
-    k_{\{R,R,B\}}(G) < \frac{nR(3,k)k}{2}
-  \]
-  so the total number of triangles is also of order $nk^3/\log k$.
-  Applying [\ref{lemma:AKSz}] with $d = \frac{Ck^2}{\log k} \geq  R(3,k)$
-  and this $k_3(G) < ndk$ we get that we can use $\lambda = Cd/k \geq
-  \frac{Ck}{\log k}$. So we get
-  \[
-    k > \alpha(G) \geq \frac{n}{d} \log k \geq \frac{C' n (\log k)^2}{k^2}
-  \]
-  which implies $n \leq Ck^3/(\log k)^2$.
+	Suppose there is a coloring $\chi$ on $K_n$ that shows that
+	$R(3,3,k) \geq n$. Let $G = E_R(\chi(K_n)) \cup E_B(\chi(K_n))$
+	that is, $G$ is the graph of red and blue edges. Note that
+	$\alpha(G) < k$, as the coloring had no green $K_k$.
+	To apply [\ref{lemma:AKSz}], we must calculate $k_3(G)$ and we know
+	it does not have any full red, or any full blue triangles.
+	So let's bound the number of $\{R,R,B\}$ triangles in $G$ (the
+	number of $\{B,B,R\}$ by simmetry will be the same).
+	One way to count $\{R,R,B\}$ triangles is by picking the cherry vertex.
+	\[
+		k_{\{R,R,B\}}(G) = \sum_{v \in G} e_B(G[N_R(v)])
+	\]
+	By Erdös-Szekeres, we know that $N_R(v)$ is red-edge-free and
+	$|N_R(v)| \leq R(3,k)$ for any vertex $v$.
+	We also have that for any $u \in N_R(v)$, $N_B(u) \cap N_R(v)$ is a
+	independent set, by the previous observation and the
+	fact that we are blue triangle free. So $d_B[G[N_R(v)]](u) < k$
+	(here this monstrosity means that the blue degree of $u$ in
+	$N_R(v)$ is less than $k$).
+	This implies that $e_B(G[N_R(v)]) < R(3,k)k/2$ for any $v$ and therefore that
+	\[
+		k_{\{R,R,B\}}(G) < \frac{nR(3,k)k}{2}
+	\]
+	so the total number of triangles is also of order $nk^3/\log k$.
+	Applying [\ref{lemma:AKSz}] with $d = \frac{Ck^2}{\log k} \geq  R(3,k)$
+	and this $k_3(G) < ndk$ we get that we can use $\lambda = Cd/k \geq
+	\frac{Ck}{\log k}$. So we get
+	\[
+		k > \alpha(G) \geq \frac{n}{d} \log k \geq \frac{C' n (\log k)^2}{k^2}
+	\]
+	which implies $n \leq Ck^3/(\log k)^2$.
 \end{proof}
 
 Next class we will see a very cool lowerbound by Alon, who observed
 the following lemma:
 \begin{lemma}
-  \label{lemma:few_indep_r(3,3,k)}
-  If there exists $K_3$-free $G$ on $n$ vtx with number of
-  independent $k$ sets of $G$ less than $\binom{n}{k}^{1/2}$
-  then $R(3,3,k) > n$.
+	\label{lemma:few_indep_r(3,3,k)}
+	If there exists $K_3$-free $G$ on $n$ vtx with number of
+	independent $k$ sets of $G$ less than $\binom{n}{k}^{1/2}$
+	then $R(3,3,k) > n$.
 \end{lemma}
 \begin{proof}
-  Embed $G$ randomly in $K_n$ with color red, do it again in color
-  blue. By the union bound, no independent $k$ set survive (so we win
-  by painting non edges with green).
+	Embed $G$ randomly in $K_n$ with color red, do it again in color
+	blue. By the union bound, no independent $k$ set survive (so we win
+	by painting non edges with green).
 \end{proof}
 
-We will turn for a pseudo-random construction to prove the existence of a graph that satisfies [\ref{lemma:few_indep_r(3,3,k)}].
+We will turn for a pseudo-random construction to prove the existence
+of a graph that satisfies [\ref{lemma:few_indep_r(3,3,k)}].
 For this, we need a good definiton of what pseudo-random means.
 \begin{definition}
-  We say that a $n$-vtx graph $G$ is $(p,\beta)$-jumbled if $e(G) = p\binom{n}{2}$ and for every $S,T \subset V(G)$, we have that 
-  \[
-    |e(S,T) - p|S||T|| \leq \beta\sqrt{|S||T|}.
-  \]
-  where here $e(S,T)$ is the number of edges that start in $S$ and end in $T$. Edges in $S \cap T$ are counted twice.
+	We say that a $n$-vtx graph $G$ is $(p,\beta)$-jumbled if $e(G) =
+	p\binom{n}{2}$ and for every $S,T \subset V(G)$, we have that
+	\[
+		|e(S,T) - p|S||T|| \leq \beta\sqrt{|S||T|}.
+	\]
+	where here $e(S,T)$ is the number of edges that start in $S$ and end
+	in $T$. Edges in $S \cap T$ are counted twice.
 \end{definition}
 
-The most pseudo-random graph (the best $\beta$ you can get) is with $G(n,p)$, I don't know anyway to prove this now,
+The most pseudo-random graph (the best $\beta$ you can get) is with
+$G(n,p)$, I don't know anyway to prove this now,
 but let's calculate how jumbled $G(n,p)$ is.
 
 \begin{theorem}
-  $G(n,p)$ is $(p',\beta)$-jumbled with $p' = e(G(n,p))/\binom{n}{2} = (1 + o(1))p$ and $\beta = O(\sqrt{pn})$ w.h.p.
+	$G(n,p)$ is $(p',\beta)$-jumbled with $p' = e(G(n,p))/\binom{n}{2} =
+	(1 + o(1))p$ and $\beta = O(\sqrt{pn})$ w.h.p.
 \end{theorem}
 \begin{proof}
-  We use Chernoff inequality [\ref{lemma:expec_binomial_bounds}], to note that for absolute $C,c > 0$ and taking $A$ suffciently big,
-  \[
-    \Pr( |e(S,T) - p|S||T|| \geq A\sqrt{pn|S||T|}) \leq C\exp(-cA^2n) \ll 4^{-n},
-  \]
-  so $G(n,p)$ is $\beta = A\sqrt{np}$-jumbled w.h.p by the union bound.
+	We use Chernoff inequality [\ref{lemma:expec_binomial_bounds}], to
+	note that for absolute $C,c > 0$ and taking $A$ suffciently big,
+	\[
+		\Pr( |e(S,T) - p|S||T|| \geq A\sqrt{pn|S||T|}) \leq C\exp(-cA^2n) \ll 4^{-n},
+	\]
+	so $G(n,p)$ is $\beta = A\sqrt{np}$-jumbled w.h.p by the union bound.
 \end{proof}
 
 This yields the following definition
 \begin{definition}
-  A graph is said to be \textbf{optimally pseudorandom} if it is $(p,\beta)$-jumbled with $\beta = O(\sqrt{pn})$.
+	A graph is said to be \textbf{optimally pseudorandom} if it is
+	$(p,\beta)$-jumbled with $\beta = O(\sqrt{pn})$.
 \end{definition}
 
-The following question is at the core of this method. How many independent $k$-sets can a $(p,\beta)$-jumbled graph have? We now have 
-a deterministic fact about our graph and we can try to count. I won't do it here, but the idea is to count sequences $(v_1, \dots, v_k)$
-of vertices that can make a independent set. Using the $(p,\beta)$ jumbled condition, we can count how many "bad" vertices there are 
-in each extension when trying to grow the sequence. We can make few "good" steps (extension steps where our non-neighborhood decreases with correct size),
-as they reduce the non-neighborhood by a $(1-p)$ ratio which is too fast. And each "bad" step  (steps which don't reduce the non-neighborhood much) 
-we are obliged to choose from a relatively small set. So counting everything yields a result.
+The following question is at the core of this method. How many
+independent $k$-sets can a $(p,\beta)$-jumbled graph have? We now have
+a deterministic fact about our graph and we can try to count. I won't
+do it here, but the idea is to count sequences $(v_1, \dots, v_k)$
+of vertices that can make a independent set.
 
+Using the $(p,\beta)$
+jumbled condition, we can count how many "bad" vertices there are
+when trying to grow the sequence. We can make only a few
+"good" steps (extension steps where our non-neighborhood decreases
+with correct size),
+because they reduce the non-neighborhood by a $(1-p)/2$ ratio which is just too
+fast. And each "bad" step  (steps which don't reduce the non-neighborhood much)
+we are obliged to choose from a small set. So counting
+everything yields a result.
 
-
-The following lemma will be stated without proof, it is an algebraic construction.
+The following lemma will be stated without proof, it is an algebraic
+construction.
 \begin{lemma}
-  (Quadrangle) There exists a $n$-vertex, $n^{1/3}$-regular, $n^{1/3}$-uniform hypergraph $H$ that satisfies:
-  \begin{enumerate}[label=(\roman*)]
-    \item $\forall e_1, e_2 \in E(H), \quad |e_1 \cap e_2| \neq 2$.
-    \item $\forall e_1,e_2,e_3 \in E(H)$ it does not hold that $|e_1 \cap e_2| = |e_2 \cap e_3| = |e_1 \cap e_3| = 1$. 
-  \end{enumerate}
+	(Quadrangle) There exists a $n$-vertex, $n^{1/3}$-regular,
+	$n^{1/3}$-uniform hypergraph $H$ that satisfies:
+	\begin{enumerate}[label=(\roman*)]
+		\item $\forall e_1, e_2 \in E(H), \quad |e_1 \cap e_2| \neq 2$.
+		\item $\forall e_1,e_2,e_3 \in E(H)$ it does not hold that $|e_1
+			\cap e_2| = |e_2 \cap e_3| = |e_1 \cap e_3| = 1$.
+	\end{enumerate}
 \end{lemma}
 
-Putting a randomly embedded $K_{t,t}$ with $t = n^{1/3}/2$ on each edge we get a $K_3$-free, optimally pseudorandom graph 
-where $p$ is the maximum it can be, $p = n^{-1/3}$. (As Rob pointed out an optimally pseudorandom, triangle-free graph must have density at most $p = n^{-1/3}$).
+Putting a randomly embedded $K_{t,t}$ with $t = n^{1/3}/2$ on each
+edge we get a $K_3$-free, optimally pseudorandom graph
+where $p$ is the maximum it can be, $p = n^{-1/3}$.
+(As Rob pointed out an optimally pseudorandom, triangle-free graph
+	must have density
+at most $p = n^{-1/3}$).

@@ -4,170 +4,178 @@
 I just took these from my notes in random matrices.
 
 \begin{lemma}
-  \label{lemma:hoeff}
-  (Hoeffding's Lemma) Let $X$ be a scalar r.v taking values in
-  $[a,b]$. Then for any $t > 0$
-  \begin{equation}
-    \label{lemma:hoef:eq1}
-    \E e^{tX} \leq e^{t\Ex X}(1 + O(t^2\sigma^2\exp(O(t(b-a))))).
-  \end{equation}
-  In particular
-  \begin{equation}
-    \label{lemma:hoef:eq2}
-    \E e^{tX} \leq e^{t\E X}\exp(O(t^2(b-a)^2)).
-  \end{equation}
+	\label{lemma:hoeff}
+	(Hoeffding's Lemma) Let $X$ be a scalar r.v taking values in
+	$[a,b]$. Then for any $t > 0$
+	\begin{equation}
+		\label{lemma:hoef:eq1}
+		\E e^{tX} \leq e^{t\Ex X}(1 + O(t^2\sigma^2\exp(O(t(b-a))))).
+	\end{equation}
+	In particular
+	\begin{equation}
+		\label{lemma:hoef:eq2}
+		\E e^{tX} \leq e^{t\E X}\exp(O(t^2(b-a)^2)).
+	\end{equation}
 \end{lemma}
 
 \begin{proof}
-  Normalize $X$ as to $\Ex(X) = 0$ and $b - a = 1$. And consider the
-  Taylor expansion of $e^{tX}$,
-  \[
-    e^{tX} = 1 + tX + O(t^2X^2\exp(O(t)))
-  \]
-  taking expectation yields the first result. The second one follows
-  from assymptotics of the exponential function.
+	Normalize $X$ as to $\Ex(X) = 0$ and $b - a = 1$. And consider the
+	Taylor expansion of $e^{tX}$,
+	\[
+		e^{tX} = 1 + tX + O(t^2X^2\exp(O(t)))
+	\]
+	taking expectation yields the first result. The second one follows
+	from assymptotics of the exponential function.
 \end{proof}
 
 \begin{theorem}
-  \label{trm:McDiamird}
-  (McDiamird's Theorem) Let $(R_i)_{i=1}^n$ be a tuple of ranges
-  and $X = (X_i)_{i=1}^{n}$ a random vector taking values in
-  their product.
-  Let $F: \prod_{i=1}^n R_i \to \R$ be a coordinate-wise bounded
-  function (this is a strong Lipchitz condition). That is changing
-  any coordinate $x_i$ may change at most $c_i$ the total value.
-  Then
-  \[
-    \Pr( |F(X) - \Ex F(X)| > \lambda \sigma) \leq C \exp(-c \lambda^2)
-  \]
-  for some $C,c > 0$ and $\sigma^2 = \sum_{i=1}^n c_i^2$.
+	\label{trm:McDiamird}
+	(McDiamird's Theorem) Let $(R_i)_{i=1}^n$ be a tuple of ranges
+	and $X = (X_i)_{i=1}^{n}$ a random vector taking values in
+	their product.
+	Let $F: \prod_{i=1}^n R_i \to \R$ be a coordinate-wise bounded
+	function (this is a strong Lipchitz condition). That is changing
+	any coordinate $x_i$ may change at most $c_i$ the total value.
+	Then
+	\[
+		\Pr( |F(X) - \Ex F(X)| > \lambda \sigma) \leq C \exp(-c \lambda^2)
+	\]
+	for some $C,c > 0$ and $\sigma^2 = \sum_{i=1}^n c_i^2$.
 \end{theorem}
 
 \begin{proof}
-  By simmetry, we may only consider $\Pr(F(X) - \E F(X) > \lambda
-  \sigma)$. We turn to Hoeffding's Lemma [\ref{lemma:hoeff}],
-  consider
-  \[
-    \Ex \exp(tF(X)) = \Ex \big[ \Ex[\exp(tF(X))| X_1, \dots X_{n-1}] \big],
-  \]
-  we should try to understand $\Ex[\exp(tF(X))| X_1, \dots X_{n-1}]$.
-  We have that
-  \[
-    \Ex[\exp(tF(X))| X_1, \dots X_{n-1}] = \Ex[\exp(t(F(X) -
-    \Ex(F)))\exp(t\Ex F(X))| X_1, \dots X_{n-1}]
-  \]
-  applying (\ref{lemma:hoef:eq2}) to the first product, (here we are
-  conditioning on $X_1, \dots X_n$)
-  \[
-    \Ex[\exp(t(F(X) - \Ex(F)))\exp(t\Ex F(X))| - ] \leq
-    \exp(O(t^2c_n^2))\Ex[\exp(t\Ex F(X)) | -]
-  \]
-  and we can iteratively apply the theorem to the new coordinate-wise
-  bounded function
-  \[
-    G(X_1, \dots X_{n-1}) = \Ex[F(X)|X_1, \dots X_{n-1}].
-  \]
-  Notice $G$ has the same coefficients as $F$, because
-  \begin{align*}
-    |G(y, x_2 \dots, x_{n-1}) - G(z, x_2 \dots, x_{n-1})| &= \bigg|
-    \int_{R_n} F(y,\dots,x_n) dx_n - \int_{R_n} F(z,\dots,x_n) dx_n\bigg|\\
-    &= \bigg| \int_{R_n} F(y,\dots,x_n) - F(z,\dots,x_n) dx_n\bigg| < c_1,
-  \end{align*}
-  and here we can take any other coordinate instead of the first.
+	By simmetry, we may only consider $\Pr(F(X) - \E F(X) > \lambda
+	\sigma)$. We turn to Hoeffding's Lemma [\ref{lemma:hoeff}],
+	consider
+	\[
+		\Ex \exp(tF(X)) = \Ex \big[ \Ex[\exp(tF(X))| X_1, \dots X_{n-1}] \big],
+	\]
+	we should try to understand $\Ex[\exp(tF(X))| X_1, \dots X_{n-1}]$.
+	We have that
+	\[
+		\Ex[\exp(tF(X))| X_1, \dots X_{n-1}] = \Ex[\exp(t(F(X) -
+		\Ex(F)))\exp(t\Ex F(X))| X_1, \dots X_{n-1}]
+	\]
+	applying (\ref{lemma:hoef:eq2}) to the first product, (here we are
+	conditioning on $X_1, \dots X_n$)
+	\[
+		\Ex[\exp(t(F(X) - \Ex(F)))\exp(t\Ex F(X))| - ] \leq
+		\exp(O(t^2c_n^2))\Ex[\exp(t\Ex F(X)) | -]
+	\]
+	and we can iteratively apply the theorem to the new coordinate-wise
+	bounded function
+	\[
+		G(X_1, \dots X_{n-1}) = \Ex[F(X)|X_1, \dots X_{n-1}].
+	\]
+	Notice $G$ has the same coefficients as $F$, because
+	\begin{align*}
+		|G(y, x_2 \dots, x_{n-1}) - G(z, x_2 \dots, x_{n-1})| &= \bigg|
+		\int_{R_n} F(y,\dots,x_n) dx_n - \int_{R_n} F(z,\dots,x_n) dx_n\bigg|\\
+		&= \bigg| \int_{R_n} F(y,\dots,x_n) - F(z,\dots,x_n) dx_n\bigg| < c_1,
+	\end{align*}
+	and here we can take any other coordinate instead of the first.
 \end{proof}
 
 \begin{corollary}
-  \label{trm:hoeffding_ineq}
-  (Hoeffding's inequality) Let $(X_i)_{i=1}^n$ be real r.v's taking
-  value in bounded intervals $[a_i,b_i]$. Then, if $S = \sum_{i \leq
-  n} X_i$, we have
-  \[
-    \Pr( |S  - \Ex S| > \lambda\sigma) < C\exp(-c \lambda^2)
-  \]
-  for some $C,c > 0$, where $\sigma^2 = \sum_{i \leq n} (b_i-a_i)^2$.
+	\label{trm:hoeffding_ineq}
+	(Hoeffding's inequality) Let $(X_i)_{i=1}^n$ be real r.v's taking
+	value in bounded intervals $[a_i,b_i]$. Then, if $S = \sum_{i \leq
+	n} X_i$, we have
+	\[
+		\Pr( |S  - \Ex S| > \lambda\sigma) < C\exp(-c \lambda^2)
+	\]
+	for some $C,c > 0$, where $\sigma^2 = \sum_{i \leq n} (b_i-a_i)^2$.
 \end{corollary}
 \begin{proof}
-  Apply [\ref{trm:McDiamird}] with $F(X_1, \dots X_n) = X_1 + \dots + X_n$.
+	Apply [\ref{trm:McDiamird}] with $F(X_1, \dots X_n) = X_1 + \dots + X_n$.
 \end{proof}
 
-
 \begin{theorem}
-  \label{trm:chernoff} (Chernoff) Let $(X_i)_{i=1}^n$ be independent scalar random variables with $|X_i| < K$ a.s,
-  with mean $\mu_i$, and variance $\sigma_i^2$. Then for any $\lambda > 0$, one has
-  \[
-    \Pr(|S_n - \mu| \geq \lambda \sigma) \leq C\exp(-c \min(\lambda^2, \frac{\lambda \sigma}{K}))
-  \] 
-  for some absolute $C,c > 0$, where $S_n = \sum_{i=1}^{n} X_i$, $\mu = \sum_{i=1}^{n} \mu_i$ and $\sigma^2 = \sum_{i=1}^{n} \sigma_i^2$.
+	\label{trm:chernoff} (Chernoff) Let $(X_i)_{i=1}^n$ be independent
+	scalar random variables with $|X_i| < K$ a.s,
+	with mean $\mu_i$, and variance $\sigma_i^2$. Then for any $\lambda
+	> 0$, one has
+	\[
+		\Pr(|S_n - \mu| \geq \lambda \sigma) \leq C\exp(-c \min(\lambda^2,
+		\frac{\lambda \sigma}{K}))
+	\]
+	for some absolute $C,c > 0$, where $S_n = \sum_{i=1}^{n} X_i$, $\mu
+	= \sum_{i=1}^{n} \mu_i$ and $\sigma^2 = \sum_{i=1}^{n} \sigma_i^2$.
 \end{theorem}
 
 \begin{proof}
-  The proof is again the use of the exponential moment with lemma [\ref{lemma:hoeff}]. Suppose we normalize  each variable 
-  so that $K \leq 1$ and $\mu_i = 0$, then $\mu = 0$ and for any $0 \leq t \leq 1$,
-  \[
-    \Ex(\exp(tS_n)) = \prod_{i=1}^{n} \Ex(\exp(tX_i)) = \prod_{i=1}^n (1 + O(t^2\sigma_i^2\exp(O(t)))).
-  \]
-  using the usual $1 + x \leq e^x$ ineq, we find
-  \[
-    \Ex(\exp(tS_n)) \leq \exp(t\Ex(S_n))\exp(O(t^2)\exp(O(t))\sigma^2) = \exp(O(t^2\sigma^2)),
-  \]
-  now we use Markov and optimize on $t$ following the restraint on $0 \leq t \leq 1$. (Suppose the hidden constant is $D$)
-  we have that 
-  \[
-    \Pr(S_n \geq \lambda\sigma) \leq \exp(D t^2\sigma^2 - t\lambda\sigma)
-  \]
-  which yields the result after optimizing $t$ following the constraints. The other inequality is equivalent.
-  
-  
+	The proof is again the use of the exponential moment with lemma
+	[\ref{lemma:hoeff}]. Suppose we normalize  each variable
+	so that $K \leq 1$ and $\mu_i = 0$, then $\mu = 0$ and for any $0
+	\leq t \leq 1$,
+	\[
+		\Ex(\exp(tS_n)) = \prod_{i=1}^{n} \Ex(\exp(tX_i)) = \prod_{i=1}^n
+		(1 + O(t^2\sigma_i^2\exp(O(t)))).
+	\]
+	using the usual $1 + x \leq e^x$ ineq, we find
+	\[
+		\Ex(\exp(tS_n)) \leq \exp(t\Ex(S_n))\exp(O(t^2)\exp(O(t))\sigma^2)
+		= \exp(O(t^2\sigma^2)),
+	\]
+	now we use Markov and optimize on $t$ following the restraint on $0
+	\leq t \leq 1$. (Suppose the hidden constant is $D$)
+	we have that
+	\[
+		\Pr(S_n \geq \lambda\sigma) \leq \exp(D t^2\sigma^2 - t\lambda\sigma)
+	\]
+	which yields the result after optimizing $t$ following the
+	constraints. The other inequality is equivalent.
+
 \end{proof}
 
 \begin{corollary}
-  \label{lemma:expec_binomial_bounds}
-  (Tailbounds for the Binomial distribution) Let $B(n,p)$ be the
-  binomial distribution.
-  We have that
-  \[
-    \Pr(|B(n,p) - np| \geq \delta np) \leq C\exp(-c \delta^2 (np)^2)
-  \]
-  for some absolute $C,c$.
+	\label{lemma:expec_binomial_bounds}
+	(Tailbounds for the Binomial distribution) Let $B(n,p)$ be the
+	binomial distribution.
+	We have that
+	\[
+		\Pr(|B(n,p) - np| \geq \delta np) \leq C\exp(-c \delta^2 (np)^2)
+	\]
+	for some absolute $C,c$.
 \end{corollary}
 \begin{proof}
-  Note that
-  \[
-    \Pr(|B(n,p) - np| \geq \lambda \sqrt{np}) \leq \Pr(|B(n,p) - np|
-    \geq \lambda \sqrt{np(1-p)}) \leq C\exp(-c\lambda^2)
-  \]
-  by \ref{trm:chernoff}. Applying it with $\lambda = \delta
-  \sqrt{np}$ yields the result.
+	Note that
+	\[
+		\Pr(|B(n,p) - np| \geq \lambda \sqrt{np}) \leq \Pr(|B(n,p) - np|
+		\geq \lambda \sqrt{np(1-p)}) \leq C\exp(-c\lambda^2)
+	\]
+	by \ref{trm:chernoff}. Applying it with $\lambda = \delta
+	\sqrt{np}$ yields the result.
 \end{proof}
 
 \begin{theorem}
-  (Azuma's Inequality) Let $X_1, X_2, \dots X_n$ be a sequence scalar
-  r.v's with $|X_i| \leq 1$ almost surely. Assume also
-  that we have the martingale difference property
-  \[
-    \E(X_i | X_1, \dots, X_{i-1}) = 0
-  \]
-  almost surely for all $i = 1,\dots,n$. Then for any $\lambda > 0$,
-  the sum $S_n := X_1 + \dots + X_n$ satisfies
-  \[
-    \Pr(|S_n| \geq \lambda \sqrt{n}) \leq C\exp(-c\lambda^2)
-  \]
-  for some absolute $C,c > 0$.
+	(Azuma's Inequality) Let $X_1, X_2, \dots X_n$ be a sequence scalar
+	r.v's with $|X_i| \leq 1$ almost surely. Assume also
+	that we have the martingale difference property
+	\[
+		\E(X_i | X_1, \dots, X_{i-1}) = 0
+	\]
+	almost surely for all $i = 1,\dots,n$. Then for any $\lambda > 0$,
+	the sum $S_n := X_1 + \dots + X_n$ satisfies
+	\[
+		\Pr(|S_n| \geq \lambda \sqrt{n}) \leq C\exp(-c\lambda^2)
+	\]
+	for some absolute $C,c > 0$.
 \end{theorem}
 
 \begin{proof}
-  We prove this by calculating exponential moments and using
-  Hoeffding's Lemma again. Note that $S_n = S_{n-1} + X_n$ so that
-  \[
-    \Ex(e^{tS_n}) = \Ex(e^{tS_{n-1}}e^{tX_n}).
-  \]
-  By taking the expectation of conditioning on the first $n-1$
-  values, we get that
-  \[
-    \Ex(e^{tS_n}) = \Ex \Ex (e^{tS_{n-1}}e^{X_n} | X_1, \dots,
-    X_{n-1}) =\Ex [e^{tS_{n-1}}\Ex(e^{tX_n} | X_1, \dots, X_{n-1})]
-  \]
-  Now, by \ref{lemma:hoeff}, we have that $\Ex(e^{tX_n} | X_1, \dots,
-  X_{n-1}) \leq e^{O(t^2)}$, so by iterating we get the result.
+	We prove this by calculating exponential moments and using
+	Hoeffding's Lemma again. Note that $S_n = S_{n-1} + X_n$ so that
+	\[
+		\Ex(e^{tS_n}) = \Ex(e^{tS_{n-1}}e^{tX_n}).
+	\]
+	By taking the expectation of conditioning on the first $n-1$
+	values, we get that
+	\[
+		\Ex(e^{tS_n}) = \Ex \Ex (e^{tS_{n-1}}e^{X_n} | X_1, \dots,
+		X_{n-1}) =\Ex [e^{tS_{n-1}}\Ex(e^{tX_n} | X_1, \dots, X_{n-1})]
+	\]
+	Now, by \ref{lemma:hoeff}, we have that $\Ex(e^{tX_n} | X_1, \dots,
+	X_{n-1}) \leq e^{O(t^2)}$, so by iterating we get the result.
 
 \end{proof}
