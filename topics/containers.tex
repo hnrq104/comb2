@@ -1,0 +1,187 @@
+\section{The Method of Containers}
+
+\subsection{Some nice problems}
+There are many reasons to understand the method of hypergraph
+containers. Here are some cool problems we may be interested
+in.
+\begin{problem}
+	\label{containers:prob:extremalK3}
+	(Extremal questions in $G(n,p)$). We define
+	\[
+		\text{ex}(G,H) := \max \{ e(G'): G' \subset G,\; G \text{ is }
+		H-\text{free}\}.
+	\]
+	Note that $\text{ex}(n,H) = \text{ex}(K_n,H)$. What can we say about
+	$\text{ex}(G(n,p),K_3)$?
+\end{problem}
+
+Some easy bounds can be found. Given any sampling of $G(n,p)$, we can
+always find a bipartite graph with half the edges. Similarly
+another strategy is just to kill off triangles by removing an edge
+from each. This already gives
+\[
+	\text{ex}(G(n,p), K_3) \geq
+	\begin{cases}
+		e(G(n,p))/2\\
+		e(G(n,p)) - k_3(G(n,p))
+	\end{cases}
+\]
+by finding the best regime for $p$ in each we get
+\[
+	\text{ex}(G(n,p), K_3) \geq
+	\begin{cases}
+		pn^2/4 \quad \text{for any}\,p \in [0,1]\\
+		(1 - o(1))pn^2/2 \quad \text{for}\, p \ll \frac{1}{\sqrt{n}}
+	\end{cases}
+\]
+it turns out this is sharp.
+
+\begin{problem}
+	When does $G(n,p) \to K_3$? Define
+	\[
+		p^*(n) = \inf_{p \in [0,1]} \{p : \Pr(G(n,p) \to K_3) \geq 1/2\}.
+	\]
+	can we find this threshold?
+\end{problem}
+We know that if $G(n,p)$ contains a $K_6$ we are done by Ramsey so
+$p^* \lesssim n^{-2/5}$. But is this it?
+Should avoiding $K_6$ be enough or is there some deeper more complex
+structure - the answer is obviously yes.
+
+\begin{problem}
+	Let $A \subset [n]_p$ with $|A| \geq \delta np$, does $A$ contain a $3$-AP?
+\end{problem}
+Doing deletion we get that it is true if  $AP_3([n]_p) = o(np)$. We
+know $AP_3([n]_p) \eqsim n^2p^3$, so if $p \ll 1/\sqrt{n}$
+we get the result. What happens if $p \gg 1/\sqrt{n}$?
+
+Very related to \ref{containers:prob:countingk3} is question:
+\begin{problem}
+	\label{containers:prob:countingk3}
+	How many $K_3$-free graphs on $n$ vertices with $m$ edges are there?
+\end{problem}
+If we call this quantity $X(n,m)$, we know (because we can always
+pick from a bipartite graph) that
+\[
+	X(n,m) \geq \binom{n^2/4}{m}.
+\]
+If $m$ is sufficiently low, we can use $G(n,p)$ for our advantage! We know that
+\[
+	\Pr(K_3 \not \subset G(n,p)) \eqsim \exp(-n^3p^3)
+\]
+if $p \ll n^{-1/2}$ by Janson and Harris inequality. Noting that $G(n,
+m) \eqsim G(n,p)$ with $p = m/\binom{n}{2}$,
+we get something that says
+\[
+	X(n,m) \eqsim \exp(-m^3/n^3)\binom{\binom{n}{2}}{m} \quad \text{if
+	}\, m \ll n^{3/2}.
+\]
+Is the first bound optimal?
+
+\subsection{Attempts at handling them}
+
+Let's follow a naive approach for tackling
+\ref{containers:prob:extremalK3}. So let's see first moment.
+Let
+\[Y = \#\big\{G: K_3 \not\subset G \subset G(n,p)\; \text{ with }
+e(G) > m = (1/2 + \eps)p\binom{n}{2} \big\}\]
+the number of such bad subgraphs of $G(n,p)$. We would like to show
+$Y = 0$ with high probability if $p \gg 1/\sqrt{n}$. If we calculate
+$\Ex Y$ we get
+\[
+	\Ex Y = \sum_{\substack{K_3 \not \subset G\\e(G) = m}} \Pr(G \subset
+	G(n,p)) \geq \binom{n^2/4}{m} p^m \eqsim
+	\bigg(\frac{en^2p}{4m}\bigg)^m \eqsim e^m
+\]
+where for the lowerbound we only considered the subsets of a single
+bipartite graph. But $\Ex Y$ is \textbf{HUGE}, so can we better this?
+
+A very interesting point made by Rob is to look where we are losing
+here. Every once and while, when you look at an equation and it
+explodes, it is a good idea to see why.
+Maybe we could handle the bad case differently.
+
+Here we are losing a
+ton because there are many subsets of the bipartite graph, but this
+seems a bit unrealistic,
+a bipartite graph contains at most $1/2$ of the edges of $G(n,p)$ and
+here we are asking for an $\eps$ deviation.
+To be more precise, let's check another thing.
+
+What can we say about bipartite $H$ in $G(n,p)$ with $m$ edges? Can
+we find many of those?
+Note that every bipartite graph $H$ is a subset of a complete
+bipartite $G$ which has at most $n^2/4$ edges. So we could say
+\[
+	\Pr(\exists\; \text{bip.}\,H \subset G(n,p)\; \text{with } e(H) = m) =
+	\sum_{\substack{K_{(n/2,n/2)} \sim G\\G \subset G(n,p)}}
+	\Pr(\exists\; \text{bip.}\,H \subset G \cap G(n,p)\; \text{with } e(H) = m)
+\]
+It might look that we made our lives worse, but in reality this is a
+way simpler thing. For such $H$ to exists, $e(G \cap G(n,p)) \geq m$, so
+here we can already apply a deviation bound. Furthermore, the number
+of complete bipartites is $2^{n-1}$ so applying the union bound seems
+like a great idea.
+We get (using \ref{lemma:expec_binomial_bounds})
+\begin{align*}
+	\sum_{\substack{K_{(n/2,n/2)} \sim G\\G \subset G(n,p)}}
+	\Pr(\exists\; \text{bip.}\,H \subset G \cap G(n,p)\; \text{with }
+	e(H) = m) &\leq
+	2^n\Pr(\text{Bin}(n^2/4,p) \geq m)\\
+	&\leq 2^n\exp(-\eps^2n^2p/4) \to 0
+\end{align*}
+if $p \gg 1/n$ so we win by miles in this bipartite case.
+
+What we actually did here is a container theorem for bipartite graphs.
+Let $\mathcal{G}$ be the family of complete bipartite graphs on $n$ vtxs,
+we know that
+\begin{enumerate}[label=(\alph*)]
+	\item $|\mathcal{G}|$ is small $\leq 2^n$.
+	\item Every $G \in \mathcal{G}$ is bipartite.
+	\item For every bipartite $H \subset K_n$, there exists $G \in
+		\mathcal{G}$ such that $H \subset G$. ($G$ is the container for $H$).
+\end{enumerate}
+This family allowed us to do way more efficient union bound. And this
+is what will try to do to tackle
+\ref{containers:prob:extremalK3}.
+
+For our problem, this we need another container theorem which we will
+prove later:
+\begin{theorem}
+	\label{trm:container-k3-free}
+	(Container theorem for $K_3$-free graphs). There exists a family
+	$\mathcal{G}$ of graphs on $n$-vtxs, s.t
+	\begin{enumerate}[label=(\alph*)]
+		\item $\mathcal{G}$ is small, $|\mathcal{G}| \leq 2^{n^{3/2}(\log n)^c}$.
+		\item Every $G \in \mathcal{G}$ has "few" triangles, $o(n^3)$.
+		\item For every $K_3$-free graph $H$, there exists a container $G
+			\in \mathcal{G}$ s.t. $H \subset G$.
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}[An answer for \ref{containers:prob:extremalK3}]
+	Note that we can upperbound $\Pr(\exists K_3 \not \subset H \subset
+	G(n,p), e(H) = m)$ using our containers.
+	How many edges can our containers have? Because they have $o(n^3)$
+	triangles, by supersaturation they must have at most $(1/2 +
+	o(1))\binom{n}{2}$ edges.
+	So following the same calculation as before (doing the union bound
+	and applying our deviation result), we get
+	\[
+		\Pr(\exists K_3 \not \subset H \subset G(n,p), e(H) = m) \leq
+		\sum_{G \in \mathcal{G}} \Pr(e(G \cap G(n,p)) \geq m) \leq
+		2^{n^{3/2}\log(n)^c}e^{-\eps pn^2} \to 0
+	\]
+	if $p \gg \log(n)^c/\sqrt{n}$.
+\end{proof}
+
+Next time we will try to prove Theorem \ref{trm:container-k3-free},
+and we will do so in greater generality. We will do it for
+$3$-uniform hypergraphs and apply
+it for a "triangle encoding" hypergraph.
+\begin{definition}
+	The triangle enconding hypergraph $\mathcal{H}_{k_3}$ is a 3-uniform
+	hypergraph with $V(\mathcal{H}_{k_3}) = E(K_n)$ and
+	$E(\mathcal{H}_{k_3}) = \{\{e,f,g\} : e,f,g \in E(K_n) \text{ form a
+	triangle}\}$.
+\end{definition}
