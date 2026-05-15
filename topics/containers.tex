@@ -180,8 +180,64 @@ and we will do so in greater generality. We will do it for
 $3$-uniform hypergraphs and apply
 it for a "triangle encoding" hypergraph.
 \begin{definition}
-	The triangle enconding hypergraph $\mathcal{H}_{k_3}$ is a 3-uniform
+	The triangle enconding hypergraph $\mathcal{H}_{K_3}$ is a 3-uniform
 	hypergraph with $V(\mathcal{H}_{k_3}) = E(K_n)$ and
 	$E(\mathcal{H}_{k_3}) = \{\{e,f,g\} : e,f,g \in E(K_n) \text{ form a
 	triangle}\}$.
 \end{definition}
+
+
+\subsection{A general hypergraph container statement with fingerprints}
+%STATE GENERAL HYPERGRAPH CONTAINERS
+%PROVE THE CONTAINER THEOREM FOR TRIANGLE ENCODING GRAPHS
+
+\begin{lemma}
+	\label{lemma:hypergraph_containers}
+	(Hypergraph Container Lemma) For all $c \geq 1$ and $k \in \N$, there exists $\delta \sim 1/ck^4$ s.t the following holds.
+	Let $\mathcal{H}$ be a $k$-uniform hypergraph on $n$-vtxs and $\tau > 0$ satisfying
+	\[
+		\Delta_l(\mathcal{H}) \leq c\tau^{l-1}\frac{e(\mathcal{H})}{v(\mathcal{H})} = c\tau^{l-1}d
+	\]
+	then there exists families $\mathcal{S} \subset \mathcal{I}(\mathcal{H})$ and $\mathcal{C}\subset P(V(\mathcal{H}))$
+	and a function $f: \mathcal{S} \to \mathcal{C}$ such that
+	\begin{enumerate}[label=(\alph*)]
+		\item For every $S \in \mathcal{S}$, $|S| \leq \tau n$.
+		\item For every $C \in \mathcal{C}$, $|C| \leq (1-\delta)n$.
+		\item For every $I \in \mathcal{I}(\mathcal{H})$, there exists $S(I) \in \mathcal{S}$ s.t 
+		\[
+			S(I) \subset I \subset C(I) = f(S(I)).
+		\]
+	\end{enumerate}
+\end{lemma}
+
+With its full generality, we can prove the container theorem for $K_3$ encoding graphs.
+\begin{theorem}
+	(Containers for triangle free graphs) For every $\eps > 0$, there exists a family of fingerprints $\mathcal{S}(n,\eps)$ and $\mathcal{G}(n,\eps)$ of subgraphs of $K_n$ satisfying the following properties:
+	\begin{enumerate}[label=(\alph*)]
+		\item $|\mathcal{G}| \leq \exp(C(\eps)n^{3/2}\log n).$
+		\item For every $G \in \mathcal{G}$, $k_3(G) \leq \eps n^3.$
+		\item For every triangle free graph $H$ on $n$ vtx, there exists $G \in \mathcal{G}$ with $H \subset G$.
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	We will iteratively apply our lemma [\ref{lemma:hypergraph_containers}] until we are left with our desired family. 
+	What degree properties can we say about $\mathcal{H} = \mathcal{H}_{K_3}(K_n)$? It's simple to note that $e(\mathcal{H}) = \binom{n}{3}$,
+	$d = \Delta_1(\mathcal{H}) = n-2$ and $\Delta_2(\mathcal{H}) \leq 1$. So, the first time, we can apply the lemma with $\tau = 1/\sqrt{n}$.
+	
+	Let $\mathcal{C} = \{E(K_n)\}$, while there is an element $E(G)$ in $\mathcal{C}$ with more than $\eps n^3$ triangles, we apply the container lemma on $G$, and substitute
+	$G$ by its containers in $\mathcal{C}$. We know the maximum degree condition is the same, and because $k_3(G) \geq \eps n^3$, we know that the avg. degree in our 
+	container lemma is at least $\eps n$. So we can always repeat this process with $c = 1$ and $\tau = 1/\eps \sqrt{n}$.
+
+	How many steps can we do? Well after $t$ iterations, each container has size at most $(1-\delta)^t\binom{n}{2}$ yielding a maximum of $(1-\delta)^t n^3$ triangles.
+	So we must have that $(1-\delta)^t \geq \eps$, and therefore $t \leq \log(1/\eps)/\delta$. So how many containers do we end up with? Something like
+	\[
+		\binom{n^2}{n^{3/2}}^t = n^{O(n^{3/2})} = \exp(O(n^{3/2}\log n)).
+	\]
+	We can even bound the sizes of the fingerprints by $t \tau \binom{n}{2} = Cn^{3/2}$.
+	% Let $\mathcal{C}_0 = \{\mathcal{H}_{K_3}(K_n)\}$. What 
+\end{proof}
+
+\subsection{Answering our questions!}
+%COUNTING K3-FREE GRAPHS WITH M EDGES
+%THRESHHOLD FOR GNP -> K3
