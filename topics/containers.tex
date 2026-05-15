@@ -148,7 +148,7 @@ is what will try to do to tackle
 For our problem, this we need another container theorem which we will
 prove later:
 \begin{theorem}
-	\label{trm:container-k3-free}
+	\label{trm:container-k3-free-bad}
 	(Container theorem for $K_3$-free graphs). There exists a family
 	$\mathcal{G}$ of graphs on $n$-vtxs, s.t
 	\begin{enumerate}[label=(\alph*)]
@@ -175,7 +175,7 @@ prove later:
 	if $p \gg \log(n)^c/\sqrt{n}$.
 \end{proof}
 
-Next time we will try to prove Theorem \ref{trm:container-k3-free},
+Next time we will try to prove Theorem \ref{trm:container-k3-free-bad},
 and we will do so in greater generality. We will do it for
 $3$-uniform hypergraphs and apply
 it for a "triangle encoding" hypergraph.
@@ -186,58 +186,194 @@ it for a "triangle encoding" hypergraph.
 	triangle}\}$.
 \end{definition}
 
-
 \subsection{A general hypergraph container statement with fingerprints}
 %STATE GENERAL HYPERGRAPH CONTAINERS
 %PROVE THE CONTAINER THEOREM FOR TRIANGLE ENCODING GRAPHS
 
 \begin{lemma}
 	\label{lemma:hypergraph_containers}
-	(Hypergraph Container Lemma) For all $c \geq 1$ and $k \in \N$, there exists $\delta \sim 1/ck^4$ s.t the following holds.
-	Let $\mathcal{H}$ be a $k$-uniform hypergraph on $n$-vtxs and $\tau > 0$ satisfying
+	(Hypergraph Container Lemma) For all $c \geq 1$ and $k \in \N$,
+	there exists $\delta \sim 1/ck^4$ s.t the following holds.
+	Let $\mathcal{H}$ be a $k$-uniform hypergraph on $n$-vtxs and $\tau
+	> 0$ satisfying
 	\[
-		\Delta_l(\mathcal{H}) \leq c\tau^{l-1}\frac{e(\mathcal{H})}{v(\mathcal{H})} = c\tau^{l-1}d
+		\Delta_l(\mathcal{H}) \leq
+		c\tau^{l-1}\frac{e(\mathcal{H})}{v(\mathcal{H})} = c\tau^{l-1}d
 	\]
-	then there exists families $\mathcal{S} \subset \mathcal{I}(\mathcal{H})$ and $\mathcal{C}\subset P(V(\mathcal{H}))$
+	then there exists families $\mathcal{S} \subset
+	\mathcal{I}(\mathcal{H})$ and $\mathcal{C}\subset P(V(\mathcal{H}))$
 	and a function $f: \mathcal{S} \to \mathcal{C}$ such that
 	\begin{enumerate}[label=(\alph*)]
 		\item For every $S \in \mathcal{S}$, $|S| \leq \tau n$.
 		\item For every $C \in \mathcal{C}$, $|C| \leq (1-\delta)n$.
-		\item For every $I \in \mathcal{I}(\mathcal{H})$, there exists $S(I) \in \mathcal{S}$ s.t 
-		\[
-			S(I) \subset I \subset C(I) = f(S(I)).
-		\]
+		\item For every $I \in \mathcal{I}(\mathcal{H})$, there exists
+			$S(I) \in \mathcal{S}$ s.t
+			\[
+				S(I) \subset I \subset C(I) = f(S(I)).
+			\]
 	\end{enumerate}
 \end{lemma}
 
-With its full generality, we can prove the container theorem for $K_3$ encoding graphs.
+With its full generality, we can prove the container theorem for
+$K_3$ encoding graphs.
 \begin{theorem}
-	(Containers for triangle free graphs) For every $\eps > 0$, there exists a family of fingerprints $\mathcal{S}(n,\eps)$ and $\mathcal{G}(n,\eps)$ of subgraphs of $K_n$ satisfying the following properties:
+	\label{trm:container_for_triangles}
+	(Containers for triangle free graphs) For every $\eps > 0$, there
+	exists a family of fingerprints $\mathcal{S}(n,\eps)$ and
+	$\mathcal{G}(n,\eps)$ of subgraphs of $K_n$ satisfying the following
+	properties:
 	\begin{enumerate}[label=(\alph*)]
 		\item $|\mathcal{G}| \leq \exp(C(\eps)n^{3/2}\log n).$
 		\item For every $G \in \mathcal{G}$, $k_3(G) \leq \eps n^3.$
-		\item For every triangle free graph $H$ on $n$ vtx, there exists $G \in \mathcal{G}$ with $H \subset G$.
+		\item For every triangle free graph $H$ on $n$ vtx, there exists $G
+			\in \mathcal{G}$ with $H \subset G$.
 	\end{enumerate}
 \end{theorem}
 
 \begin{proof}
-	We will iteratively apply our lemma [\ref{lemma:hypergraph_containers}] until we are left with our desired family. 
-	What degree properties can we say about $\mathcal{H} = \mathcal{H}_{K_3}(K_n)$? It's simple to note that $e(\mathcal{H}) = \binom{n}{3}$,
-	$d = \Delta_1(\mathcal{H}) = n-2$ and $\Delta_2(\mathcal{H}) \leq 1$. So, the first time, we can apply the lemma with $\tau = 1/\sqrt{n}$.
-	
-	Let $\mathcal{C} = \{E(K_n)\}$, while there is an element $E(G)$ in $\mathcal{C}$ with more than $\eps n^3$ triangles, we apply the container lemma on $G$, and substitute
-	$G$ by its containers in $\mathcal{C}$. We know the maximum degree condition is the same, and because $k_3(G) \geq \eps n^3$, we know that the avg. degree in our 
-	container lemma is at least $\eps n$. So we can always repeat this process with $c = 1$ and $\tau = 1/\eps \sqrt{n}$.
+	We will iteratively apply our lemma
+	[\ref{lemma:hypergraph_containers}] until we are left with our desired family.
+	What degree properties can we say about $\mathcal{H} =
+	\mathcal{H}_{K_3}(K_n)$? It's simple to note that $e(\mathcal{H}) =
+	\binom{n}{3}$,
+	$d = \Delta_1(\mathcal{H}) = n-2$ and $\Delta_2(\mathcal{H}) \leq 1$.
+ So, the first time, we can apply the lemma with $\tau = 1/\sqrt{n}$.
 
-	How many steps can we do? Well after $t$ iterations, each container has size at most $(1-\delta)^t\binom{n}{2}$ yielding a maximum of $(1-\delta)^t n^3$ triangles.
-	So we must have that $(1-\delta)^t \geq \eps$, and therefore $t \leq \log(1/\eps)/\delta$. So how many containers do we end up with? Something like
+	Let $\mathcal{C} = \{E(K_n)\}$, while there is an element $E(G)$ in
+	$\mathcal{C}$ with more than $\eps n^3$ triangles, we apply the
+	container lemma on $G$, and substitute
+	$G$ by its containers in $\mathcal{C}$. We know the maximum degree
+	condition is the same, and because $k_3(G) \geq \eps n^3$, we know
+	that the avg. degree in our
+	container lemma is at least $\eps n$. So we can always repeat this
+	process with $c = 1$ and $\tau = 1/\eps \sqrt{n}$.
+
+	How many steps can we do? Well after $t$ iterations, each container
+	has size at most $(1-\delta)^t\binom{n}{2}$ yielding a maximum of
+	$(1-\delta)^t n^3$ triangles.
+	So we must have that $(1-\delta)^t \geq \eps$, and therefore $t \leq
+	\log(1/\eps)/\delta$. So how many containers do we end up with? Something like
 	\[
 		\binom{n^2}{n^{3/2}}^t = n^{O(n^{3/2})} = \exp(O(n^{3/2}\log n)).
 	\]
-	We can even bound the sizes of the fingerprints by $t \tau \binom{n}{2} = Cn^{3/2}$.
-	% Let $\mathcal{C}_0 = \{\mathcal{H}_{K_3}(K_n)\}$. What 
+	We can even bound the sizes of the fingerprints by $t \tau
+	\binom{n}{2} = Cn^{3/2}$.
+	% Let $\mathcal{C}_0 = \{\mathcal{H}_{K_3}(K_n)\}$. What
 \end{proof}
 
-\subsection{Answering our questions!}
-%COUNTING K3-FREE GRAPHS WITH M EDGES
-%THRESHHOLD FOR GNP -> K3
+\subsection{Some cool applications!}
+
+\subsubsection{Counting triangle-free graphs}
+
+We will try to prove the following theorem:
+\begin{theorem}
+	\label{containers:far_bipartite}
+	Almost all triangle free graphs with $n$ vtxs and $m \gg n^{3/2}$
+	edges are $o(m)$ close to being bipartite.
+\end{theorem}
+
+To prove it we will need an estability result (basically
+Erdös-Simonitivs) that states
+\begin{theorem}
+	If $G$ is $t$-far from being bipartite, then
+	\[
+		k_3(G) \geq \frac{n}{6}(e(G) + t - \frac{n^2}{4})
+	\]
+\end{theorem}
+
+\begin{proof}
+	(of \ref{containers:far_bipartite}) Let $X(n,m,\alpha)$ be the
+	number  of  triangle free graphs with $m$ edges which are $\alpha
+	m$-far from being bipartite.
+	We will upperbound $X$ counting by counting inside the containers.
+	So suppose we applied [\ref{trm:container_for_triangles}] with
+	$\eps>0$, which yielded $\mathcal{G}$.
+	We have
+	\[
+		X(n,m,\alpha) \leq \sum_{G \in \mathcal{G}} \#\{ K_3 \not \subset H
+		\subset G,\; e(H) = m,\; H\,\alpha m\text{-far from being bip.}\}.
+	\]
+	Now fix some parameter $\delta > 7\eps$ we choose later, we know
+	from the stability result that either $G$ is $\delta n^2$ close to
+	being bipartite or
+	\[
+		e(G) \leq \frac{n^2}{4} + 6\eps n^2 - \delta n^2 \leq \frac{n^2}{4}
+		- \eps n^2.
+	\]
+	So let's separate our counting depending on the container and bound
+	the previous sum
+	\[
+		X(n,m,\alpha) \leq \sum_{\substack{G \in \mathcal{G}\\e(G) \leq
+		(1/4 - \eps)n^2}} \binom{e(G)}{m}\quad
+		+ \quad\sum_{\substack{G \in \mathcal{G}\\G\, \delta-\text{close to
+		bip.}}} \binom{\delta n^2}{\alpha m} \binom{n^2/4}{(1-\alpha)m}
+	\]
+	where the first inequality follows from taking all $m$ subgraphs of
+	$G$ when $G$ has few edges and the second follows from choosing the
+	$\alpha m$ edges
+	that make $H$ far from being bipartite. A bit of manipulation shows
+	\begin{align*}
+		X(n,m,\alpha) &\leq \sum_{G \in \mathcal{G}} (1-4\eps)^m
+		\binom{n^2/4}{m} + \binom{\delta n^2}{\alpha
+		m}\binom{n^2/4}{m}\bigg(\frac{n^2}{4}\bigg)^{-\alpha m}\\
+		&\leq n^{Cn^3/2}e^{-cm} \binom{n^2/4}{m} \to o(1)\binom{n^2/4}{m}
+	\end{align*}
+	when $m \gg n^{3/2}\log n$.
+
+	What if we want to remove the $\log n$? Then we do the same thing
+	but we use our fingerprints, we sum over them and remember that each
+	$S$ must be cointained in $H$.
+	Taking that into consideration the $\log n$ vanishes.
+
+	\begin{align*}
+		X(n,m,\alpha) \leq \sum_{|S| = 0}^{Cn^{3/2}}
+		\binom{n^2/2}{|S|}\bigg(\binom{(1/4-\eps)n^2}{m - |S|} +
+		\binom{n^2/4}{(1-\alpha/2)m - |S|}\bigg)
+	\end{align*}
+	and after some more careful computation we win.
+\end{proof}
+
+\subsubsection{When does Gnp arrows a triangle?}
+
+The following is a very surprising theorem (and beautiful one as well).
+\begin{theorem}
+	\label{containers:arrows_k3}
+	Let fix $r \in \N$ and let $p \gg n^{-1/2}$, then $G(n,p) \to_r K_3$ w.h.p.
+\end{theorem}
+As always, we need some kind of saturation result. We will actually
+show that $\Pr(G(n,p) \not \to K_3) \to 0$. So what does this event really mean?
+If $G(n,p) \not \to_r K_3$, then there exists a partition (or
+coloring) of the edges of $G(n,p) = H_1 \cup H_2 \dots \cup H_r$,
+such that each $H_i$ is $K_3$-free.
+Now an easy double counting yields the following lemma:
+\begin{lemma}
+	Let $G$ be a graph and $\chi$ an r-coloring of its edges. Then if
+	\[
+		e(G) \geq (1-\delta)\binom{n}{2}
+	\]
+	then $\chi$ contains $\delta n^3$ monochromatic triangles.
+\end{lemma}
+And we are ready to apply our containers.
+\begin{proof}
+	(of \ref{containers:arrows_k3}) We upperbound again on our
+	containers, let $C_i$ be the containers for $H_i$. We know $E(K_n) =
+	F \cup C_1 \dots \cup C_r$
+	where $k_3(C_i) \leq \eps n^3$ for each $i$ and $F$ is the
+	complement of the union.
+	By the previous lemma, it must be that $e(F) \geq \eps r
+	\binom{n}{2}$, and this means that, if $G(n,p) \subset C_1 \cup
+	\dots \cup C_r$,
+	it is avoiding a positive density set of edges. We find that
+	(maximizing by the last term)
+	\begin{align*}	
+		\Pr(G(n,p) \not \to K_3) &\leq \sum_{S_1 \cup \dots \cup S_r}
+		\Pr((S_1 \cup \dots S_r) \subset G(n,p) \subset (C_1 \cup \dots \cup C_r))\\
+		&\leq \sum_{t = 0}^{Crn^{3/2}} \binom{n^2/2}{t}p^t(1-p)^{\delta
+		n^2} \leq e^{-p\delta n^2}\bigg(\frac{epn^2}{Crn^{3/2}}\bigg)^{Crn^{3/2}}\\
+		&= \bigg(\frac{e^{-\delta p\sqrt{n}}p\sqrt{n}}{D}\bigg)^{Crn^{3/2}}
+	\end{align*}
+	and it is clear that if $p\sqrt{n} \to \infty$, then the probability
+	is tends to 0.
+
+
+\end{proof}
