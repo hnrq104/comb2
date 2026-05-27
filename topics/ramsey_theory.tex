@@ -615,11 +615,132 @@ where $p$ is the maximum it can be, $p = n^{-1/3}$.
 	must have density
 at most $p = n^{-1/3}$).
 
-
 \subsection{Ramsey of bounded degree graphs}
 
 The motivation of this section will be the following theorem.
 \begin{theorem}
-	Let $H$ be a bipartite graph with $k$ vertices and $\Delta(H) \leq d$. Then 
+	Let $H$ be a bipartite graph with $k$ vertices and $\Delta(H) \leq d$. Then
 	$r(H) \leq 2^{d + 6} k$.
 \end{theorem}
+
+
+\subsubsection{Old Friends}
+To uncover it, we will need to remember some old forgotten friends.
+The LLL and the DRC.
+
+\begin{theorem}[Lovász Local Lemma]
+	\label{trm:lll}
+	Let $\mathcal{E} = \{B_1, B_2, \dots, B_m\}$ be bad events in some
+	probability space and suppose that for each event $B_i$,
+	there exists a set $N(B_i) \subset \mathcal{E}$ such that $B_i$ is
+	mutually independent of all events in $\mathcal{E} \setminus N(B_i)$.
+	We say that $j \sim i$ if $B_j \in N(B_i)$. If there exists $x_1,
+	\dots x_m \in (0,1)$ satisfying
+	\[
+		\Pr(B_i) \leq x_i \prod_{j \sim i}(1-x_j)
+	\]
+	then
+	\[
+		\Pr\bigg(\bigcap_{i = 1}^m B_i^c\bigg) > \prod_{i=1}^m (1 - x_i).
+	\]
+\end{theorem}
+
+\begin{remark}
+	Usually people talk about the dependence graph, in this framework
+	the neighbors of
+	an event $B_i$ are precisely $N(B_i)$. Note that the choice of
+	$N(B_i)$ (or of the dependece graph) is not necessairly unique.
+\end{remark}
+
+\begin{proof}[Proof of LLL \ref{trm:lll}]
+	The proof is just a very smart induction (similar to Harris or
+	Janson - which I should also add in the appendix).
+	We claim that given any $S \subset [m]$,
+	\[
+		\Pr\bigg(B_i \mid \bigcap_{j \in S} B_j^c \bigg) \leq x_i.
+	\]
+	Note that this implies the theorem as we can always write
+	\[
+		\Pr\bigg(\bigcap_{i = 1}^m B_i^c\bigg) = \prod_{i = 1}^m
+		\Pr\bigg(B_i^c \mid \bigcap_{j < i} B_j^c\bigg)
+	\]
+	and the result follows from the claim.
+
+	Let's prove the claim by induction on $|S|$. If $S = \varnothing$,
+	it trivially follows as
+	$\Pr(B_i) \leq x_i \prod_{j \sim i}(1-x_j) < x_i$. Now let's separate the event
+	\[\bigcap_{j \in S} B_j^c  = \bigcap_{\substack{j \in S\\j \sim i}}
+	B_j^c \cap \bigcap_{\substack{j \in S\\j \not \sim i}} B_j^c  = E \cap F\]
+	we think of $E$ as the influence of the "neighbors" in the
+	dependence graph and $F$ as the influcence of the non-neighbors.
+	We can now write 
+	\begin{equation}
+		\label{eq::lll}
+		\Pr(B_i \mid E \cap F) = \frac{\Pr(B_i \cap E \cap F)}{\Pr(E \cap F)} = 
+		\frac{\Pr(E \mid B_i \cap F)\Pr(B_i \mid F)\Pr(F)}{\Pr(E \mid F) \Pr(F)} \leq 
+		\frac{x_i\prod_{j \sim i}(1-x_j)}{\Pr(E \mid F)}
+	\end{equation}
+	If we bound $\Pr(E \mid F) \leq 1$ and use the independence to say $\Pr(B_i \mid F)$ is less than what given by the hypothesis.
+	Now what is $\Pr(E \mid F)$? Opening it up we get (we abuse the notation and say that $j \in E$ if $E$ is taking the intersection with $B_j^c$)
+	\[
+		\Pr(E \mid F) = \prod_{\substack{j \in E}} \Pr\bigg(B_j^c \mid \bigcap_{\substack{k < j\\k \in E}}B_k^c \cap F\bigg) \geq \prod_{j \in E} (1-x_j)
+	\]
+	by the induction hypothesis. Substituting in the inequality [\ref{eq::lll}] we prove the claim.
+\end{proof}
+
+\begin{remark}
+	We cannot take the graph to be degenerate in the symmetric case as we need the I.H. to compute $\Pr(E \mid F)$.
+\end{remark}
+
+\begin{corollary} [Symmetric LLL]
+	Suppose  that in the hypothesis of [\ref{trm:lll}], we had $\max_i |N(B_i)| \leq d$. That is the dependence graph $D$ 
+	is such that $\Delta(D) \leq d$. Suppose moreover that for all $i$,  
+	\[
+		\Pr(B_i) \leq \frac{1}{e(d+1)}
+	\]
+	then $\Pr(\bigcap_{i \leq m} B_i^c) > 0$.
+\end{corollary}
+\begin{proof}
+	Take $x_i = 1/(d+1)$, and note that 
+	\[
+		\Pr(B_i) \leq \frac{1}{e(d+1)} \leq \frac{1}{(d+1)}\bigg(1 - \frac{1}{d+1}\bigg)^d \leq x_i \prod_{j \sim i}(1 - x_j).
+	\]
+\end{proof}
+
+The LLL is a pearl that should always be within our hearts. But there is a even simpler theorem which we must never forsake.
+
+\begin{theorem} [Dependent Random Choice]
+	Let $k, s\in \N$ and $G$ be any graph with $n$ vtxs. For any $t \in \N$, there exists a set $U \subset V(G)$ with size greater or equal to
+	\[
+		\frac{(2e(G))^t}{n^{2t - 1}} - \binom{n}{k}\bigg(\frac{s}{n}\bigg)^t
+	\]
+	such that every set of $k$ vertices of $U$ has $s$ neighbors in common.
+\end{theorem}
+\begin{proof}
+	Choose independently and uniformly $t$ vertices from $V(G)$ with possible repetition. Call this random set $T$ and
+	let $X = |N(T)|$. Let $Y$ be the number of $k$-sets in $N(T)$ with less than $s$ common neighbors. Let's compute $\Ex X$ and $\Ex Y$. We may write
+	\[
+		X = \sum_{v \in V(G)} \id[v \in N(T)]
+	\]
+	So $\Ex X = \sum_{v \in V(G)} \Pr(v \in N(T))$. Now if $v \in N(T)$, then every vertex in $T$ belongs to $N(v)$, as we chose u.i.i.d we find
+	\[
+		\sum_{v \in V(G)} \Pr(v \in N(T)) = \sum_{v \in V(G)} \Pr(T \subset N(v)) = \sum_{v \in V(G)} \bigg(\frac{d(v)}{n}\bigg)^t \geq n \bigg(\frac{2e(G)}{n^2}\bigg)^t
+	\]
+	where the last inequality follows by Jensen.
+
+	Now what about $Y$? To ease notation, let (only this once) $(V(G))_{[k]} = \binom{V(G)}{k}$, then
+	\[
+		Y = \sum_{\substack{S \in (V(G))_{[k]}\\|N(S)| < s}} \id[S \subset N(T)] = \sum_{\substack{S \in (V(G))_{[k]}\\|N(S)| < s}} \id[T \subset N(S)]  
+	\]
+	taking expectation and upperbounding by all $k$-sets, we get
+	\[
+		E[Y] \leq \binom{n}{k} \bigg(\frac{s}{n}\bigg)^t.
+	\]
+
+	We have that
+	\[
+		\Ex [X - Y] \geq \frac{(2e(G))^t}{n^{2t - 1}} - \binom{n}{k}\bigg(\frac{s}{n}\bigg)^t = a
+	\]
+	so there exists an instance of $T$, such that by removing a vertex from each bad $k$-set in $N(T)$, we are still 
+	left with $a$ vertices.
+\end{proof}
