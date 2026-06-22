@@ -56,9 +56,9 @@ I just took these from my notes in random matrices.
 		\Ex(F)))\exp(t\Ex F(X))| X_1, \dots X_{n-1}]
 	\]
 	applying (\ref{lemma:hoef:eq2}) to the first product, (here we are
-	conditioning on $X_1, \dots X_n$)
+	conditioning on $X_1, \dots X_{n_1}$)
 	\[
-		\Ex[\exp(t(F(X) - \Ex(F)))\exp(t\Ex F(X))| - ] \leq
+		\Ex[\exp(t(F(X) - \Ex_{X_n}F(X)))\exp(t\Ex F(X))| - ] \leq
 		\exp(O(t^2c_n^2))\Ex[\exp(t\Ex F(X)) | -]
 	\]
 	and we can iteratively apply the theorem to the new coordinate-wise
@@ -176,5 +176,50 @@ I just took these from my notes in random matrices.
 	\]
 	Now, by \ref{lemma:hoeff}, we have that $\Ex(e^{tX_n} | X_1, \dots,
 	X_{n-1}) \leq e^{O(t^2)}$, so by iterating we get the result.
-
 \end{proof}
+
+\begin{theorem} [Subexponential Bernstein inequality]
+	\label{trm:bernstein_ineq}
+	Let $X_1, \dots, X_n$ be independent, mean $0$, subexponential r.v's.
+ Then, for every $t \geq 0$, we have
+	\[
+		\Pr\bigg\{\bigg|\sum_{i=1}^n X_i\bigg| \geq t\bigg\} \leq
+		2\exp\bigg(-c\min\bigg(\frac{t^2}{\sum_{j = 1}^{n}
+		||X_j||_{\psi_1}^2},\frac{t}{\max_j {||X_j}||_{\psi_1}}\bigg)\bigg)
+	\]
+	where $c$ is an absolute constant.
+\end{theorem}
+\begin{proof}
+	The proof is again only using the exponential Markov method, but as
+	in the proof of Chernoff, we have some limiting on $\lambda$ as the
+	variables are only subexponential.
+\end{proof}
+
+\section{Poisson Paradigm}
+
+\begin{theorem}[Janson Inequalities]
+	\label{trm:janson_ineq}
+	Let $A_1, A_2 \dots A_t \subset [N]$ be a family of sets. Consider the events
+	$B_j = \{A_j \subset [N]_p\}$. Then
+	\begin{equation}
+		\Pr\bigg( \bigcap_{j=1}^t B_j^c\bigg) \leq
+		\begin{cases}
+			\exp(-\mu + \Delta/2)\\
+			\exp(-\mu^2/2\Delta) & \text{ if } \mu \leq \Delta
+		\end{cases}
+	\end{equation}
+	where
+	\[\mu = \sum_{i =1 }^{t} \Pr(B_j)\]
+	and
+	\[
+		\Delta = \sum_{i \sim j}\Pr(B_i \cap B_j)
+	\]
+	(here the sum being over ordered pairs).
+\end{theorem}
+
+\begin{remark}
+	We also have the trivial lowerbound
+	\[
+		\Pr(\bigcap_{j=1}^{t} B_j^c) \geq \prod_{j = 1}^t \Pr(B_j^c).	
+	\]
+\end{remark}

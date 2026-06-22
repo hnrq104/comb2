@@ -1,22 +1,13 @@
 \documentclass[11pt]{article}
 
 \usepackage{amsmath,amssymb,amsthm,bbm,mathtools,calc,verbatim,
-	enumitem,tikz,url,mathrsfs,cite,fullpage,hyperref,bm,
-marvosym}
-\usepackage{dsfont}
-\usepackage{float}
-\usepackage{subcaption}
-%\usepackage{setspace}
+	enumitem,tikz,url,mathrsfs,cite,fullpage,hyperref,bm, marvosym,
+dsfont, float, subcaption}
 \renewcommand{\baselinestretch}{1.1}
 \addtolength{\footskip}{\baselineskip/2}
 
-%\usepackage{showlabels}
 \usepackage{comment}
 \usepackage[english]{babel}
-
-%No caso do livro o Tu, para decoplar seções de capitulos usamos:
-% \usepackage{chngcntr}
-% \counterwithout{section}{chapter}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}[section]
@@ -75,7 +66,7 @@ marvosym}
 \def\Pr{\mathbb{P}}
 \def\cS{\mathcal{S}}
 \newcommand\Ex{\mathbb{E}}
-\newcommand\id{\hbox{$1\mkern-6.5mu1$}}
+\newcommand\id{\bm{1}}
 \newcommand\lcm{\operatorname{lcm}}
 \newcommand\eps{\varepsilon}
 \newcommand{\floor}[1]{\lfloor #1 \rfloor}
@@ -180,6 +171,8 @@ O código fonte desse arquivo pode ser encontrado em
 \input{topics/extremal_set_theory.tex}
 \input{topics/ramsey_theory.tex}
 \input{topics/containers.tex}
+\input{topics/random_graph.tex}
+\input{topics/offtopic_results.tex}
 \appendix
 \input{topics/tailbounds.tex}
 

@@ -123,11 +123,11 @@ applications of linear algebra.
 	we have that $|A \cap B| \in L$.
 \end{definition}
 
-\begin{theorem}
+\begin{theorem}(Modular Frankl-Wilson)
 	\label{trm:mfkw}
 	Let $\mathcal{A} \subset \mathcal{P}(n)$ and let $L\subseteq \Z_p$
 	with $|L| = s$. If $\mathcal{A}$ is $L$-intersecting
-	and for every $A \in \mathcal{A}$, $A \pmod p \not \in L$, then
+	and for every $A \in \mathcal{A}$, $|A| \pmod p \not \in L$, then
 	\[
 		|\mathcal{A}| \leq \sum_{i=0}^s \binom{n}{i}
 	\]
@@ -141,7 +141,7 @@ applications of linear algebra.
 	in $\mathbb{F}_p[x_1, x_2 \dots x_n]$ and calculate the dimension.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}(Frankl-Wilson)
 	\label{trm:fkw_size_k}
 	Let $\mathcal{A} \subset \binom{n}{k}$ be $L$ intersecting, then
 	$|\mathcal{A}| \leq \binom{n}{\leq|L|}$.

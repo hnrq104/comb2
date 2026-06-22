@@ -1,0 +1,24 @@
+\section{Some tangential topics}
+
+\subsection{Discrepancy}
+This might become a section if we see more of it next semester.
+Discrepancy calculates how much polarization we
+must have in the edges of our graph. From now on, let $\mathcal{H}$
+be a hypergraph.
+
+\begin{definition}
+	Given $\mathcal{H}$ and $c : V(\mathcal{H}) \to \{-1,1\}$, we define
+	\[
+		\text{disc}(\mathcal{H},c) = \max_{S \in E(\mathcal{H})}
+		\bigg|\sum_{u \in S} c(u)\bigg|.
+	\]
+	We also define
+	\[
+		\text{disc}(\mathcal{H}) = \min_{c} \text{disc}(\mathcal{H},c).
+	\]
+\end{definition}
+
+\begin{theorem}
+	(Beck-Fiala) Let $\mathcal{H}$ be a hypergraph with
+	$\Delta(\mathcal{H}) \leq d$, then $\text{disc}(\mathcal{H}) \leq 2d - 1$.
+\end{theorem}

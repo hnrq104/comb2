@@ -1,0 +1,69 @@
+\section{Random Graph Theory}
+
+The following is a very nice theorem by Béla!
+\begin{theorem}
+	\label{trm:chromatic_gnhalf}
+	[Béla 87]
+	\begin{equation}
+		\chi(G(n,1/2)) = (1/2 + o(1))\frac{n}{\log_2(n)}
+	\end{equation}
+\end{theorem}
+The lowerbound follows easily from the fact that $\alpha(G(n,1/2))
+\leq 2\log_2(n)$ whp and that
+for any $n$-vtx graph $G$, $\chi(G) \geq n/\alpha(G)$.
+
+The upperbound is a very nice application of Janson's
+[\ref{trm:janson_ineq}]. We will just grab independent
+sets of size $(2 - \eps)\log_2(n)$ while we can!.
+
+\begin{lemma}
+	For $\eps > 0$, with very high probability, every  set of vertices
+	of $G(n,1/2)$ with size $m \geq n/(\log n)^2$,
+	has an independent set of size $(2 - \eps)\log_2{n}$.
+\end{lemma}
+\begin{proof}
+	We will do an union bound over $m$ sets. For that, set $k =
+	(2-\eps)$ and fix a specific set $M$ of size $m$, note that
+	\[
+		\Pr(\alpha(G(n,1/2)[M]) < k) = \Pr(\alpha(G(m,1/2) < k)).
+	\]
+	Now, what is $\Pr(\alpha(G(m,1/2) < k))$? Let $S \in \binom{[m]}{k}$
+	and denote $B_S = \{S \text{ is indep.}\}$.
+	It is clear now that,
+	\[
+		\Pr(\alpha(G(m,1/2)) < k) = \Pr\bigg(\bigcap_S B_S^c\bigg)
+	\]
+	and we are in the hypothesis of Janson. Note that
+	\[
+		\mu = \sum_{S \in \binom{[m]}{k}} \Pr(S \text{ is indep.}) =
+		\binom{m}{k}\bigg(\frac{1}{2}\bigg)^{\binom{k}{2}}
+		\geq \bigg(\frac{m}{k}2^{-{k}/2}\bigg)^k \gg (n^{\eps})^{\log n}
+	\]
+	and
+	\[
+		\Delta = \sum_{\substack{S,T \in \binom{[m]}{k}\\S \cap T > 2}}
+		\Pr(S\cup T \text{ indep.})
+		= \sum_{l = 2}^{k-1}\binom{m}{k}\binom{k}{l}\binom{m - k}{k -
+		l}\bigg(\frac{1}{2}\bigg)^{2\binom{k}{2} - \binom{l}{2}}.
+	\]
+	Now it's a bit ugly to see but this thing here is convex and the sum
+	is majorized by the last two elements. We get
+	\begin{align*}
+		\Delta &\simeq \binom{m}{k}\binom{k}{2}\binom{m - k}{k -
+		2}\bigg(\frac{1}{2}\bigg)^{2\binom{k}{2} - 1} + \binom{m}{k}k (m -
+		k)\bigg(\frac{1}{2}\bigg)^{\binom{k}{2}}\\
+		&\simeq 2\binom{m}{k}^2 \frac{k^4}{m^2} 2^{-2\binom{k}{2}} + km\mu
+		=  \frac{2k^4}{m^2}\mu^2 + km\mu \leq \frac{3k^4}{n^2}\mu^2.
+	\end{align*}
+	By the second part of Janson, we get that
+	\[
+		\Pr\bigg(\bigcap_S B_S^c\bigg) \leq \exp(- cn^2/k^4) \lll 2^{-n}
+	\]
+	So we can easily do a union bound, over all sets.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{trm:chromatic_gnhalf}]
+	Just use the previous lemma and remove independent sets untill you
+	have less than $n/(\log n)^2$ vertices left.
+At that point, do a trivial coloring :).
+\end{proof}

@@ -100,6 +100,7 @@ So let's see what this alteration may give us.
 	\]
 \end{proof}
 
+\subsubsection{Krivilevich lowerbound}
 Now for a better (and astounishingly beautiful) bound.
 \begin{theorem}
 	\label{trm:krivilevich_r3k}
@@ -225,6 +226,7 @@ won't remove too many edges from any set $S$ with size $C\log(n)/p$.
 	\]
 \end{proof}
 
+\subsubsection{AKSz Lemma}
 Now let's find an upperbound of the right order.
 \begin{theorem}
 	\label{trm:r3k_aks}
@@ -619,10 +621,10 @@ at most $p = n^{-1/3}$).
 
 The motivation of this section will be the following theorem.
 \begin{theorem}
+	\label{trm:ramsey_bipartite_bounded_degree}
 	Let $H$ be a bipartite graph with $k$ vertices and $\Delta(H) \leq d$. Then
 	$r(H) \leq 2^{d + 6} k$.
 \end{theorem}
-
 
 \subsubsection{Old Friends}
 To uncover it, we will need to remember some old forgotten friends.
@@ -673,64 +675,88 @@ The LLL and the DRC.
 	B_j^c \cap \bigcap_{\substack{j \in S\\j \not \sim i}} B_j^c  = E \cap F\]
 	we think of $E$ as the influence of the "neighbors" in the
 	dependence graph and $F$ as the influcence of the non-neighbors.
-	We can now write 
+	We can now write
 	\begin{equation}
 		\label{eq::lll}
-		\Pr(B_i \mid E \cap F) = \frac{\Pr(B_i \cap E \cap F)}{\Pr(E \cap F)} = 
-		\frac{\Pr(E \mid B_i \cap F)\Pr(B_i \mid F)\Pr(F)}{\Pr(E \mid F) \Pr(F)} \leq 
+		\Pr(B_i \mid E \cap F) = \frac{\Pr(B_i \cap E \cap F)}{\Pr(E \cap F)} =
+		\frac{\Pr(E \mid B_i \cap F)\Pr(B_i \mid F)\Pr(F)}{\Pr(E \mid F) \Pr(F)} \leq
 		\frac{x_i\prod_{j \sim i}(1-x_j)}{\Pr(E \mid F)}
 	\end{equation}
-	If we bound $\Pr(E \mid F) \leq 1$ and use the independence to say $\Pr(B_i \mid F)$ is less than what given by the hypothesis.
-	Now what is $\Pr(E \mid F)$? Opening it up we get (we abuse the notation and say that $j \in E$ if $E$ is taking the intersection with $B_j^c$)
+	If we bound $\Pr(E \mid F) \leq 1$ and use the independence to say
+	$\Pr(B_i \mid F)$ is less than what given by the hypothesis.
+	Now what is $\Pr(E \mid F)$? Opening it up we get (we abuse the
+	notation and say that $j \in E$ if $E$ is taking the intersection with $B_j^c$)
 	\[
-		\Pr(E \mid F) = \prod_{\substack{j \in E}} \Pr\bigg(B_j^c \mid \bigcap_{\substack{k < j\\k \in E}}B_k^c \cap F\bigg) \geq \prod_{j \in E} (1-x_j)
+		\Pr(E \mid F) = \prod_{\substack{j \in E}} \Pr\bigg(B_j^c \mid
+		\bigcap_{\substack{k < j\\k \in E}}B_k^c \cap F\bigg) \geq \prod_{j
+		\in E} (1-x_j)
 	\]
-	by the induction hypothesis. Substituting in the inequality [\ref{eq::lll}] we prove the claim.
+	by the induction hypothesis. Substituting in the inequality
+	[\ref{eq::lll}] we prove the claim.
 \end{proof}
 
 \begin{remark}
-	We cannot take the graph to be degenerate in the symmetric case as we need the I.H. to compute $\Pr(E \mid F)$.
+	We cannot take the graph to be degenerate in the symmetric case as
+	we need the I.H. to compute $\Pr(E \mid F)$.
+\end{remark}
+
+\begin{remark}
+	In the hypothesis, we didn't use full mutual independence, only that
+	$\Pr(B_i \mid F) \leq \Pr(B_i)$. Using only this requirement,
+	we call it \it{Lopsided LLL}.
 \end{remark}
 
 \begin{corollary} [Symmetric LLL]
-	Suppose  that in the hypothesis of [\ref{trm:lll}], we had $\max_i |N(B_i)| \leq d$. That is the dependence graph $D$ 
-	is such that $\Delta(D) \leq d$. Suppose moreover that for all $i$,  
+	Suppose  that in the hypothesis of [\ref{trm:lll}], we had $\max_i
+	|N(B_i)| \leq d$. That is the dependence graph $D$
+	is such that $\Delta(D) \leq d$. Suppose moreover that for all $i$,
 	\[
 		\Pr(B_i) \leq \frac{1}{e(d+1)}
 	\]
 	then $\Pr(\bigcap_{i \leq m} B_i^c) > 0$.
 \end{corollary}
 \begin{proof}
-	Take $x_i = 1/(d+1)$, and note that 
+	Take $x_i = 1/(d+1)$, and note that
 	\[
-		\Pr(B_i) \leq \frac{1}{e(d+1)} \leq \frac{1}{(d+1)}\bigg(1 - \frac{1}{d+1}\bigg)^d \leq x_i \prod_{j \sim i}(1 - x_j).
+		\Pr(B_i) \leq \frac{1}{e(d+1)} \leq \frac{1}{(d+1)}\bigg(1 -
+		\frac{1}{d+1}\bigg)^d \leq x_i \prod_{j \sim i}(1 - x_j).
 	\]
 \end{proof}
 
-The LLL is a pearl that should always be within our hearts. But there is a even simpler theorem which we must never forsake.
+The LLL is a pearl that should always be within our hearts. But there
+is a even simpler theorem which we must never forsake.
 
 \begin{theorem} [Dependent Random Choice]
-	Let $k, s\in \N$ and $G$ be any graph with $n$ vtxs. For any $t \in \N$, there exists a set $U \subset V(G)$ with size greater or equal to
+	\label{trm:drc}
+	Let $k, s\in \N$ and $G$ be any graph with $n$ vtxs. For any $t \in
+	\N$, there exists a set $U \subset V(G)$ with size greater or equal to
 	\[
 		\frac{(2e(G))^t}{n^{2t - 1}} - \binom{n}{k}\bigg(\frac{s}{n}\bigg)^t
 	\]
 	such that every set of $k$ vertices of $U$ has $s$ neighbors in common.
 \end{theorem}
 \begin{proof}
-	Choose independently and uniformly $t$ vertices from $V(G)$ with possible repetition. Call this random set $T$ and
-	let $X = |N(T)|$. Let $Y$ be the number of $k$-sets in $N(T)$ with less than $s$ common neighbors. Let's compute $\Ex X$ and $\Ex Y$. We may write
+	Choose independently and uniformly $t$ vertices from $V(G)$ with
+	possible repetition. Call this random set $T$ and
+	let $X = |N(T)|$. Let $Y$ be the number of $k$-sets in $N(T)$ with
+	less than $s$ common neighbors. Let's compute $\Ex X$ and $\Ex Y$. We may write
 	\[
 		X = \sum_{v \in V(G)} \id[v \in N(T)]
 	\]
-	So $\Ex X = \sum_{v \in V(G)} \Pr(v \in N(T))$. Now if $v \in N(T)$, then every vertex in $T$ belongs to $N(v)$, as we chose u.i.i.d we find
+	So $\Ex X = \sum_{v \in V(G)} \Pr(v \in N(T))$. Now if $v \in N(T)$,
+	then every vertex in $T$ belongs to $N(v)$, as we chose u.i.i.d we find
 	\[
-		\sum_{v \in V(G)} \Pr(v \in N(T)) = \sum_{v \in V(G)} \Pr(T \subset N(v)) = \sum_{v \in V(G)} \bigg(\frac{d(v)}{n}\bigg)^t \geq n \bigg(\frac{2e(G)}{n^2}\bigg)^t
+		\sum_{v \in V(G)} \Pr(v \in N(T)) = \sum_{v \in V(G)} \Pr(T \subset
+		N(v)) = \sum_{v \in V(G)} \bigg(\frac{d(v)}{n}\bigg)^t \geq n
+		\bigg(\frac{2e(G)}{n^2}\bigg)^t
 	\]
 	where the last inequality follows by Jensen.
 
-	Now what about $Y$? To ease notation, let (only this once) $(V(G))_{[k]} = \binom{V(G)}{k}$, then
+	Now what about $Y$? To ease notation, let (only this once)
+	$(V(G))_{[k]} = \binom{V(G)}{k}$, then
 	\[
-		Y = \sum_{\substack{S \in (V(G))_{[k]}\\|N(S)| < s}} \id[S \subset N(T)] = \sum_{\substack{S \in (V(G))_{[k]}\\|N(S)| < s}} \id[T \subset N(S)]  
+		Y = \sum_{\substack{S \in (V(G))_{[k]}\\|N(S)| < s}} \id[S \subset
+		N(T)] = \sum_{\substack{S \in (V(G))_{[k]}\\|N(S)| < s}} \id[T \subset N(S)]
 	\]
 	taking expectation and upperbounding by all $k$-sets, we get
 	\[
@@ -738,9 +764,199 @@ The LLL is a pearl that should always be within our hearts. But there is a even 
 	\]
 
 	We have that
-	\[
-		\Ex [X - Y] \geq \frac{(2e(G))^t}{n^{2t - 1}} - \binom{n}{k}\bigg(\frac{s}{n}\bigg)^t = a
-	\]
-	so there exists an instance of $T$, such that by removing a vertex from each bad $k$-set in $N(T)$, we are still 
+	\begin{equation}
+		\label{eq:drc_expec}
+		\Ex [X - Y] \geq \frac{(2e(G))^t}{n^{2t - 1}} -
+		\binom{n}{k}\bigg(\frac{s}{n}\bigg)^t = a
+	\end{equation}
+
+	so there exists an instance of $T$, such that by removing a vertex
+	from each bad $k$-set in $N(T)$, we are still
 	left with $a$ vertices.
+\end{proof}
+
+\subsubsection{Applications}
+Let's use the LLL [\ref{trm:lll}] to prove lowerbounds on Ramsey.
+
+Erdös showed that, in his majestic use of the probabilistic method,
+the following theorem.
+
+\begin{theorem}
+	Consider a random coloring of the edges of $K_N$ in red and blue,
+	each chosen independently and uniformly. If $X$ is the number
+	of monochromatic cliques of size $k$ and $\Ex X < 1$, then $R(k) >
+	N$. In particular, $R(k) \gtrsim 2^{k/2}$.
+\end{theorem}
+\begin{proof}
+	The first statement is a proof in itself, maybe the most beautiful
+	proof of all. For the second we only need to do the computation.
+	We know
+	\[\Ex X = \binom{n}{k}2^{-\binom{k}{2} + 1}  \leq
+	\bigg(\frac{en}{k}2^{-k/2}\bigg)^k.\]
+	(We lose a bit when doing the binom approximation and we use it). By
+	choosing $n$ approprially, this yields
+	\[
+		R(k) > \frac{k}{e}2^{k/2}.
+	\]
+\end{proof}
+
+Spencer got a crazy improvement, unbeaten by the ages (50 years
+already), using the LLL.
+\begin{theorem} (Spencer 77)
+	\[
+		R(k) > \frac{2k}{e}2^{k/2}.
+	\]
+\end{theorem}
+
+He also managed to prove Erdös lowerbound on $R(3,k)$ in a much
+simpler way - way before Krivilevich's proof [see Theorem
+\ref{trm:krivilevich_r3k}].
+
+\subsubsection{Proof of Conlon-Fox-Sudakov}
+
+We will now try to prove Theorem
+[\ref{trm:ramsey_bipartite_bounded_degree}] using a twisted
+combination of our old friends.
+It's a very nice proof.
+
+The first method that comes to mind when trying to find bipartite
+graphs is DRC, but it alone won't be strong enough to give us the
+upperbound we want. So let's do something a bit better.
+
+\begin{lemma}
+	\label{lemma:twisted_drc}
+	Let $G$ be a graph on $n$ vtxs and suppose $e(G) \geq c\binom{n}{2}$
+	for some $c \leq 1/2$.
+	Suppose moreover that $d,k \in \N$ are such that
+	\[
+		2d \leq k \leq c^{d+2}n.
+	\]
+	Then, there exists a set $A \subset V(G)$ satisfying
+	\begin{enumerate}[label=(\alph*)]
+		\item $|A| \geq k$
+		\item At most $c^d\binom{|A|}{d}$ $d$-subsets of $A$ have less than
+			$k$ neighbors in common.
+	\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+	The proof of this will be exactly the same as the proof of DRC
+	[\ref{trm:drc}] but we will take expectation over a different
+	expression [\ref{eq:drc_expec}].
+	Let $T = (u_1, \dots u_t)$ be a random uniformly independently
+	chosen set of vertices. As before we set $X = |N(T)|$,
+	and $Y$ the number of bad $d$-sets. Again we have that
+	\[
+		\Ex X \geq c^tn \quad \text{and} \quad \Ex Y \leq
+		\binom{n}{d}\bigg(\frac{k}{n}\bigg)^t
+	\]
+	Crucially, we want to show that with positive probability $X \geq k$
+	and $Y \leq c^d\binom{|X|}{d}$.
+	So we will take the mean of a magical r.v with positive expectation.
+	Consider $Z$ given by
+	\[
+		Z = X^t - \frac{(\Ex X)^t}{2} - \frac{(\Ex X)^t}{2}\frac{Y}{\Ex Y}.
+	\]
+	Note that as $X,Y \geq 0$, we know that $\Ex X^t \geq (\Ex X)^t$, so
+	\[
+		\Ex Z = \Ex X^t - \frac{\Ex[X]^t}{2} - \frac{\Ex[X]^t}{2} \geq 0.
+	\]
+	As both $(\Ex X)^t/2$ and $(\Ex X)^tY/(2\Ex Y)$ are positive, it
+	follows that with positive probability
+	$X^t \geq (\Ex X)^t/2$ and, most importantly,
+	\[
+		X^t \geq \frac{(\Ex X)^t}{2}\frac{Y}{\Ex Y}.
+	\]
+	So we found that with probability $> 0$,
+	\[
+		Y \leq \binom{n}{d}\bigg(\frac{k}{n}\bigg)^t\frac{2X^t}{c^{t^2}n^t}
+		\leq \binom{n}{d}\frac{2c^{t(d+2)}X^t}{c^{t^2}n^t}
+	\]
+	taking $t = d$, we get
+	\[
+		Y \leq \frac{c^{2d}X^d}{d!} \leq c^d \binom{X}{d}
+	\]
+	if $d$ is big enough.
+	The other bound follows easily,
+	\[
+		X \geq \frac{\Ex X}{2^{1/d}} \geq \frac{c^dn}{2^{1/d}} \geq k.
+	\]
+\end{proof}
+
+With this new lemma, let's prove a weaker version of
+[\ref{trm:ramsey_bipartite_bounded_degree}] (maybe I can see later
+how the stronger one follows.)
+\begin{theorem}
+	Let $H$ be a $d$-regular bipartite graph on $k$ vtxs. Then
+	\[
+		r(H) \leq 2^{d+5}k.
+	\]
+\end{theorem}
+\begin{proof}
+	Let $n \geq 2^{d+5}k$ and $G$ a graph on $n$ vtxs with $e(G) \geq
+	\frac{1}{2}\binom{n}{2}$ - this is a density proof, actually we find
+	$H$ in the densest color.
+	Suppose $H = A \sqcup B$ and apply lemma [\ref{lemma:twisted_drc}]
+	to $G$ with $c = 1/2$. We find a set $A^*$ satisfying the
+	conclusions of the lemma.
+	We will use the LLL [\ref{trm:lll}] to randomly embed $A$ into $A^*$
+	in such a way that for every $b \in B$, $N(b)$ is sent to a good set in $A^*$.
+	Because of this, we can trivially find a copy of $H$ in $G$.
+
+	To really use the LLL, we cannot actually embed it ramdomly, this
+	would kill all the mutual independence of the events. What we actually do is
+	a random assignment.
+
+	Let $f:A \to A^*$ be a random map. We will define two types of bad
+	events, collisions and bad sets. For each $u,v \in A$,
+	define the events
+	\[
+		F_{u,v} = \{f(u) = f(v)\}
+	\]
+	and for each $b$ in $B$, define
+	\[
+		E_b = \{f(N(b)) \text{ is a bad $d$-set}\}.
+	\]
+	Amazingly here, if non of the $F_{u,v}$ occur, no neighborhood is
+	mapped to less than $d$ elements,
+	so we don't even need to care that $f(N(b))$ has the right size. Now
+	for the dependence graph, by how we chose our probability
+	space, we have that disjoint events (on the vertex of $H$) are non-edges:
+	\begin{itemize}
+		\item $F_{u,v} \sim F_{u',v'}$ if $\{u,v\} \cap \{u',v'\} \neq \varnothing$.
+		\item $F_{u,v} \sim E_b$ if $\{u,v\} \cap N(b) \neq \varnothing$.
+		\item $E_b \sim E_{b'}$ if $N(b) \cap N(b') \neq \varnothing$.
+	\end{itemize}
+	We need to find $x_F$ and $x_E$ satisfying the hypothesis of
+	\ref{trm:lll}. We know that
+	\[
+		\Pr(F_{u,v}) = \frac{1}{|A^*|} \leq \frac{1}{k}
+	\]
+	and
+	\[
+		\Pr(E_b) \leq c^d.
+	\]
+	By counting the neighborhoods of the events, we need to satisfy
+	\begin{align*}
+		\Pr(E_b) \leq c^d &\leq x_E (1 - x_E)^{d^2}(1 - x_F)^{d|A|}\\
+		\Pr(F_{u,v}) \leq \frac{1}{|A^*|} &\leq x_F (1-x_E)^{2d}(1 - x_F)^{2|A|}
+	\end{align*}
+	so we really should check which is biting us by trying both $x_E$
+	close to $\Pr(E_b)$ or $x_F$ close to $\Pr(F_{u,v})$.
+	In this case, the collisions are biting. Let $x_F = 2/|A^*|$, then
+	(we might have to take $A^*$ bigger here this is why we get a $2^{d
+	+ 6}$, we do $|A^*| = 8|A|$)
+	\[
+		\frac{1}{|A^*|} \leq \frac{2}{|A^*|}(1 - x_E)^{2d}e^{-2{|A|/|A^*|}},
+	\]
+	So we need
+	\[
+		(1 - x_E)^{2d} \geq \frac{1}{2e^{1/8}}.
+	\]
+	From the first inequality we also get
+	\[
+		c^d \leq x_E(1 - x_E)^{d^2}e^{-d|A|/|A|^*} \leq x_E e^{-x_E d^2}e^{-d/8}
+	\]
+	so taking $x_E = (ce^{1/8})^d$ we get the result when $d$ tends to infinity.
+
 \end{proof}
