@@ -230,9 +230,9 @@ properly (t+1)-colored our graph).
 	Now that the strategy is clear, we will choose this $C_i$ randomly
 	(but differently depending on $\delta$). If $\delta \leq 1/5$,
 	we will use the LLL [\ref{trm:lll}], if $\delta > 1/5$ we will do a
-	clever counting argument.
+	clever counting argument. Let's focus on the $\delta \leq 1/5$ case.
 
-	Suppose $\delta < 1/5$, and again, for each $i$ choose $C_i \subset
+	For each $i$ choose $C_i \subset
 	\binom{[t]}{2r}$ uniformly and randomly. For each edge $e = \{w_1,
 	w_2\}$ in $H$, with $w_1 \in W_{i_1}$ and $w_2 \in W_{i_2}$,
 	define the bad event $B_e$ to be $\{f'(w_1) \in C_{i_1} \text{ and }
@@ -271,8 +271,6 @@ properly (t+1)-colored our graph).
 	\[
 		\Pr(B_e) \cdot d(B_e) = o(1)
 	\]
-	and by the LLL [\ref{trm:lll}] we get our result.
-
-	(I don't know if I will be able to present this) Now for the less
-	intuitive part, if $\delta > 1/5$.
+	and by the LLL [\ref{trm:lll}] we get our result. Our proof will stop here, because for $\delta > 1/5$,
+	we will actually need the result of Luczak stating that we only need to care about $\delta < 3/8$.
 \end{proof}
