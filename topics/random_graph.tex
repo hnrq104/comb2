@@ -1,15 +1,15 @@
 \section{Random Graph Theory}
 
+\subsection{Chromatic number of Gnp}
 The following is a very nice theorem by Béla!
-\begin{theorem}
+\begin{theorem} [Béla 87]
 	\label{trm:chromatic_gnhalf}
-	[Béla 87]
 	\begin{equation}
 		\chi(G(n,1/2)) = (1/2 + o(1))\frac{n}{\log_2(n)}
 	\end{equation}
 \end{theorem}
 The lowerbound follows easily from the fact that $\alpha(G(n,1/2))
-\leq 2\log_2(n)$ whp and that
+\leq 2\log_2(n)$ whp [\ref{lemma:independence_number_gnp}] and that
 for any $n$-vtx graph $G$, $\chi(G) \geq n/\alpha(G)$.
 
 The upperbound is a very nice application of Janson's
@@ -62,8 +62,217 @@ sets of size $(2 - \eps)\log_2(n)$ while we can!.
 	So we can easily do a union bound, over all sets.
 \end{proof}
 
-\begin{proof}[Proof of Theorem \ref{trm:chromatic_gnhalf}]
+\begin{proof}
+	[Proof of Theorem \ref{trm:chromatic_gnhalf}]
 	Just use the previous lemma and remove independent sets untill you
-	have less than $n/(\log n)^2$ vertices left.
-At that point, do a trivial coloring :).
+	have less than $n/(\log n)^2$ vertices left. At that point, do a
+	trivial coloring.
+\end{proof}
+
+\subsubsection{Concentration of the Chromatic number}
+We will look into a very weird type of result. We will show that with
+high probability, if $p$ is in the right range,
+$\chi(G(n,p))$ is super concentrated. Our main objective is to prove
+the following
+\begin{theorem}[Alon-Krivilevich 95]
+	\label{trm:chromatic_concentration_alon_krivilevich}
+	Let $\delta > 0$, $p = n^{-1/2 - \delta}$ and $G \sim G(n,p)$ then
+	there exists $t = t(n)$ s.t w.h.p
+	\[
+		\chi(G) \in \{t, t + 1\}.	
+	\]
+\end{theorem}
+\begin{remark}
+	This is a beautiful theorem, although an extremely weird one, since
+	we don't even know the value of $t$.
+\end{remark}
+From now on, we will always think of $G \sim G(n,p)$, to diminish
+notation clustering.
+The main tool for this kind of result is Luczak's lemma. It showed up
+in the first proofs of statements of this kind.
+
+\begin{lemma}[Luczak]
+	\label{lemma:luczak_martingale}
+	For any $\eps > 0$, let $t = t(n,p,\eps)$ be the least integer s.t
+	\[
+		\Pr(\chi(G) \leq t) \geq \eps.
+	\]
+	Let $X$ be a r.v that counts the minimal number of vertices to be
+	removed from $G$ to make it $t$-colorable. Then, if $\lambda$ is such that
+	$\eps = e^{-\lambda^2/2}$, we have
+	\[
+		\Pr(X > 2\lambda \sqrt{n}) \leq \eps.
+	\]
+\end{lemma}
+\begin{proof}
+	We will do a clever martingale argument (note crucially here that we
+	don't really know that $t$ is). $X$ satisfies the Lipchitz condition
+	for the vertex exposure martingale, so that it is typically
+	concentrated. More precisely,
+	\begin{align}
+		\Pr(X \leq \Ex X - \lambda \sqrt{n} ) < e^{-\lambda^2/2} \quad
+		\text{and} \quad \Pr(X \geq \Ex X + \lambda \sqrt{n}) < e^{-\lambda^2/2}.
+	\end{align}
+	In particular, by the definition of $X$, and $t$, we know that with
+	probability at least $\eps$, $X = 0$. By the first equation,
+	this means that $\Ex X < \lambda\sqrt{n}$. Plugging that into the
+	second equation we get the result.
+\end{proof}
+
+Let's get ready for theorem
+[\ref{trm:chromatic_concentration_alon_krivilevich}]. We will need
+some properties of $G(n,p)$ at this range.
+\begin{lemma}
+	\label{chromatic:lemma:stuff_gnp_satisfies}
+	[Properties of $G(n,p)$] Let $\delta > 0$ and $G \sim G(n,p)$ with $p
+	= n^{-1/2 - \delta}$. The following properties all hold with high
+	probability (less than some $\eps$ for big $n$).
+	\begin{enumerate}[label=(\roman*)]
+		\item $\Delta(G) \leq 3d = 3np$.
+		\item $\chi(G) \geq d/2 \log n$.
+		\item For some fixed $r = r(\delta)$  we have that for every $U
+			\subset V(G)$ with $|U| \leq O(\sqrt{n})$, $e(G[U]) \leq r|U|$.
+			Note that, by degeneracy,
+			this makes every set $W \subset V(G)$ with $|W| \leq O(\sqrt{n})$
+			$2r$-colorable.
+		\item If $\delta > 1/5$, then for every set $U \subset V(G)$ with
+			$|U| \leq O(n^{1-\delta})$, $e(G[U]) \leq |U|n^{1/10}$.
+	\end{enumerate}
+	Furthermore, let $X_{u,v}$ be the number of paths of length 3 (edges)
+	between $u$ and $v$. We also find that
+	\begin{enumerate}[label=(\roman*)]
+			\setcounter{enumi}{4}
+		\item If $\delta \geq 1/6$, we find that $\max_{u,v \in V(G)} X_{u,
+			v} \leq \log n$.
+		\item For $0 < \delta < 1/6$, this maximum is at most  $d^3\log n / n$.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	All of these follow from the first moment. (i) is just Chernoff, (ii)
+	follows directly from [\ref{lemma:independence_number_gnp}]. (iii) and (iv)
+	are as well simple first moment bounds. The only interesting ones are
+	(v) and (vi). To show them we note that, fixed $u,v \in V(G)$,  every
+	edge participates
+	in at most $c_0 = 3/\delta$ paths of length 3 between $u$ and $v$  w.
+	h.p. In particular, each path of length 3 between $u,v$ touches at
+	most $3c_0$ others.
+	So there must be $X_{u,v}/(3c_0 + 1)$ disjoint paths between $u$ and
+	$v$. Using this bound, we show the result.
+\end{proof}
+
+Now we are ready to prove the theorem. It suffices to show the
+following proposition.
+
+\begin{prop}
+	\label{prop:main_prop_chr_concentration}
+	Suppose $G(\delta)$ is a graph on $n$ vertices satisfying the
+	conclusions of the previous lemma [\ref{chromatic:lemma:stuff_gnp_satisfies}].
+	Moreover, suppose, following lemma [\ref{lemma:luczak_martingale}],
+	that $G \geq t \geq d/2 \log n$ and that $G$ has a set $U_0 \subset V(G)$
+	s.t $|U| \leq 2\lambda\sqrt{n} = O(\sqrt{n})$ and $\chi(G[V(G)
+	\setminus U]) = t$. Then $G$ is $t + 1$ colorable.
+\end{prop}
+
+\begin{remark}
+	We will prove a totally deterministic statement, using probabilistic
+	methods, to prove a probabilistic result! The irony.
+\end{remark}
+
+I will lay out the proof plan. The idea is to find a set $U$ with
+$U_0 \subset U$, $|U| =
+O(\sqrt{n})$ such that every vertex in $V(G) \setminus U$ has few
+neighbors in $U$ (say $10r$ which is constant).
+We know that $V(G) - U$ is $t$ colorable and that $U$, by its size,
+is $2r$ colorable as well. Fix any $t$-coloring of $V(G) \setminus
+U$. Say $U = \{u_1, \dots, u_k\}$, set
+$N(u_i) = N_G(u_i) \setminus U$, also set $N(U) = \bigcup_{j = 1}^k N(u_j)$.
+We will try to exchange $2r$ colors from each neighborhood $N(u_i)$
+with a new color $\{t+1\}$ as to leave $2r$ possible
+color choices for the vertex $u_i$, after that we can just use
+degeneracy to greedily color $U$ with $2r$ colors and finish the proof (Having
+properly (t+1)-colored our graph).
+
+\begin{proof}[Proof of \ref{prop:main_prop_chr_concentration}]
+	Let's formalize the previous paragraph. Fix $r$ constant as in
+	[\ref{chromatic:lemma:stuff_gnp_satisfies}]. To find $U$, start with
+	$U = U_0$ of size $2\lambda\sqrt{n}$ and while there are vertices
+	$v$ s.t. $d_U(v) > 10r$, add them to $U$. We cannot have that $|U|
+	\geq 2 |U_0|$ as that would break the hypothesis that $e(G[U]) \leq r|U|$.
+	So we really have $|U| = O(\sqrt{n})$ and every vertex outside of
+	$U$ sends in at most constant edges.
+
+	Now let $f : V(G) \setminus U \to \{1,\dots, t\}$ be a proper
+	coloring of the rest of the world. To help us recolor the
+	neighborhood of $U$, we will do a
+	unneeded but very helpful step of defining an auxiliary graph $H$ of
+	$N(U)$. For each $1 \leq i \leq k$, let $W_i$ be a copy of $N(u_i)$,
+	we define $H$
+	with vertex set $\bigsqcup_{i = 1}^k W_i$. Note that each vertex $a
+	\in W$ corresponds to a vertex $a'$ in $N(U)$, we connect $a$ to $b$
+	if $a' \sim b'$.
+	Note that $f$ induces a proper coloring $f'$ of $H$ as well (in some
+		sense we are just blowing up the vertices of $N(U)$ according to how
+	many neighborhoods they belong to).
+	Also, a set $A$ in $H$ is independent if and only if the
+	corresponding set is independent in $N(U)$. Very importantly, note
+	that each edge of $U$ corresponds to
+	at most $(10r)^2$ edges in $H$.
+
+	Having defined this graph we can be more precise about our plan of
+	attack. Each $W_i$ is colored with $t$ colors.
+	For each $1 \leq i \leq k$ we want to choose $2r$ colors from $\{1,
+	\dots, t\}$, making a set $C_i$, such that $W_0 = \bigcup_{j = 1}^k
+	\{w \in W_j : f'(w) \in C_j\}$ is independent.
+	If we do so, we can just paint $W_0$ with the color $t+1$, paint the
+	corresponding vertices in $N(U)$ with this color, and leave $2r$
+	colors available for each $u_i$.
+
+	Now that the strategy is clear, we will choose this $C_i$ randomly
+	(but differently depending on $\delta$). If $\delta \leq 1/5$,
+	we will use the LLL [\ref{trm:lll}], if $\delta > 1/5$ we will do a
+	clever counting argument.
+
+	Suppose $\delta < 1/5$, and again, for each $i$ choose $C_i \subset
+	\binom{[t]}{2r}$ uniformly and randomly. For each edge $e = \{w_1,
+	w_2\}$ in $H$, with $w_1 \in W_{i_1}$ and $w_2 \in W_{i_2}$,
+	define the bad event $B_e$ to be $\{f'(w_1) \in C_{i_1} \text{ and }
+	f'(w_2) \in C_{i_2}\}$. Note that for any edge $e$,
+	\[
+		\Pr(B_e) \leq \bigg(\frac{2r}{t}\bigg)^2 = O((\log n/ d)^2).
+	\]
+	What about our dependency graph? We note that $B_{w_1,w_2}$ is
+	completely independent of $B_{w_3, w_4}$ if $\{W_{i_1}, W_{i_2}\}
+	\cap \{W_{i_3}, W_{i_4}\} = \varnothing$.
+	That is, by revealing $C_j$ for $j \not \in \{i_1, i_2\}$ we gain no
+	information about $B_{\{w_1,w_2\}}$. So what is the degree of $B_e$?
+	It is the number of
+	edges that touch $W_{i_1}$ or $W_{i_2}$. Because $|W_{i_1}| = N(u_i)
+	\leq 3d = o(\sqrt{n})$, $e(W_i) = O(d)$. What about edges between
+	$W_{i_1}$ and $W_j$? Because of the assumption over $X(u_{i_1},
+	u_j)$ (number of paths of length 3 between both vtxs), and that each
+	edge of $G$ is corresponds to at most $(10r)^2$ edges in $H$, we note that
+	\[
+		e(W_{i_1}, W_j) \leq
+		\begin{cases}
+			(10r)^2 \log n & \text{ if } \delta > 1/6\\
+			(10r)^2 d^3\log n/n & \text{ if } \delta \leq 1/6
+		\end{cases}
+	\]
+	Overall, this means that
+	\[
+		d(B_e) \leq
+		\begin{cases}
+			O(d) + k \cdot O(\log n) = O(n^{1/2}\log n) & \text{ if } \delta > 1/6\\
+			O(d) + k \cdot O(d^3 \log n / n) = O(d^3\log n / n^{1/2}) & \text{
+			if } \delta \leq 1/6\\
+		\end{cases}
+	\]
+	In both cases, as $\delta \leq 1/5$, $d \geq n^{2/5}$, we get that
+	\[
+		\Pr(B_e) \cdot d(B_e) = o(1)
+	\]
+	and by the LLL [\ref{trm:lll}] we get our result.
+
+	(I don't know if I will be able to present this) Now for the less
+	intuitive part, if $\delta > 1/5$.
 \end{proof}
