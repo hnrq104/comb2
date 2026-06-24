@@ -73,7 +73,7 @@ sets of size $(2 - \eps)\log_2(n)$ while we can!.
 We will look into a very weird type of result. We will show that with
 high probability, if $p$ is in the right range,
 $\chi(G(n,p))$ is super concentrated. Our main objective is to prove
-the following
+the following surprising statement
 \begin{theorem}[Alon-Krivilevich 95]
 	\label{trm:chromatic_concentration_alon_krivilevich}
 	Let $\delta > 0$, $p = n^{-1/2 - \delta}$ and $G \sim G(n,p)$ then
@@ -108,7 +108,7 @@ in the first proofs of statements of this kind.
 	We will do a clever martingale argument (note crucially here that we
 	don't really know that $t$ is). $X$ satisfies the Lipchitz condition
 	for the vertex exposure martingale, so that it is typically
-	concentrated. More precisely,
+	concentrated [\ref{trm:azuma_inequality}]. More precisely,
 	\begin{align}
 		\Pr(X \leq \Ex X - \lambda \sqrt{n} ) < e^{-\lambda^2/2} \quad
 		\text{and} \quad \Pr(X \geq \Ex X + \lambda \sqrt{n}) < e^{-\lambda^2/2}.
@@ -192,7 +192,12 @@ color choices for the vertex $u_i$, after that we can just use
 degeneracy to greedily color $U$ with $2r$ colors and finish the proof (Having
 properly (t+1)-colored our graph).
 
+Although the strategy is the same, how we choose the colors will be
+different depending on $\delta$.
+So for now I will only show the $\delta < 1/5$ case.
+
 \begin{proof}[Proof of \ref{prop:main_prop_chr_concentration}]
+	(For $\delta \leq 1/5$)
 	Let's formalize the previous paragraph. Fix $r$ constant as in
 	[\ref{chromatic:lemma:stuff_gnp_satisfies}]. To find $U$, start with
 	$U = U_0$ of size $2\lambda\sqrt{n}$ and while there are vertices
@@ -227,10 +232,11 @@ properly (t+1)-colored our graph).
 	corresponding vertices in $N(U)$ with this color, and leave $2r$
 	colors available for each $u_i$.
 
-	Now that the strategy is clear, we will choose this $C_i$ randomly
+	We will choose this $C_i$ randomly
 	(but differently depending on $\delta$). If $\delta \leq 1/5$,
 	we will use the LLL [\ref{trm:lll}], if $\delta > 1/5$ we will do a
-	clever counting argument. Let's focus on the $\delta \leq 1/5$ case.
+	clever counting argument. As we are in the $\delta \leq 1/5$ case,
+	let's proceed.
 
 	For each $i$ choose $C_i \subset
 	\binom{[t]}{2r}$ uniformly and randomly. For each edge $e = \{w_1,
@@ -271,6 +277,57 @@ properly (t+1)-colored our graph).
 	\[
 		\Pr(B_e) \cdot d(B_e) = o(1)
 	\]
-	and by the LLL [\ref{trm:lll}] we get our result. Our proof will stop here, because for $\delta > 1/5$,
-	we will actually need the result of Luczak stating that we only need to care about $\delta < 3/8$.
+	and by the LLL [\ref{trm:lll}] we get our result.
+\end{proof}
+
+Now we delve into what should be the easier case (closer to what
+people already had solved) of $\delta > 1/5$.
+In our computations we will need to use that the result was already
+proven for $\delta > 3/8$, which is a one page proof
+by Luczak [\url{https://link.springer.com/article/10.
+1007/BF01205080}]. It is worth reading it, it has some similar ideas.
+
+Our main goal will be the same, still choose for
+each $W_i$ a set of colors $C_i$, such that the set $W_0$ as defined
+before is an independent
+set. But here we will have to do some alteration, we will take each
+$C_i$ in a way that $C_j$ and $C_i$ are compatible for $j < i$,
+furthermore, we will take each $C_i$ a bit bigger so that we can
+remove the colors of the edges inside $W_i$, which are few.
+Let's engage the proof now.
+
+\begin{proof}[Proof of \ref{prop:main_prop_chr_concentration}]
+	(For $1/5 < \delta \leq 3/8$) As before define $U$, $H$ and its
+	induced coloring $f'$ with $t \geq d/2\log n$ colors.
+	By Lemma \ref{chromatic:lemma:stuff_gnp_satisfies}, for each $s \leq
+	k$, the sets $N(u_{i_1}), \dots, N(u_{i_s})$ have size less than
+	$s3d \leq n^{1 - \delta}$,
+	and so span less than $3sdn^{1/10}$ edges. In particular, we can
+	always order the $u_i$'s in such way that that $N(u_i)$ sends at most
+	$3dn^{1/10}$ edges for all $i'<i$. It follows that, in this order,
+	\[
+		e\bigg(W_i, \bigcup_{j < i} W_j\bigg) \leq 3(10r)^2dn^{1/10} = O(dn^{1/10})
+	\]
+	as well. For each $i$, we will choose a random $2r + \log n$ set of
+	colors from the ones that are "available".
+	A color $c \in \{1,\dots,t\}$ is not available if there exists an $j
+	< i$ and an edge $(w_j, w_i)$ between $W_j, W_i$ with $f'(w_j) = c$.
+	Call $x_i$ the probability that for some $i'\leq i$, less than $t/2$
+	colors are available when choosing $C_{i'}$, we will try to show that
+	$x_k < 1$. Obviously, $x_1 = 0$, now we note that, because $\delta
+	\geq 1/6$, $e(W_j, W_i) \leq O(\log n)$, so each color
+	chosen in $C_j$ may kill at most $\log n$ colors when choosing $C_i$.
+ Because we need to kill $t/2$ colors, we get that
+	\begin{align*}
+		x_i &= x_{i-1} + (1 - x_{i-1})\binom{O(dn^{1/10})}{\frac{t}{2O(\log
+		n)}} \bigg(\frac{2r + \log n}{t/2}\bigg)^{\frac{t}{2O(\log n)}}\\
+		&\leq x_{i-1} + e^{-n^{1/10}}
+	\end{align*}
+	So clearly, $x_k \leq \sqrt{n}e^{-n^{1/10}} \to 0$ (in this
+	calculation it seems we use $\delta \leq 3/8$ somewhere).
+	Now, this means we can choose the colors $C_i$ such that they are
+	compatible. Inside each $W_i$ there are at most $\log n$ edges,
+	kill the colors corresponding to them, we are still left with $2r$
+	colors for each $C_i$ that make $W_0$ an independent set.
+	The proof follows the same way as before now.
 \end{proof}
