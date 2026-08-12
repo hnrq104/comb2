@@ -53,13 +53,13 @@ I just took these from my notes in random matrices.
 	We have that
 	\[
 		\Ex[\exp(tF(X))| X_1, \dots X_{n-1}] = \Ex[\exp(t(F(X) -
-		\Ex(F)))\exp(t\Ex F(X))| X_1, \dots X_{n-1}]
+		\Ex_{X_n} F(X)))\exp(t\Ex F(X))| X_1, \dots X_{n-1}]
 	\]
 	applying (\ref{lemma:hoef:eq2}) to the first product, (here we are
-	conditioning on $X_1, \dots X_{n_1}$)
+	conditioning on $X_1, \dots X_{n-1}$)
 	\[
 		\Ex[\exp(t(F(X) - \Ex_{X_n}F(X)))\exp(t\Ex F(X))| - ] \leq
-		\exp(O(t^2c_n^2))\Ex[\exp(t\Ex F(X)) | -]
+		\exp(O(t^2c_n^2))\Ex[\exp(tF(X)) | -]
 	\]
 	and we can iteratively apply the theorem to the new coordinate-wise
 	bounded function
