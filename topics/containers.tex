@@ -201,12 +201,12 @@ it for a "triangle encoding" hypergraph.
 		c\tau^{l-1}\frac{e(\mathcal{H})}{v(\mathcal{H})} = c\tau^{l-1}d
 	\]
 	then there exists families $\mathcal{S} \subset
-	\mathcal{I}(\mathcal{H})$ and $\mathcal{C}\subset P(V(\mathcal{H}))$
+	\cI(\mathcal{H})$ and $\mathcal{C}\subset P(V(\mathcal{H}))$
 	and a function $f: \mathcal{S} \to \mathcal{C}$ such that
 	\begin{enumerate}[label=(\alph*)]
 		\item For every $S \in \mathcal{S}$, $|S| \leq \tau n$.
 		\item For every $C \in \mathcal{C}$, $|C| \leq (1-\delta)n$.
-		\item For every $I \in \mathcal{I}(\mathcal{H})$, there exists
+		\item For every $I \in \cI(\mathcal{H})$, there exists
 			$S(I) \in \mathcal{S}$ s.t
 			\[
 				S(I) \subset I \subset C(I) = f(S(I)).
@@ -393,7 +393,7 @@ The following theorem is similar to what you get when you apply
 	$\mathcal{C} \subset 2^V$, satisfying the following properties:
 	\begin{enumerate}[label=(\roman*)]
 		\item $|\mathcal{C}| \leq \binom{n}{pn/\alpha}$
-		\item for all $I \in \mathcal{I}(G)$, there exists $C \in
+		\item for all $I \in \cI(G)$, there exists $C \in
 			\mathcal{C}$ s.t $I \subset C$
 		\item for every $C \in \mathcal{C}$, $e(G[C]) \leq \frac{4\alpha|C|}{p}$
 	\end{enumerate}
@@ -403,25 +403,25 @@ We know the usual (naive) way to prove this.
 \begin{proof}[Sketch of proof]
 	For any independent set $I$, we start off with an empty fingerprint
 	set $S = \varnothing$ and the whole vtx set $V$ as $C$.
-	We iteratively query each vertex in the highest degree inside $C$
-	order if it belongs to $I$, if so we add it to $S$ and remove its
+	We iteratively query each vertex in the highest remaining degree
+	order. If it belongs to $I$,  we add it to $S$ and remove its
 	neighbors from $C$,
 	if not we remove it from $C$. A simple counting then yields
-	properties similar to the ones listed if we stop $S$ at size at most
+	properties we want if we stop $S$ at size at most
 	$pn/\alpha$.
 \end{proof}
 
 Marcelos's approach will be very similar to this (although
 considerably more complicated), we will still query the vtxs of the graph
-in a smart order, but we will use the best information to do so, to
-build the best containers! We will add vertices that most reduce the space
+in a smart order, but using the best information to do so! We add
+vertices that most reduce the space
 of independent sets they belong to. In some sense, the best possible
 fingerprints you could hope for if you chose randomly.
 
 Instead of the maximal degree in the remaining world, we will
 consider the following magic statistic of a vertex $v$
 \[
-	\Pr(v \in C_p \,| \,C_p \in \mathcal{I}(G[C])),
+	\Pr(v \in C_p \,| \,C_p \in \cI(G[C]))
 \]
 where $C_p$ is a $p$-random subset of $C$, which states roughly in
 how many independent sets the vertex $v$ belongs to in $G[C]$. If it
@@ -429,16 +429,16 @@ belongs to few, it is
 a good fingerprint candidate. Note that by Harris, as one event is
 increasing, and the other decreasing,
 \[
-	\Pr(v \in C_p \,| \,C_p \in \mathcal{I}(G[C])) = \frac{\Pr(v \in C_p
-	\land C_p \in \mathcal{I}(G[C]))}{\Pr(C_p \in \mathcal{I}(G[C]))}
+	\Pr(v \in C_p \,| \,C_p \in \cI(G[C])) = \frac{\Pr(v \in C_p
+	\land C_p \in \cI(G[C]))}{\Pr(C_p \in \cI(G[C]))}
 	\leq \Pr(v \in C_p) = p.
 \]
 
-This motivates the following algorithm, given $I \in \mathcal{I}(G)$:
+This motivates the following algorithm: Given $I \in \cI(G)$:
 \begin{enumerate}
 	\item Initialize $S = \varnothing, C = V$.
 	\item While $\exists v \in C$ s.t $\Pr(v \in C_p\, |\, C_p \in
-		\mathcal{I}(G[C])) < (1-\alpha)p$ (pick $v$ minimal)
+		\cI(G[C])) \leq (1-\alpha)p$ (pick $v$ minimal)
 		\begin{enumerate}
 			\item If $v \in I$: $S \leftarrow S \cup \{v\}$, $C \leftarrow C
 				\setminus N(v)$.
@@ -446,7 +446,7 @@ This motivates the following algorithm, given $I \in \mathcal{I}(G)$:
 		\end{enumerate}
 \end{enumerate}
 
-We need to check that in the end, this algorithm yields what we want,
+We need to check that in the end, this algorithm yields what we want:
 a deterministic fingerprint $S$ with $|S| < pn/\alpha$
 and a container associated with it with few edges. It is clear that,
 by design, $I \subset C$.
@@ -462,7 +462,7 @@ that, given that we chose $V_p$ randomly from the independent sets,
 what is the probability we got our fingerprint.
 To that end, define the events
 \begin{align}
-	\mathcal{E}_0 &= \{V_p \in \mathcal{I}(G)\}\\
+	\mathcal{E}_0 &= \{V_p \in \cI(G)\}\\
 	\mathcal{E}_i &= \mathcal{E}_{i-1} \cap
 	\begin{cases}
 		\{v_i \in V_p\} & \text{ if } v_i \in S\\
@@ -473,10 +473,9 @@ Smartly calculating $\Pr(\mathcal{E}_i)$ will yield all properties :).
 But first we must see this event in
 a way more recognizable by our algorithm. Let $S^i$ and $C^i$
 represent the fingerprint and the container after querying the $i$th vtx,
-we have
 
 \begin{claim}
-\[ \mathcal{E}_i = \{V_p \in \mathcal{I}(G[C^{i}])\} \cap \{V_p
+g\[\mathcal{E}_i = \{V_p \in \cI(G[C^{i}])\} \cap \{V_p
 \subset C^{i}\} \cap \{S^i \subset V_p\} \]
 \end{claim}
 
@@ -484,12 +483,12 @@ we have
 To prove the inclusion (lhs to rhs), it suffices to notice that,
 during the algorithm, we remove precisely only vtxs that got denied
 and neighbors of vtxs that got accepted into the fingerprint (so if
-	$V_p \in \mathcal{I}(G)$, it must be contained in $C^i$, and
+	$V_p \in \cI(G)$, it must be contained in $C^i$, and
 therefore independent in $G[C^i]$).
 Also it is clear that $\mathcal{E}_i \subset \{S^i \subset V_p\}$.
 The other inclusion is basically the same.
 \end{proof}
-In particular, we find that
+In particular,
 \[
 \Pr(\mathcal{E}_i) = \Pr(v_i \in V_p \land \mathcal{E}_{i-1}) =
 \Pr(v_i \in V_p | \mathcal{E}_{i-1}) \Pr(\mathcal{E}_{i-1})
@@ -498,10 +497,10 @@ And that motivates one more claim (to be used in the algorithm)
 \begin{claim}
 \[
 	\Pr(v_i \in V_p | \mathcal{E}_{i-1}) = \Pr(v_i \in C^{i-1}_p |
-	C^{i-1}_p \in \mathcal{I}(G)) < (1-\alpha)p \Pr(\mathcal{E}_{i-1})
+	C^{i-1}_p \in \cI(G)) < (1-\alpha)p \Pr(\mathcal{E}_{i-1})
 \]
 where here $v_i$ is such that $\Pr(v \in C^{i-1}_p\, |\, C^{i-1}_p
-\in \mathcal{I}(G)) < (1-\alpha)p$
+\in \cI(G)) < (1-\alpha)p$
 \end{claim}
 
 Note that if this were true, by the way we choose the vtxs in the
@@ -510,15 +509,15 @@ main loop, we would find that $\Pr(\mathcal{E}_M) < (1-\alpha)^{|S|}p^{|S|}$
 \begin{proof}[Proof of Claim]
 We want to show
 \[
-	\Pr(v_i \in V_p | V_p \in \mathcal{I}(G[C^{i-1}]) \land V_p
+	\Pr(v_i \in V_p | V_p \in \cI(G[C^{i-1}]) \land V_p
 	\subset C^{i-1} \land S^{i-1} \subset V_p) = \Pr(v_i \in C^{i-1}_p
-	| C^{i-1}_p \in \mathcal{I}(G[C^{i-1}]))
+	| C^{i-1}_p \in \cI(G[C^{i-1}]))
 \]
 
 The last equality is clear from the fact that we are sampling only
 from $C$, the first one follows from
 the fact that conditioning on $\{V_p \subset C^{i-1}\}$ and
-$\{V_p \in \mathcal{I}(G)\}$, the event  $\{S^{i-1} \subset V_p\}$ is
+$\{V_p \in \cI(G)\}$, the event  $\{S^{i-1} \subset V_p\}$ is
 independent from $\{v_i \in
 V_p\}$ (as $S^{i-1} \cup \{v_i\}$ is an indep. set).
 \end{proof}
@@ -542,4 +541,71 @@ $e^{-\alpha}$,
 we find that
 \[e^{p(n - |S|)} \leq e^{-\alpha|S|}\]
 so that $|S| \leq pn/\alpha$.
+\end{proof}
+
+Now for the second and a bit harder part. We need to show our
+containers are sparse.
+\begin{claim}
+When the algorithm ends, $e(G[C]) \leq 4\alpha|C|/p$, furthermore
+$\Delta(G[C]) \leq 8\alpha|C|/p$.
+\end{claim}
+\begin{proof}
+Suppose for sake of contradiction that $e(G[C]) > 4\alpha|C|/p$ and
+$\Pr(w \in C_p | C_p \in \cI(G)) > (1-\alpha)p$ for every $w \in C$.
+Take some vtx $v$ with $|N(v) \cap C| \geq 8\alpha|C|/p$,
+note that
+\begin{align}
+	\label{eq:containers:high_degree_v}
+	\Pr(v \in C_p | C_p \in \cI(G)) &= \frac{\Pr(C_p \in \cI(G)
+	\,\land\, C_p \cap N(v) = \varnothing \,\land\, v \in C_p )}{\Pr(C_p
+	\in \cI(G))}\\
+	&= \frac{\Pr(v \in C_p | C_p \cap N(v) = \varnothing \land C_p \in
+		\cI(G))\Pr(C_p \cap N(v) = \varnothing \land C_p \in
+	\cI(G))}{\Pr(C_p \in \cI(G))}\\
+	&= p \cdot \Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G))
+\end{align}
+Now we use Chebyshev to upperbound the last probability and get our
+contradiction. Let $Y = |C_p \cap N(v)|$, we have
+\[
+	\Pr(Y = 0 | C_p \in \cI(G)) \leq \frac{\mathrm{Var}[Y | C_p \in
+	\cI(G)]}{\Ex[Y| C_p \in \cI(G)]^2}.
+\]
+By linearity of expectation,
+\[
+	\Ex[Y | C_p \in \cI(G)] = \sum_{u \in N(v)} \Pr(u \in C_p | C_p \in
+	\cI(G)) > 8\alpha(1-\alpha)|C|.
+\]
+Furthermore
+\[
+	\mathrm{Var}[Y | C_p \in \cI] = \sum_{u,w \in N(v)} \Pr(u,w \in C_p
+	| C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in \cI(G))\Pr(w \in C_p |
+	C_p \in \cI(G))
+\]
+noww, if $u \neq w$, we get (using harris on the first term and the
+hypothesis on the second)
+\[
+	\Pr(u,w \in C_p | C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in
+	\cI(G))\Pr(w \in C_p | C_p \in \cI(G)) \leq p^2 - (1 - \alpha)^2p^2
+	= \alpha^2p^2
+\]
+for $u = w$, we just get
+\[
+	\Pr(u \in C_p | C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in \cI(G))^2
+	\leq p - (1-\alpha)^2p^2
+\]
+So, in the end $\mathrm{Var}[Y | C_p \in \cI(G)] \leq 8\alpha |C| +
+128\alpha^4|C|^2$.
+In particular,
+\[
+	\Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G)) \leq
+	\frac{8\alpha|C|+ 128\alpha^4|C|^2}{64\alpha^2|C|^2} =
+	\frac{1}{8\alpha|C|} + 2\alpha^3
+\]
+if $\alpha$ is smaller than $1/8$ it is clear already that
+\[
+	\Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G)) < (1-\alpha)
+\]
+which together with [\ref{eq:containers:high_degree_v}] yields the
+contradiction.
+
 \end{proof}
