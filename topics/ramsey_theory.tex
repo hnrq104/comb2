@@ -4,6 +4,7 @@ Just for sake of completeness, we define
 	R(k,l) = \min\{ n : K_k \not \subset G \subset K_n \Rightarrow
 	\alpha(G) \geq l \}.
 \]
+
 In coloring terms, it's the smallest $n$ such that any red and blue
 coloring of $E(K_n)$ contains a red $K_k$ or a blue $K_l$.
 
@@ -536,7 +537,7 @@ applying [\ref{lemma:AKSz}]!
 Next class we will see a very cool lowerbound by Alon, who observed
 the following lemma:
 \begin{lemma}
-	\label{lemma:few_indep_r(3,3,k)}
+	\label{lemma:few_indep_r33k}
 	If there exists $K_3$-free $G$ on $n$ vtx with number of
 	independent $k$ sets of $G$ less than $\binom{n}{k}^{1/2}$
 	then $R(3,3,k) > n$.
@@ -548,7 +549,7 @@ the following lemma:
 \end{proof}
 
 We will turn for a pseudo-random construction to prove the existence
-of a graph that satisfies [\ref{lemma:few_indep_r(3,3,k)}].
+of a graph that satisfies [\ref{lemma:few_indep_r33k}].
 For this, we need a good definiton of what pseudo-random means.
 \begin{definition}
 	We say that a $n$-vtx graph $G$ is $(p,\beta)$-jumbled if $e(G) =
@@ -658,7 +659,7 @@ The LLL and the DRC.
 \begin{proof}[Proof of LLL \ref{trm:lll}]
 	The proof is just a very smart induction (similar to Harris or
 	Janson - which I should also add in the appendix).
-	We claim that given any $S \subset [m]$,
+	We lemma that given any $S \subset [m]$,
 	\[
 		\Pr\bigg(B_i \mid \bigcap_{j \in S} B_j^c \bigg) \leq x_i.
 	\]
@@ -667,9 +668,9 @@ The LLL and the DRC.
 		\Pr\bigg(\bigcap_{i = 1}^m B_i^c\bigg) = \prod_{i = 1}^m
 		\Pr\bigg(B_i^c \mid \bigcap_{j < i} B_j^c\bigg)
 	\]
-	and the result follows from the claim.
+	and the result follows from the lemma.
 
-	Let's prove the claim by induction on $|S|$. If $S = \varnothing$,
+	Let's prove the lemma by induction on $|S|$. If $S = \varnothing$,
 	it trivially follows as
 	$\Pr(B_i) \leq x_i \prod_{j \sim i}(1-x_j) < x_i$. Now let's separate the event
 	\[\bigcap_{j \in S} B_j^c  = \bigcap_{\substack{j \in S\\j \sim i}}
@@ -693,7 +694,7 @@ The LLL and the DRC.
 		\in E} (1-x_j)
 	\]
 	by the induction hypothesis. Substituting in the inequality
-	[\ref{eq::lll}] we prove the claim.
+	[\ref{eq::lll}] we prove the lemma.
 \end{proof}
 
 \begin{remark}
@@ -961,3 +962,92 @@ how the stronger one follows.)
 	so taking $x_E = (ce^{1/8})^d$ we get the result when $d$ tends to infinity.
 
 \end{proof}
+
+\subsection{Erd\H{o}s-Rogers numbers and Open Problems}
+
+Let's look into the very nice generalization of Ramsey numbers, the
+Erd\H{o}s-Rogers numbers $f_{H,G}(n)$.
+Prepare for the mouthful definition.
+
+\begin{definition}
+	Given graphs $H$ and $F$, we let $f_{H,F}(n)$ be the maximum $k$ such
+	that every $F$-free graph $G$ on $n$ vertices
+	contains a $H$-free set of size $k$. In symbolic terms
+	\[
+		f_{H,F}(n) = \min_{\substack{v(G) = n\\F \not \subset G}}
+		\max_{\substack{U \subset V(G)\\ H \not\subset G[U]}} |U|
+	\]
+\end{definition}
+
+So we are interested in graphs that are $F$-free but have the highest
+density (and spread out too)
+of copies of $H$. For this reason, the function was most studied for
+$H = K_s$ and $F = K_{s+1}$. And this
+case, which we usually denote by $f_{s,s+1}(n)$ was solved
+assymptoptically by Rob and Julian!
+
+\begin{theorem}
+	\[f_{s,s+1}(n) = \Theta(\sqrt{n \log n})\]
+\end{theorem}
+
+The lowerbound was proved using a smart theorem on the clique
+chromatic number of a graph. The upperbound
+(proved by Rob and Julian) showed up after using a smart
+(Hefty-Horn-King-Pfender) construction.
+
+Some numbers are already known. From the recent improvements in
+off-diagonal ramsey, we get that
+\[
+	f_{K_2, K_s}(n) \lesssim n^{1/(s-1) + o(1)}
+\]
+(this is actually equivalent to the ramsey numbers so this is
+basically tight). Although we have this result,
+much much less is known about $f_{K_3, K_s}$. Using DRC [\ref{trm:drc}]
+Benny Sudakov, managed to show
+\begin{theorem}
+	\[
+		f_{K_3, K_5} = \Omega(n^{5/12}).
+	\]
+\end{theorem}
+Note that, in order to prove something like this. That $f_{K_3,
+K_5}(n) \geq k(n)$, we must show that
+in every graph $G$ with the property that every $k$ set has a
+triangle, we can find a $K_5$ (this is not really obvious but follows
+from the definition). Let's quickly prove this theorem.
+
+We start off by saying that if our graph has few triangles, then we
+can easily find a big set without triangles and contradict the hypothesis.
+The following lemma follows from a simple first moment bound.
+\begin{lemma}
+	Let $G$ be a graph on $n$ vertex and $dn$ edges. Suppose further that
+	$k_3(G) = m$ and $p$ is such that
+	\[p^3m \leq pn\]
+	then we can find a $K_3$ set of size $pn - p^3m$.
+\end{lemma}
+As $G$ is $K_5$-free by doing erdos-szekeres, we can bound the number
+of $K_3$'s to be at most $ndk$.
+Using the previous lemma (and setting $p = 1/\sqrt{dk}$) we see that
+we must have $dn > (n/k)^3$. So
+now that we have a lowerbound on the number of edges of our graph, we
+can apply DRC to check that
+if there were $t \in \N$ satisfying
+
+\[
+	n\bigg(\frac{d}{n}\bigg)^t - \binom{n}{2}\bigg(\frac{k}{n}\bigg)^t > k
+\]
+we could find a set of size $k$ such that every pair of elements
+contain a shared neighborhood of size $k$ as well.
+Becase by assumption every set of size $k$ contains a triangle, we
+could easily find our $K_5$. Solving this equation for $t = 1$ or $t
+= 2$ and putting $d/n = n/k^3$,
+we get that if $k < n^{-5/12}$ or else we could find a $K_5$.
+
+Gowers and O. Janzer showed doing basically the blow up construction
+with some smart deletion
+that $f_{3,5}(n) = O(n^{6/13})$. Very recently Janzer and Sudakov
+showed using the magical Hermitian
+Unital and putting blow ups of $K_{t,t,\dots, t}$ (s times) in their
+edges that $f_(s, s+2)(n) = O(n^{\frac{2s-3}{4s - 5}})$
+I should even read this, seems cool!
+
+Not much more is known! It's the open wild west in here!

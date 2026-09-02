@@ -316,7 +316,7 @@ Erdös-Simonitivs) that states
 		X(n,m,\alpha) &\leq \sum_{G \in \mathcal{G}} (1-4\eps)^m
 		\binom{n^2/4}{m} + \binom{\delta n^2}{\alpha
 		m}\binom{n^2/4}{m}\bigg(\frac{n^2}{4}\bigg)^{-\alpha m}\\
-		&\leq n^{Cn^3/2}e^{-cm} \binom{n^2/4}{m} \to o(1)\binom{n^2/4}{m}
+		&\leq n^{Cn^3/2}e^{-cm} \binom{n^2/4}{m} \to o(1)
 	\end{align*}
 	when $m \gg n^{3/2}\log n$.
 
@@ -461,151 +461,340 @@ Suppose then, that given $I$, the algorithm queries the vtxs $v_1,
 that, given that we chose $V_p$ randomly from the independent sets,
 what is the probability we got our fingerprint.
 To that end, define the events
+
 \begin{align}
 	\mathcal{E}_0 &= \{V_p \in \cI(G)\}\\
 	\mathcal{E}_i &= \mathcal{E}_{i-1} \cap
 	\begin{cases}
 		\{v_i \in V_p\} & \text{ if } v_i \in S\\
-		\{v_i \not \in V_p\} & \text{ if } v_i \not \in S\\
+		\{v_i \not \in V_p\} & \text{ if } v_i \not \in S
 	\end{cases}
 \end{align}
-Smartly calculating $\Pr(\mathcal{E}_i)$ will yield all properties :).
+
+Smartly calculating $\Pr(\mathcal{E}_i)$ will yield all properties.
 But first we must see this event in
 a way more recognizable by our algorithm. Let $S^i$ and $C^i$
 represent the fingerprint and the container after querying the $i$th vtx,
 
 \begin{claim}
-g\[\mathcal{E}_i = \{V_p \in \cI(G[C^{i}])\} \cap \{V_p
-\subset C^{i}\} \cap \{S^i \subset V_p\} \]
+	\[\mathcal{E}_i = \{V_p \in \cI(G[C^{i}])\} \cap \{V_p
+	\subset C^{i}\} \cap \{S^i \subset V_p\} \]
 \end{claim}
 
 \begin{proof}
-To prove the inclusion (lhs to rhs), it suffices to notice that,
-during the algorithm, we remove precisely only vtxs that got denied
-and neighbors of vtxs that got accepted into the fingerprint (so if
-	$V_p \in \cI(G)$, it must be contained in $C^i$, and
-therefore independent in $G[C^i]$).
-Also it is clear that $\mathcal{E}_i \subset \{S^i \subset V_p\}$.
-The other inclusion is basically the same.
+	To prove the inclusion (lhs to rhs), it suffices to notice that,
+	during the algorithm, we remove precisely only vtxs that got denied
+	and neighbors of vtxs that got accepted into the fingerprint (so if
+		$V_p \in \cI(G)$, it must be contained in $C^i$, and
+	therefore independent in $G[C^i]$).
+	Also it is clear that $\mathcal{E}_i \subset \{S^i \subset V_p\}$.
+	The other inclusion is basically the same.
 \end{proof}
 In particular,
 \[
-\Pr(\mathcal{E}_i) = \Pr(v_i \in V_p \land \mathcal{E}_{i-1}) =
-\Pr(v_i \in V_p | \mathcal{E}_{i-1}) \Pr(\mathcal{E}_{i-1})
+	\Pr(\mathcal{E}_i) = \Pr(v_i \in V_p \land \mathcal{E}_{i-1}) =
+	\Pr(v_i \in V_p | \mathcal{E}_{i-1}) \Pr(\mathcal{E}_{i-1})
 \]
 And that motivates one more claim (to be used in the algorithm)
 \begin{claim}
-\[
-	\Pr(v_i \in V_p | \mathcal{E}_{i-1}) = \Pr(v_i \in C^{i-1}_p |
-	C^{i-1}_p \in \cI(G)) < (1-\alpha)p \Pr(\mathcal{E}_{i-1})
-\]
-where here $v_i$ is such that $\Pr(v \in C^{i-1}_p\, |\, C^{i-1}_p
-\in \cI(G)) < (1-\alpha)p$
+	\[
+		\Pr(v_i \in V_p | \mathcal{E}_{i-1}) = \Pr(v_i \in C^{i-1}_p |
+		C^{i-1}_p \in \cI(G)) < (1-\alpha)p \Pr(\mathcal{E}_{i-1})
+	\]
+	where here $v_i$ is such that $\Pr(v \in C^{i-1}_p\, |\, C^{i-1}_p
+	\in \cI(G)) < (1-\alpha)p$
 \end{claim}
 
 Note that if this were true, by the way we choose the vtxs in the
 main loop, we would find that $\Pr(\mathcal{E}_M) < (1-\alpha)^{|S|}p^{|S|}$
 
 \begin{proof}[Proof of Claim]
-We want to show
-\[
-	\Pr(v_i \in V_p | V_p \in \cI(G[C^{i-1}]) \land V_p
-	\subset C^{i-1} \land S^{i-1} \subset V_p) = \Pr(v_i \in C^{i-1}_p
-	| C^{i-1}_p \in \cI(G[C^{i-1}]))
-\]
+	We want to show
+	\[
+		\Pr(v_i \in V_p | V_p \in \cI(G[C^{i-1}]) \land V_p
+		\subset C^{i-1} \land S^{i-1} \subset V_p) = \Pr(v_i \in C^{i-1}_p
+		| C^{i-1}_p \in \cI(G[C^{i-1}]))
+	\]
 
-The last equality is clear from the fact that we are sampling only
-from $C$, the first one follows from
-the fact that conditioning on $\{V_p \subset C^{i-1}\}$ and
-$\{V_p \in \cI(G)\}$, the event  $\{S^{i-1} \subset V_p\}$ is
-independent from $\{v_i \in
-V_p\}$ (as $S^{i-1} \cup \{v_i\}$ is an indep. set).
+	The last equality is clear from the fact that we are sampling only
+	from $C$, the first one follows from
+	the fact that conditioning on $\{V_p \subset C^{i-1}\}$ and
+	$\{V_p \in \cI(G)\}$, the event  $\{S^{i-1} \subset V_p\}$ is
+	independent from $\{v_i \in
+	V_p\}$ (as $S^{i-1} \cup \{v_i\}$ is an indep. set).
 \end{proof}
 
 This already gives the first property!
 \begin{claim}
-(Property (i) of [\ref{trm:graph_containers}]) At the end of the
-algorithm, the fingerprint produced has size at most $pn/\alpha$.
+	(Property (i) of [\ref{trm:graph_containers}]) At the end of the
+	algorithm, the fingerprint produced has size at most $pn/\alpha$.
 \end{claim}
 \begin{proof}
-Suppose as before, that given $I$, we queried the vtxs $v_1, \dots,
-v_M$ and the algorithm stopped producing
-a fingerprint $S$.
-We note that
-\[
-	p^{|S|}(1-p)^{n - |S|} = \Pr(V_p = S) \leq \Pr(\mathcal{E}_M) \leq
-	(1-\alpha)^{|S|}p^{|S|}.
-\]
-In particular, approximating $(1-p)$ by $e^{-p}$ and $(1-\alpha)$ by
-$e^{-\alpha}$,
-we find that
-\[e^{p(n - |S|)} \leq e^{-\alpha|S|}\]
-so that $|S| \leq pn/\alpha$.
+	Suppose as before, that given $I$, we queried the vtxs $v_1, \dots,
+	v_M$ and the algorithm stopped producing
+	a fingerprint $S$.
+	We note that
+	\[
+		p^{|S|}(1-p)^{n - |S|} = \Pr(V_p = S) \leq \Pr(\mathcal{E}_M) \leq
+		(1-\alpha)^{|S|}p^{|S|}.
+	\]
+	In particular, approximating $(1-p)$ by $e^{-p}$ and $(1-\alpha)$ by
+	$e^{-\alpha}$,
+	we find that
+	\[e^{p(n - |S|)} \leq e^{-\alpha|S|}\]
+	so that $|S| \leq pn/\alpha$.
 \end{proof}
 
 Now for the second and a bit harder part. We need to show our
 containers are sparse.
 \begin{claim}
-When the algorithm ends, $e(G[C]) \leq 4\alpha|C|/p$, furthermore
-$\Delta(G[C]) \leq 8\alpha|C|/p$.
+	When the algorithm ends, $e(G[C]) \leq 4\alpha|C|/p$, furthermore
+	$\Delta(G[C]) \leq 8\alpha|C|/p$.
 \end{claim}
 \begin{proof}
-Suppose for sake of contradiction that $e(G[C]) > 4\alpha|C|/p$ and
-$\Pr(w \in C_p | C_p \in \cI(G)) > (1-\alpha)p$ for every $w \in C$.
-Take some vtx $v$ with $|N(v) \cap C| \geq 8\alpha|C|/p$,
-note that
-\begin{align}
-	\label{eq:containers:high_degree_v}
-	\Pr(v \in C_p | C_p \in \cI(G)) &= \frac{\Pr(C_p \in \cI(G)
-	\,\land\, C_p \cap N(v) = \varnothing \,\land\, v \in C_p )}{\Pr(C_p
-	\in \cI(G))}\\
-	&= \frac{\Pr(v \in C_p | C_p \cap N(v) = \varnothing \land C_p \in
-		\cI(G))\Pr(C_p \cap N(v) = \varnothing \land C_p \in
-	\cI(G))}{\Pr(C_p \in \cI(G))}\\
-	&= p \cdot \Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G))
-\end{align}
-Now we use Chebyshev to upperbound the last probability and get our
-contradiction. Let $Y = |C_p \cap N(v)|$, we have
-\[
-	\Pr(Y = 0 | C_p \in \cI(G)) \leq \frac{\mathrm{Var}[Y | C_p \in
-	\cI(G)]}{\Ex[Y| C_p \in \cI(G)]^2}.
-\]
-By linearity of expectation,
-\[
-	\Ex[Y | C_p \in \cI(G)] = \sum_{u \in N(v)} \Pr(u \in C_p | C_p \in
-	\cI(G)) > 8\alpha(1-\alpha)|C|.
-\]
-Furthermore
-\[
-	\mathrm{Var}[Y | C_p \in \cI] = \sum_{u,w \in N(v)} \Pr(u,w \in C_p
-	| C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in \cI(G))\Pr(w \in C_p |
-	C_p \in \cI(G))
-\]
-noww, if $u \neq w$, we get (using harris on the first term and the
-hypothesis on the second)
-\[
-	\Pr(u,w \in C_p | C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in
-	\cI(G))\Pr(w \in C_p | C_p \in \cI(G)) \leq p^2 - (1 - \alpha)^2p^2
-	= \alpha^2p^2
-\]
-for $u = w$, we just get
-\[
-	\Pr(u \in C_p | C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in \cI(G))^2
-	\leq p - (1-\alpha)^2p^2
-\]
-So, in the end $\mathrm{Var}[Y | C_p \in \cI(G)] \leq 8\alpha |C| +
-128\alpha^4|C|^2$.
-In particular,
-\[
-	\Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G)) \leq
-	\frac{8\alpha|C|+ 128\alpha^4|C|^2}{64\alpha^2|C|^2} =
-	\frac{1}{8\alpha|C|} + 2\alpha^3
-\]
-if $\alpha$ is smaller than $1/8$ it is clear already that
-\[
-	\Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G)) < (1-\alpha)
-\]
-which together with [\ref{eq:containers:high_degree_v}] yields the
-contradiction.
+	Suppose for sake of contradiction that $e(G[C]) > 4\alpha|C|/p$ and
+	$\Pr(w \in C_p | C_p \in \cI(G)) > (1-\alpha)p$ for every $w \in C$.
+	Take some vtx $v$ with $|N(v) \cap C| \geq 8\alpha|C|/p$,
+	note that
+	\begin{align}
+		\label{eq:containers:high_degree_v}
+		\Pr(v \in C_p | C_p \in \cI(G)) &= \frac{\Pr(C_p \in \cI(G)
+		\,\land\, C_p \cap N(v) = \varnothing \,\land\, v \in C_p )}{\Pr(C_p
+		\in \cI(G))}\\
+		&= \frac{\Pr(v \in C_p | C_p \cap N(v) = \varnothing \land C_p \in
+			\cI(G))\Pr(C_p \cap N(v) = \varnothing \land C_p \in
+		\cI(G))}{\Pr(C_p \in \cI(G))}\\
+		&= p \cdot \Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G))
+	\end{align}
+	Now we use Chebyshev to upperbound the last probability and get our
+	contradiction. Let $Y = |C_p \cap N(v)|$, we have
+	\[
+		\Pr(Y = 0 | C_p \in \cI(G)) \leq \frac{\mathrm{Var}[Y | C_p \in
+		\cI(G)]}{\Ex[Y| C_p \in \cI(G)]^2}.
+	\]
+	By linearity of expectation,
+	\[
+		\Ex[Y | C_p \in \cI(G)] = \sum_{u \in N(v)} \Pr(u \in C_p | C_p \in
+		\cI(G)) > 8\alpha(1-\alpha)|C|.
+	\]
+	Furthermore
+	\[
+		\mathrm{Var}[Y | C_p \in \cI] = \sum_{u,w \in N(v)} \Pr(u,w \in C_p
+		| C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in \cI(G))\Pr(w \in C_p |
+		C_p \in \cI(G))
+	\]
+	noww, if $u \neq w$, we get (using harris on the first term and the
+	hypothesis on the second)
+	\[
+		\Pr(u,w \in C_p | C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in
+		\cI(G))\Pr(w \in C_p | C_p \in \cI(G)) \leq p^2 - (1 - \alpha)^2p^2
+		= \alpha^2p^2
+	\]
+	for $u = w$, we just get
+	\[
+		\Pr(u \in C_p | C_p \in \cI(G)) - \Pr(u \in C_p | C_p \in \cI(G))^2
+		\leq p - (1-\alpha)^2p^2
+	\]
+	So, in the end $\mathrm{Var}[Y | C_p \in \cI(G)] \leq 8\alpha |C| +
+	128\alpha^4|C|^2$.
+	In particular,
+	\[
+		\Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G)) \leq
+		\frac{8\alpha|C|+ 128\alpha^4|C|^2}{64\alpha^2|C|^2} =
+		\frac{1}{8\alpha|C|} + 2\alpha^3
+	\]
+	if $\alpha$ is smaller than $1/8$ it is clear already that
+	\[
+		\Pr(C_p \cap N(v) = \varnothing|C_p \in \cI(G)) < (1-\alpha)
+	\]
+	which together with [\ref{eq:containers:high_degree_v}] yields the
+	contradiction.
+
+\end{proof}
+
+\subsubsection{Containers without uniformity imply containers with uniformity}
+
+Marcelo's great idea is to prove a stronger form of containers, one that implies
+[\ref{lemma:hypergraph_containers}] but furthermore makes no
+assumptions on the regularity of the
+Hypergraph. In this section we will state the general form and prove
+this implication.
+The proof itself is astounishingly beautiful
+and leaves everyone shocked \Smiley.
+It follows the strategy of [\ref{trm:graph_containers}].
+
+Now our containers won't be containers anymore... To each $I \in \cI$
+and its fingerprint $S$, there will be an associated a hypergraph $\cG = f(S)$
+such that $I$ is an independent set of $\cG$. Somehow we want to
+simplify our independent sets to be independent in relation
+to these $\cG$.
+
+\begin{theorem}
+	\label{trm:general_containers}
+	Let $\HH$ be a hypergraph with $V(\HH) = V$ and $|V| = n$. Then for
+	$0 < p < \alpha < 1/8$,
+	there exists $g : \cI(\HH) \to \cS \subset 2^V$ and $f:\cS \to
+	2^{2^V}$, where here we think of $\cS$ as the
+	set of fingerprints and for $S \in \cS$, $f(S)$ is some hypergraph, such that
+	\begin{enumerate}
+		\item $\forall S \in \cS$, $S$ is small, that is $|S| \leq pn/\alpha$.
+		\item $\cI(\HH) = \bigcup_{S \in \cS}\cI(f(S))$ and furthermore
+			$\forall I \in \cI(\HH)$, $I \in \cI(f\circ g(I))$.
+		\item And the strange property for every $I \in \cI$, if $\cG =
+			f\circ g(I)$, then
+			for every $L \subset I$, we have that
+			\begin{equation}
+				\label{eq:containers:magic_eq}
+				\Pr(L \subset V_p | V_p \in \cI(\cG)) \geq (1-\alpha)^{|L|}p^{|L|}.
+			\end{equation}
+	\end{enumerate}
+\end{theorem}
+
+This super general theorem makes absolutely no assumption on the
+regularity, but to use it, we need to be
+smart enough to translate (\ref{eq:containers:magic_eq}) into useful
+properties. The proof itself of it
+is probably already magical, now we will glimpse how it is used to
+prove our old container friends.
+
+More precisely, we will want to show the following theorem
+\begin{theorem}
+	\label{trm:containers_wp}
+	Given $\HH$ an $r$ uniform hypergraph on $n$ vtxs and $0 < p < 1$,
+	there exists a fingerprint set $\cS \subset 2^V$ and an associated
+	containers set $\cC \subset 2^V$ (and functions ...) satisfying that
+	\begin{enumerate}
+		\item $\forall S \in \cS, |S| = O(rpn)$.
+		\item $\forall I \in \cI(\HH)$, there exists $C = C(S(I))$ s.t $I \subset C$.
+		\item For every $C \in \cC$, there exists a cover $\cG$ of $\HH$,
+			such that every edge $E \in \cG$
+			has size bigger or equal than $2$ and
+			\[
+				w_{p/r}(\cG[C]) = \sum_{e \in \cG[C]}  \leq \frac{2p|C|}{r}
+			\]
+	\end{enumerate}
+\end{theorem}
+It is easy to see that for $r = 2$ this is precisely theorem
+\ref{trm:graph_containers}.
+
+\begin{proof}[Proof that \ref{trm:general_containers} implies
+	\ref{trm:containers_wp}.]
+	Fix $\alpha = 1/8r$ and apply \ref{trm:general_containers}.
+	We can take the same fingerprints $\cS$ and, given $\cG = f(S)$, we
+	set our containers to be
+	\[
+		C(S) = \{v \in V : \{v\} \not \in \cG\}.
+	\]
+	Properties (1) and (2) are immediate, we are left with proving property (3).
+
+	Let $\cG$ for $C(S)$ be precisely $f(S)$. Suppose for the sake of
+	contradiction that (3) holds in \ref{trm:general_containers}
+	but that $w_{p/r}(\cG[C]) \geq \frac{2p|C|}{p}$. We will find a set
+	$L \in \cI(\HH)$ that contradicts our assumption, i.e it does not hold
+	that
+	\[
+		\Pr(L \subset V_p | V_p \in \cI(\cG)) \geq (1-\frac{1}{8r})^{|L|}p^{|L|}.
+	\]
+	Opening up this expression as before, we see that
+	\begin{equation}
+		\label{eq:containers:harris_ineq}
+		\Pr(L \subset V_p | V_p \in \cI(\cG)) = \frac{\Pr(L \subset V_p
+		\land V_p \in \cI(\cG))}{\Pr(V_p \in \cI(\cG))}
+		= p^{|L|}\frac{\Pr(V_p \in \cI(\cG) | L \subset V_p)}{\Pr(V_p \in \cI(\cG))}.
+	\end{equation}
+	Because we are conditioning on $L \subset V_p$, we get
+	\[
+		\{V_p \in \cI(\cG) | L \subset V_p\} = \{V_p \in \cI \land V_p \in
+		\cI(\partial_L \cG) | L \subset V_p\}
+	\]
+	where $\partial_L \cG$ is the link of $L$ in $\cG$,
+	\[
+		\partial_L \cG = \{E \setminus L : E \in \cG, E \cap L \neq \varnothing\}.
+	\]
+	So it follows that (using Harris inequality)
+	\[
+		\Pr(V_p \in \cI(\cG) | L \subset V_p) = \Pr(V_p \in \cI(\cG) \land
+		V_p \in \cI(\partial_L\cG) | L \subset V_p)
+		\leq \Pr(V_p \in \cI(\cG) \land V_p \in \cI(\partial_L \cG)).
+	\]
+	Plugging it back in (\ref{eq:containers:harris_ineq}), we get
+	\[
+		\Pr(L \subset V_p | V_p \in \cI(\cG)) \leq p^{|L|} \Pr(V_p \in
+		\cI(\partial_L \cG) | V_p \in \cI(\cG)).
+	\]
+	So to get our contradiction, we need to show following our
+	hypothesis that there exists some $L \in \cI(\HH[C])$,
+	such that
+	\[
+		\Pr(V_p \in \cI(\partial_L \cG) | V_p \in \cI(\cG)) > \bigg(1 -
+		\frac{1}{8r}\bigg)^{|L|}.
+	\]
+	To make life easier, and use up the $r$ uniformity of $\HH$, we will
+	actually show something stronger. We
+	let $\cG^{(s)}$ be the edges of size $s$ in $\cG$. Clearly $\cG =
+	\bigcup_{s = 1}^r \cG^{(s)}$. We will
+	prove that, for some $s$,
+	\[
+		\Pr(V_p \in \cI(\partial_L \cG^{(s)}) | V_p \in \cI(\cG)) > \bigg(1
+		- \frac{1}{8r}\bigg)^{|L|}.
+	\]
+
+	We will use second moment to prove this, just like in the proof of
+	[\ref{trm:graph_containers}]!
+	Let $\tilde{V}_p = V_p | V_p \in \cI(\cG)$ (Remember here that we
+		really only care about vertices in $C$, since
+	$\tilde{V}_p$ won't contain singletons). Just as before, define the
+	random variable
+	\[
+		X(L,s) = e(\partial_L \cG^{(s)}[\tilde{V}_p])
+	\]
+	and note that
+	\[
+		\Pr(V_p \in \cI(\partial_L \cG^{(s)}) | V_p \in \cI(\cG)) = \Pr(X(L,s) = 0).
+	\]
+	So it suffices to lowerbound this probability and we will use
+	Chebyshev for that (If somehow we had
+	a better bound, we could even improve the container lemma!). Let's
+	compute $\Ex[X(L,s)]$ and $\text{Var}(X(L,s))$.
+	\[
+		\Ex[X(L,s)] = \sum_{E \in \partial_L \cG^{(s)}} \Pr(E \subset \tilde{V}_p).
+	\]
+	Since we can always choose our cover $\cG$ to be minimal, that is,
+	there are no edges contained inside others we have that,
+	it follows that each $E \in \partial_L \cG^{(s)}$ is an independet
+	set in $\cG$. So, letting $\ell = |L|$,
+	\[
+		\sum_{E \in \partial_L \cG^{(s)}} \Pr(E \subset \tilde{V}_p)\geq
+		\sum_{\substack{F \in \cG^{(s)}\\L \subset F}} (1-\alpha)^{s -
+		|L|}p^{s - |L|} = \Delta_{s - \ell}(L) (1-\alpha)^{s - \ell}p^{s - \ell}
+	\]
+	onde $\ell = |L|$. Now for the variance,
+	\[
+		\text{Var}[X(L,s)] = \sum_{T, T' \in \partial_L\cG^{(s)}} \Pr(T
+		\cup T' \subset \tilde{V}_p) - \Pr(T \subset \tilde{V}_p)\Pr(T'
+		\subset \tilde{V}_p).
+	\]
+	By the assumption, we can bound
+	\[
+		\Pr(T \subset \tilde{V}_p)\Pr(T'
+		\subset \tilde{V}_p) \geq (1-\alpha)^{2(\ell - t)}p^{2(\ell - t)}
+	\]
+	and, using Harris again,
+	\[
+		\Pr(T \cup T' \subset \tilde{V}_p) \leq p^{|T \cup T'|}.
+	\]
+	So we get
+	\[
+		\text{Var}[X(L,s)] \leq \sum_{T,T' \in \partial_L\cG^{(s)}} p^{|T
+		\cup T'|} - (1-\alpha)^{2(\ell - t)}p^{2(\ell - t)}.
+	\]
+	We can now separate in the case that $T$ and $T'$ are disjoint or not. We get
+	\[
+		\text{Var}[X(L,s)] = \sum_{T \cap T' \neq \varnothing} p^{|T \cup
+		T'|} \quad + \quad  (1-\alpha)^{2(\ell - t)}p^{2(\ell - t)}
+	\]
+	Note how similar the first term is to the $\Delta$ in
+	Janson's inequality
+	it showed up here! If
 
 \end{proof}
