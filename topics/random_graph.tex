@@ -9,7 +9,7 @@ The following is a very nice theorem by Béla!
 	\end{equation}
 \end{theorem}
 The lowerbound follows easily from the fact that $\alpha(G(n,1/2))
-\leq 2\log_2(n)$ whp [\ref{lemma:independence_number_gnp}] and that
+	\leq 2\log_2(n)$ whp [\ref{lemma:independence_number_gnp}] and that
 for any $n$-vtx graph $G$, $\chi(G) \geq n/\alpha(G)$.
 
 The upperbound is a very nice application of Janson's
@@ -23,7 +23,7 @@ sets of size $(2 - \eps)\log_2(n)$ while we can!.
 \end{lemma}
 \begin{proof}
 	We will do an union bound over $m$ sets. For that, set $k =
-	(2-\eps)$ and fix a specific set $M$ of size $m$, note that
+		(2-\eps)$ and fix a specific set $M$ of size $m$, note that
 	\[
 		\Pr(\alpha(G(n,1/2)[M]) < k) = \Pr(\alpha(G(m,1/2) < k)).
 	\]
@@ -44,15 +44,15 @@ sets of size $(2 - \eps)\log_2(n)$ while we can!.
 		\Delta = \sum_{\substack{S,T \in \binom{[m]}{k}\\S \cap T > 2}}
 		\Pr(S\cup T \text{ indep.})
 		= \sum_{l = 2}^{k-1}\binom{m}{k}\binom{k}{l}\binom{m - k}{k -
-		l}\bigg(\frac{1}{2}\bigg)^{2\binom{k}{2} - \binom{l}{2}}.
+			l}\bigg(\frac{1}{2}\bigg)^{2\binom{k}{2} - \binom{l}{2}}.
 	\]
 	Now it's a bit ugly to see but this thing here is convex and the sum
 	is majorized by the last two elements. We get
 	\begin{align*}
-		\Delta &\simeq \binom{m}{k}\binom{k}{2}\binom{m - k}{k -
-		2}\bigg(\frac{1}{2}\bigg)^{2\binom{k}{2} - 1} + \binom{m}{k}k (m -
-		k)\bigg(\frac{1}{2}\bigg)^{\binom{k}{2}}\\
-		&\simeq 2\binom{m}{k}^2 \frac{k^4}{m^2} 2^{-2\binom{k}{2}} + km\mu
+		\Delta & \simeq \binom{m}{k}\binom{k}{2}\binom{m - k}{k -
+			2}\bigg(\frac{1}{2}\bigg)^{2\binom{k}{2} - 1} + \binom{m}{k}k (m -
+		k)\bigg(\frac{1}{2}\bigg)^{\binom{k}{2}}                                   \\
+		       & \simeq 2\binom{m}{k}^2 \frac{k^4}{m^2} 2^{-2\binom{k}{2}} + km\mu
 		=  \frac{2k^4}{m^2}\mu^2 + km\mu \leq \frac{3k^4}{n^2}\mu^2.
 	\end{align*}
 	By the second part of Janson, we get that
@@ -79,7 +79,7 @@ the following surprising statement
 	Let $\delta > 0$, $p = n^{-1/2 - \delta}$ and $G \sim G(n,p)$ then
 	there exists $t = t(n)$ s.t w.h.p
 	\[
-		\chi(G) \in \{t, t + 1\}.	
+		\chi(G) \in \{t, t + 1\}.
 	\]
 \end{theorem}
 \begin{remark}
@@ -120,30 +120,30 @@ in the first proofs of statements of this kind.
 \end{proof}
 
 Let's get ready for theorem
-[\ref{trm:chromatic_concentration_alon_krivilevich}]. We will need
+	[\ref{trm:chromatic_concentration_alon_krivilevich}]. We will need
 some properties of $G(n,p)$ at this range.
 \begin{lemma}
 	\label{chromatic:lemma:stuff_gnp_satisfies}
 	[Properties of $G(n,p)$] Let $\delta > 0$ and $G \sim G(n,p)$ with $p
-	= n^{-1/2 - \delta}$. The following properties all hold with high
+		= n^{-1/2 - \delta}$. The following properties all hold with high
 	probability (less than some $\eps$ for big $n$).
 	\begin{enumerate}[label=(\roman*)]
 		\item $\Delta(G) \leq 3d = 3np$.
 		\item $\chi(G) \geq d/2 \log n$.
 		\item For some fixed $r = r(\delta)$  we have that for every $U
-			\subset V(G)$ with $|U| \leq O(\sqrt{n})$, $e(G[U]) \leq r|U|$.
-			Note that, by degeneracy,
-			this makes every set $W \subset V(G)$ with $|W| \leq O(\sqrt{n})$
-			$2r$-colorable.
+			      \subset V(G)$ with $|U| \leq O(\sqrt{n})$, $e(G[U]) \leq r|U|$.
+		      Note that, by degeneracy,
+		      this makes every set $W \subset V(G)$ with $|W| \leq O(\sqrt{n})$
+		      $2r$-colorable.
 		\item If $\delta > 1/5$, then for every set $U \subset V(G)$ with
-			$|U| \leq O(n^{1-\delta})$, $e(G[U]) \leq |U|n^{1/10}$.
+		      $|U| \leq O(n^{1-\delta})$, $e(G[U]) \leq |U|n^{1/10}$.
 	\end{enumerate}
 	Furthermore, let $X_{u,v}$ be the number of paths of length 3 (edges)
 	between $u$ and $v$. We also find that
 	\begin{enumerate}[label=(\roman*)]
-			\setcounter{enumi}{4}
+		\setcounter{enumi}{4}
 		\item If $\delta \geq 1/6$, we find that $\max_{u,v \in V(G)} X_{u,
-			v} \leq \log n$.
+					      v} \leq \log n$.
 		\item For $0 < \delta < 1/6$, this maximum is at most  $d^3\log n / n$.
 	\end{enumerate}
 \end{lemma}
@@ -170,7 +170,7 @@ following proposition.
 	Moreover, suppose, following lemma [\ref{lemma:luczak_martingale}],
 	that $G \geq t \geq d/2 \log n$ and that $G$ has a set $U_0 \subset V(G)$
 	s.t $|U| \leq 2\lambda\sqrt{n} = O(\sqrt{n})$ and $\chi(G[V(G)
-	\setminus U]) = t$. Then $G$ is $t + 1$ colorable.
+					\setminus U]) = t$. Then $G$ is $t + 1$ colorable.
 \end{prop}
 
 \begin{remark}
@@ -180,11 +180,11 @@ following proposition.
 
 I will lay out the proof plan. The idea is to find a set $U$ with
 $U_0 \subset U$, $|U| =
-O(\sqrt{n})$ such that every vertex in $V(G) \setminus U$ has few
+	O(\sqrt{n})$ such that every vertex in $V(G) \setminus U$ has few
 neighbors in $U$ (say $10r$ which is constant).
 We know that $V(G) - U$ is $t$ colorable and that $U$, by its size,
 is $2r$ colorable as well. Fix any $t$-coloring of $V(G) \setminus
-U$. Say $U = \{u_1, \dots, u_k\}$, set
+	U$. Say $U = \{u_1, \dots, u_k\}$, set
 $N(u_i) = N_G(u_i) \setminus U$, also set $N(U) = \bigcup_{j = 1}^k N(u_j)$.
 We will try to exchange $2r$ colors from each neighborhood $N(u_i)$
 with a new color $\{t+1\}$ as to leave $2r$ possible
@@ -199,10 +199,10 @@ So for now I will only show the $\delta < 1/5$ case.
 \begin{proof}[Proof of \ref{prop:main_prop_chr_concentration}]
 	(For $\delta \leq 1/5$)
 	Let's formalize the previous paragraph. Fix $r$ constant as in
-	[\ref{chromatic:lemma:stuff_gnp_satisfies}]. To find $U$, start with
+		[\ref{chromatic:lemma:stuff_gnp_satisfies}]. To find $U$, start with
 	$U = U_0$ of size $2\lambda\sqrt{n}$ and while there are vertices
 	$v$ s.t. $d_U(v) > 10r$, add them to $U$. We cannot have that $|U|
-	\geq 2 |U_0|$ as that would break the hypothesis that $e(G[U]) \leq r|U|$.
+		\geq 2 |U_0|$ as that would break the hypothesis that $e(G[U]) \leq r|U|$.
 	So we really have $|U| = O(\sqrt{n})$ and every vertex outside of
 	$U$ sends in at most constant edges.
 
@@ -213,10 +213,10 @@ So for now I will only show the $\delta < 1/5$ case.
 	$N(U)$. For each $1 \leq i \leq k$, let $W_i$ be a copy of $N(u_i)$,
 	we define $H$
 	with vertex set $\bigsqcup_{i = 1}^k W_i$. Note that each vertex $a
-	\in W$ corresponds to a vertex $a'$ in $N(U)$, we connect $a$ to $b$
+		\in W$ corresponds to a vertex $a'$ in $N(U)$, we connect $a$ to $b$
 	if $a' \sim b'$.
 	Note that $f$ induces a proper coloring $f'$ of $H$ as well (in some
-		sense we are just blowing up the vertices of $N(U)$ according to how
+	sense we are just blowing up the vertices of $N(U)$ according to how
 	many neighborhoods they belong to).
 	Also, a set $A$ in $H$ is independent if and only if the
 	corresponding set is independent in $N(U)$. Very importantly, note
@@ -226,8 +226,8 @@ So for now I will only show the $\delta < 1/5$ case.
 	Having defined this graph we can be more precise about our plan of
 	attack. Each $W_i$ is colored with $t$ colors.
 	For each $1 \leq i \leq k$ we want to choose $2r$ colors from $\{1,
-	\dots, t\}$, making a set $C_i$, such that $W_0 = \bigcup_{j = 1}^k
-	\{w \in W_j : f'(w) \in C_j\}$ is independent.
+		\dots, t\}$, making a set $C_i$, such that $W_0 = \bigcup_{j = 1}^k
+		\{w \in W_j : f'(w) \in C_j\}$ is independent.
 	If we do so, we can just paint $W_0$ with the color $t+1$, paint the
 	corresponding vertices in $N(U)$ with this color, and leave $2r$
 	colors available for each $u_i$.
@@ -239,28 +239,28 @@ So for now I will only show the $\delta < 1/5$ case.
 	let's proceed.
 
 	For each $i$ choose $C_i \subset
-	\binom{[t]}{2r}$ uniformly and randomly. For each edge $e = \{w_1,
-	w_2\}$ in $H$, with $w_1 \in W_{i_1}$ and $w_2 \in W_{i_2}$,
+		\binom{[t]}{2r}$ uniformly and randomly. For each edge $e = \{w_1,
+		w_2\}$ in $H$, with $w_1 \in W_{i_1}$ and $w_2 \in W_{i_2}$,
 	define the bad event $B_e$ to be $\{f'(w_1) \in C_{i_1} \text{ and }
-	f'(w_2) \in C_{i_2}\}$. Note that for any edge $e$,
+		f'(w_2) \in C_{i_2}\}$. Note that for any edge $e$,
 	\[
 		\Pr(B_e) \leq \bigg(\frac{2r}{t}\bigg)^2 = O((\log n/ d)^2).
 	\]
 	What about our dependency graph? We note that $B_{w_1,w_2}$ is
 	completely independent of $B_{w_3, w_4}$ if $\{W_{i_1}, W_{i_2}\}
-	\cap \{W_{i_3}, W_{i_4}\} = \varnothing$.
+		\cap \{W_{i_3}, W_{i_4}\} = \varnothing$.
 	That is, by revealing $C_j$ for $j \not \in \{i_1, i_2\}$ we gain no
 	information about $B_{\{w_1,w_2\}}$. So what is the degree of $B_e$?
 	It is the number of
 	edges that touch $W_{i_1}$ or $W_{i_2}$. Because $|W_{i_1}| = N(u_i)
-	\leq 3d = o(\sqrt{n})$, $e(W_i) = O(d)$. What about edges between
+		\leq 3d = o(\sqrt{n})$, $e(W_i) = O(d)$. What about edges between
 	$W_{i_1}$ and $W_j$? Because of the assumption over $X(u_{i_1},
-	u_j)$ (number of paths of length 3 between both vtxs), and that each
+		u_j)$ (number of paths of length 3 between both vtxs), and that each
 	edge of $G$ is corresponds to at most $(10r)^2$ edges in $H$, we note that
 	\[
 		e(W_{i_1}, W_j) \leq
 		\begin{cases}
-			(10r)^2 \log n & \text{ if } \delta > 1/6\\
+			(10r)^2 \log n      & \text{ if } \delta > 1/6    \\
 			(10r)^2 d^3\log n/n & \text{ if } \delta \leq 1/6
 		\end{cases}
 	\]
@@ -268,9 +268,11 @@ So for now I will only show the $\delta < 1/5$ case.
 	\[
 		d(B_e) \leq
 		\begin{cases}
-			O(d) + k \cdot O(\log n) = O(n^{1/2}\log n) & \text{ if } \delta > 1/6\\
+			O(d) + k \cdot O(\log n) = O(n^{1/2}\log n)               & \text{
+			if } \delta > 1/6                                                  \\
 			O(d) + k \cdot O(d^3 \log n / n) = O(d^3\log n / n^{1/2}) & \text{
-			if } \delta \leq 1/6\\
+				if } \delta \leq 1/6
+			\\
 		\end{cases}
 	\]
 	In both cases, as $\delta \leq 1/5$, $d \geq n^{2/5}$, we get that
@@ -285,7 +287,7 @@ people already had solved) of $\delta > 1/5$.
 In our computations we will need to use that the result was already
 proven for $\delta > 3/8$, which is a one page proof
 by Luczak [\url{https://link.springer.com/article/10.
-1007/BF01205080}]. It is worth reading it, it has some similar ideas.
+			1007/BF01205080}]. It is worth reading it, it has some similar ideas.
 
 Our main goal will be the same, still choose for
 each $W_i$ a set of colors $C_i$, such that the set $W_0$ as defined
@@ -300,7 +302,7 @@ Let's engage the proof now.
 	(For $1/5 < \delta \leq 3/8$) As before define $U$, $H$ and its
 	induced coloring $f'$ with $t \geq d/2\log n$ colors.
 	By Lemma \ref{chromatic:lemma:stuff_gnp_satisfies}, for each $s \leq
-	k$, the sets $N(u_{i_1}), \dots, N(u_{i_s})$ have size less than
+		k$, the sets $N(u_{i_1}), \dots, N(u_{i_s})$ have size less than
 	$s3d \leq n^{1 - \delta}$,
 	and so span less than $3sdn^{1/10}$ edges. In particular, we can
 	always order the $u_i$'s in such way that that $N(u_i)$ sends at most
@@ -311,17 +313,17 @@ Let's engage the proof now.
 	as well. For each $i$, we will choose a random $2r + \log n$ set of
 	colors from the ones that are "available".
 	A color $c \in \{1,\dots,t\}$ is not available if there exists an $j
-	< i$ and an edge $(w_j, w_i)$ between $W_j, W_i$ with $f'(w_j) = c$.
+		< i$ and an edge $(w_j, w_i)$ between $W_j, W_i$ with $f'(w_j) = c$.
 	Call $x_i$ the probability that for some $i'\leq i$, less than $t/2$
 	colors are available when choosing $C_{i'}$, we will try to show that
 	$x_k < 1$. Obviously, $x_1 = 0$, now we note that, because $\delta
-	\geq 1/6$, $e(W_j, W_i) \leq O(\log n)$, so each color
+		\geq 1/6$, $e(W_j, W_i) \leq O(\log n)$, so each color
 	chosen in $C_j$ may kill at most $\log n$ colors when choosing $C_i$.
- Because we need to kill $t/2$ colors, we get that
+	Because we need to kill $t/2$ colors, we get that
 	\begin{align*}
-		x_i &= x_{i-1} + (1 - x_{i-1})\binom{O(dn^{1/10})}{\frac{t}{2O(\log
-		n)}} \bigg(\frac{2r + \log n}{t/2}\bigg)^{\frac{t}{2O(\log n)}}\\
-		&\leq x_{i-1} + e^{-n^{1/10}}
+		x_i & = x_{i-1} + (1 - x_{i-1})\binom{O(dn^{1/10})}{\frac{t}{2O(\log
+		n)}} \bigg(\frac{2r + \log n}{t/2}\bigg)^{\frac{t}{2O(\log n)}}      \\
+		    & \leq x_{i-1} + e^{-n^{1/10}}
 	\end{align*}
 	So clearly, $x_k \leq \sqrt{n}e^{-n^{1/10}} \to 0$ (in this
 	calculation it seems we use $\delta \leq 3/8$ somewhere).
@@ -331,3 +333,112 @@ Let's engage the proof now.
 	colors for each $C_i$ that make $W_0$ an independent set.
 	The proof follows the same way as before now.
 \end{proof}
+
+\subsection{Thresholds for bounded degree spanning subgraphs}
+In this section, we will prove a marvelous theorem by Alon and Furëdi
+that gives upperbounds
+on the critical probability of spanning subgraphs.
+
+\begin{theorem}
+	\label{trm:alon_furedi}
+	Let $H \subset K_n$ be a graph with $\Delta(H) \leq \Delta$ bounded
+	(not depending on $n$),
+	if
+	\[
+		p \gg \bigg(\frac{\log n}{n}\bigg)^\Delta
+	\]
+	then
+	\[
+		\Pr(H \subset G(n,p)) \approx 1.
+	\]
+\end{theorem}
+
+\begin{remark}
+	This theorem is useful for $H$ being hamiltonian cycles or triangle
+	factors, or really any spanning subgraph! I've written
+	approximately 1 because in truth I wanted to say when $n$ tends to
+	infinity, but we can't do that as the graph $H$ is not fixed (we would have
+	to consider a sequence of graphs).
+\end{remark}
+
+It has a very smart proof. We will divide $H$ into big independent
+classes and, using Hall's theorem, iteratively embed
+these classes into parts of $G(n,p)$. To embed such a part, we
+construct an auxiliary bipartite graph (which will be random with
+independent edges) and show that it satisfies Hall's condition with
+very high probability.
+
+For our strategy to work, we need a nice little lemma.
+\begin{lemma}
+	Let $H$ be a $n$-vtx graph with max degree $\Delta = \Delta(H)$.
+	Then we can split $V(H)$ into $2\Delta$ independent
+	parts $V_1,V_2, \dots V_{2\Delta}$ such that each part is big, i.e
+	$|V_i| \geq \floor{n/4\Delta}$ for every $i$.
+\end{lemma}
+
+\begin{proof}
+	Separate empty sets $V_1, \dots V_{2\Delta}$ and sequentially add
+	each vertex $v$ of $H$
+	to a part of minimal size which it is allowed, that is $N(v) \cap
+		V_i = \varnothing$. Suppose for sake
+	of contradiction that in the end, we were left with a part with less
+	than $n/4\Delta$ elements.
+
+	Suppose this class is $W$, note that every one of the non-neighbors
+	of $W$ could possibly have been
+	added to it, but they weren't because they had a even smaller class
+	to join. But there are ate least
+	$n - \Delta |W| \geq 3n/4$ such elements. Each was added to a class
+	of size less than $n/4\Delta$,
+	but there are at most $2\Delta$ such classes, so we could have at
+	most $n/2$ such elements, absurd!
+\end{proof}
+
+Let's give continuity to the proof of the theorem.
+
+\begin{proof}[Proof of \ref{trm:alon_furedi}]
+	Apply the previous lemma to $H^2$ to find independent classes $V_1,
+		\dots V_{\Delta^2}$
+	such that for every $i$, $|V_i| \geq n/4\Delta^2$ and, crucially,
+	every element the distance between
+	elements $u,w \in V_j$ is at least $3$ (this is important when
+	definining the auxiliary graph).
+
+	Now fix a partition $W_1, \dots, W_{\Delta^2}$ of $[n]$ with $|W_i|
+		= |V_i|$ and consider $G(n,p)$ over it.
+	We will embed each part $V_i$ of $H$ into the corresponding $W_i$
+	sequentially. So our objective is to find a bijection $f_i : V_i \to W_i$,
+	that respects neighbors of previous choices. That is, given $v \in
+		V_i$, suppose it has a neighbor $u \in V_j$ with
+	$j < i$, it must be that $\{f_i(v), f_{j}(u)\}$ is an edge in $G(n,
+		p)$. To this end, embed $V_1$ into $W_1$ arbitrarily,
+	and for each $i > 1$ and $v \in V_i$, define the allowed images of
+	$v$ to be the set
+	\[
+		A(v) = \{w \in W_i : \forall i < j, \forall u \in N(v) \cap V_j,
+		\{f_j(u), w\} \in G(n,p)\}.
+	\]
+	We may consider this an auxiliary bipartite graph $F$ on $(V_i,W_i)$,
+	where the neighborhood of each $v \in V_i$ is $A(v)$. Now, notice
+	that for $w \in A(v)$,
+	$w$ must be connected to the previous at most $\Delta$ neighbors
+	chosen. So an edge
+	in $F$ occurs with probability at least $p^\Delta$. Note also, that
+	two edges of the form
+	$\{v_1,w_1\}$ and $\{v_2,w_2\}$ are completely independent if $w_1 \neq w_2$
+	(as they depend on disjoint edges of $G(n,p)$). If $w_1 = w_2$, the
+	edges keep being independent,
+	since there are no paths of length $2$ connecting vertices in $V_i$.
+	Because of how we chose $p$,
+	with very high probability $F$ satisfies Hall's condition (each edge
+	is present with prob at least $\log n/ n$), so we can always find
+	such bijection
+	and we are done!
+\end{proof}
+
+I wasn't really nitty picky on proving that Hall's hold with high probability here, as it is not
+the crux of the proof. But I will do it for completion.
+
+\begin{lemma}
+	Let $(A,B)$ be a bipartite graph with $|A| = |B|$
+\end{lemma}
