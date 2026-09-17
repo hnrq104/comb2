@@ -345,7 +345,7 @@ on the critical probability of spanning subgraphs.
 	(not depending on $n$),
 	if
 	\[
-        p \gg \bigg(\frac{\log n}{n}\bigg)^{1/\Delta}
+		p \gg \bigg(\frac{\log n}{n}\bigg)^{1/\Delta}
 	\]
 	then
 	\[
@@ -452,11 +452,13 @@ the crux of the proof. But I will do it for completion.
 	contains no critical subsets,
 	then pick any edge $(x,y)$, and notice Hall's condition still is
 	valid for $(A - x, B - y)$
-	and we can apply induction. Suppose $A$ contains a critical $X$ (pick $X$ maximal),
+	and we can apply induction. Suppose $A$ contains a critical $X$
+	(pick $X$ maximal),
 	note that as $N(A) = B$,
 	it must be that $B - N(X) \subset N(A - X)$. As Hall's condition is
 	valid both for $(X, N(X))$
-	and $(A - X, B - N(X))$ (by maximality of $X$), we can apply induction on both parts.
+	and $(A - X, B - N(X))$ (by maximality of $X$), we can apply
+	induction on both parts.
 \end{proof}
 
 Now to finish the proof, we just need to prove the following lemma,

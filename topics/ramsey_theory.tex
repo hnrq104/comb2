@@ -1051,3 +1051,81 @@ edges that $f_(s, s+2)(n) = O(n^{\frac{2s-3}{4s - 5}})$
 I should even read this, seems cool!
 
 Not much more is known! It's the open wild west in here!
+
+\subsection{Induced Ramsey Numbers}
+
+In this section we will prove some results in induced ramsey numbers.
+It is motivated by
+the amazing breakthrough of Marcelo, Lucas, Rafael e João who showed
+(with a very technical proof)
+that $R_{\text{ind}}(H) \leq 2^{Cv(H)}$ for some universal $C$ and
+every graph $H$.
+
+I won't be able to give even a faint resemblance of their proof, so let's focus 
+on easier results that came before. First of all, we should define our object.
+
+Given a finite graph $H$, we call $R_{\text{ind}}(H)$ as the minimum $N$,
+such that there exists a graph $G$ on $n$ vertices s.t every $2$-coloring 
+of the edges of $G$ contains an induced monochromatic copy of $H$. It is a mouthful!
+
+It is not clear even that this is finite. What is most amazing is that $G(N,1/2)$ works for every $H$
+if $N$ is big enough!
+
+\begin{theorem}
+    Let $H$ be a graph on $k$ vertices and $N \geq N_0(k) = O(k^2)$ be sufficiently big. Then, with positive probability,
+    every $2$-coloring of the edges $G(N,1/2)$ contains an induced monochromatic copy of $H$.
+\end{theorem}
+
+The idea here is to use an assymetric container lemma for colorings! More precisely, we want to show 
+\[
+    \Pr(\exists c : E(G(N,1/2)) \to \{R,B\} \text { without induced monochromatic copy of } H) 
+    \leq \sum_{C \in \cC} \Pr(...) \to 0
+\]
+
+To deal with induced copies we will define a smart hypergraph that encodes them. Let $\HH$ ve a bipartite hypergraph  with vertex parts $V_0$ and $V_1$ each being a copy of $E(K_n)$. 
+We will think of $V_0$ as encoding the non-edges of our graph and $V_1$ encoding the edges. 
+Let $E(\HH)$ be the sets that encode an induced copy of $H$. That is $e \in E(\HH)$ if $e \cap V_1$ are the edges of some copy of $H$ and 
+$e \cap V_0$ are exactly the non-edges. Note that if $G \subset K_n$ contains no induced 
+copy of $H$, then $(G^c, G)$ is an independent set in $\mathcal{H}$.
+
+Associated with this hypergraph, Balogh and Samotij proved the following container theorem 
+\begin{theorem}
+    For every $H$ and its associated $\HH$, there exists a family of containers $\cC$ satisfying 
+    \begin{enumerate}
+        \item $|\cC| \leq \exp(O_k(N^2))$
+        \item $\forall (G_0, G_1)$ not containing and induced $H$, there exists $(C_0, C_1)$ with 
+            $G_0 \subset C_0$ and $G_1 \subset C_1$.
+        \item $(C_0, C_1)$ contain $o(n^k)$ induced copies of $H$ for every choice of containers.
+    \end{enumerate}
+\end{theorem}
+
+Now the idea is as usual, we show that if $C_0$ and $C_1$ are small a bit small, than $G(N,1/2)$ must 
+be avoiding a positive proportion of edges which happens with super small probability. On the other 
+case that they are big, we will find many induced monochromatic copies, providing a contradiction.
+
+\begin{proof}
+    Note that any coloring of the edges of $G(N,1/2)$ in red and blue yields a triple 
+    $(G^{c}, G_R, G_B)$ of disjoint edges. If our coloring is free of monochromatic induced 
+    $H$, it must be that $(G^c, G_R)$ and $(G^c, G_B)$ are independent sets in $\mathcal{H}$. In particular 
+    \[
+        \Pr(\exists G_B \cup G_R = G, \text{ no induced MC } H) \leq 
+        \sum_{(C_0,C_B,C_R)} \Pr(G^c \subset C_0, G_B \subset C_B \cup G_R \subset C_R).
+    \]
+    If $|C_0| \leq (1-\delta)\binom{n}{2}$ or $|C_B \cup C_R| \leq (1-\delta) \binom{n}{2}$
+    we are very happy, as it would imply $G(N,1/2)$ avoids a positive proportion of edges.
+
+    Let's show that this is always the case. Suppose for sake of contradiction that 
+    $|C_0|$ and $|C_B \cup C_R|$ are big. In particular thinking of these containers 
+    as sets of $E(K_n)$, we have  that $|C_0 \cap (C_B \cup C_R)| \geq (1-2\delta)\binom{n}{2}$.
+    Let $k = v(H)$, by supersaturation we have $\Omega(n^{R(k)})$ copies of $K_{R(k)}$ with 
+    these edges. Because they have color red or blue, each of them contain a MC copy 
+    of $K_k$, yielding $\Omega(n^{k})$ copies of those. Now, all these MC copies 
+    also belong to $C_0$, so we can choose the non-edges in such way that they make up 
+    induced copies. This contradicts our choice of containers! After all, we get 
+
+    \[
+        \Pr(\exists G_B \cup G_R = G, \text{ no induced MC } H) \leq \exp(o_k(N^2)) 2^{-\delta N^2} \to 0. 
+    \]
+    finishing the proof!
+\end{proof}
+
