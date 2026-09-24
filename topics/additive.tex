@@ -1,1 +1,68 @@
 \section{Fun Additive Results}
+In this section we will see some fun results that concern or permeate
+additive combinatorics.
+Some of them may not be additive in nature but use tools common in
+the additive world, so they may appear.
+
+\section{The Combinatorial Nullstellensatz}
+In this maybe wrongly located section we will explore nice applications
+of a powerful theorem by Alon. The combinatorial Nullstellensatz
+allows us to find non-zeros of certain polynomials with specific
+degree condtions.
+We will use it very much like in Section
+	[\ref{section:extremal_set_theory}], devising
+smart polynomials to get bounds on some nice problems.
+
+\begin{theorem}[Alon's Combinatorial Nullstellensatz]
+	\label{trm:combinatorial_nullstellensatz}
+	Let $f \in \mathbb{F}[X_1, \dots, X_n]$ be a $n$ variable polynomial
+	of degree $d = t_1 + \dots + t_n$,
+	suppose furthermore the coefficient of $X_1^{t_1} \dots X_n^{t_n}$ is non zero.
+	If there are sets $S_1, \dots S_n \subset \mathbb{F}$  with $|S_i| > t_i$,
+	then there exists $X \in S_1 \times \dots \times S_n$ with $f(X) \neq 0$.
+\end{theorem}
+
+\begin{proof}
+	We proceed by induction! For $n = 1$ the result is trivial, every
+	polynomial $f$ of degree $d$ contains
+	at most $d$ roots. Suppose it is valid for all numbers less or equal
+	than $n - 1$, let's prove it for $n$.
+	Let $f$ be given as in the assumption and consider the polynomial on
+	one variable
+	\[
+		g_n(X_n) = \prod_{s \in S_n} (X_n - s) = X_N^{|S_n|} + \dots
+	\]
+	where the dots are lower order terms. Apply long division to $f$
+	with $g_n$ to find $h$ and $r$ s.t
+	\[
+		f(X_1, \dots, X_n) =  h(X_1, \dots, X_n)g_n(X_n) + r(X_1, \dots, X_n)
+	\]
+	where crucially, $d(h) \leq d - |S_N|$ and the maximum degree of
+	$X_n$ in $r$ is at most $|S_n| - 1$.
+	So
+	\[
+		r(X_1, \dots, X_n) = \sum_{j = 0}^{|S_n| - 1} X_n^j r_{j}(X_1,
+		\dots, X_{n-1}).
+	\]
+	Now, we know that the degree of $X_1^{t_1} \dots X_n^{t_n}$ of this
+	thing is non zero. But, because
+	$|S_n| > t_n$, it is clear that we can expand $h g_n$ as
+	\[
+		hg_n = h X_n^{|S_n|} + O(X_n^{d-1}).
+	\]
+	So $hg_n$ contains no monomial of type $X^\bm{t}$. In particular,
+	it must be that $r_{t_n}$ has a non zero coefficient for $X_1^{t_1}
+		\dots X_{n-1}^{t_{n-1}}$ and degree exactly $d$.
+	So we can apply induction to it to find a non-zero root $x_1, \dots
+		x_{n-1}$. Fixing this and considering
+	$f(x_1, \dots, x_{n-1}, X_N)$ as a one variable polynomial ad
+	applying the $n=1$ cases gives the result.
+\end{proof}
+
+Now let's see some applications of this thing. All of them are similar in the sense that we construct a smart polynomial
+and apply this theorem, yielding a contradiction on the degree hypothesis.
+
+\begin{theorem}
+
+\end{theorem}
+

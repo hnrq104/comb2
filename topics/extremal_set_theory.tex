@@ -1,4 +1,5 @@
 \section{Extremal Set Theory}
+\label{section:extremal_set_theory}
 
 \begin{lemma}
 	(LYMB) Let $\mathcal{A} \subset \mathcal{P}([n])$ be an anti-chain, then
@@ -11,24 +12,24 @@
 	(Sketch) Take a random permutation and consider the indicator
 	random variables $X_A$ that the first $|A|$ elements form $A$.
 	We find that $\Ex \sum X_A = \sum_{A \in \mathcal{A}}
-	\binom{n}{|A|}^{-1}$, but $\sum X_A \leq 1$.
+		\binom{n}{|A|}^{-1}$, but $\sum X_A \leq 1$.
 \end{proof}
 
 \begin{corollary}
 	(Sperner) If $\mathcal{A}$ is an anti-chain, $|\mathcal{A}| \leq
-	\binom{n}{n/2}$.
+		\binom{n}{n/2}$.
 \end{corollary}
 
 \begin{corollary}
 	(Littlewood-Offord) Given $a_1, a_2, \dots a_n \in \R \setminus
-	\{0\}$. Consider $x_1, \dots x_n \in \{-1,1\}$ u.i.i.d r.v's,
+		\{0\}$. Consider $x_1, \dots x_n \in \{-1,1\}$ u.i.i.d r.v's,
 	then $\Pr(\sum a_i x_i = 0) \leq 2^{-n}\binom{n}{n/2}$.
 \end{corollary}
 \begin{proof}
 	By simmetry of the $x_i$, we may assume that all $a_i$ are
 	positive. Now consider the collection
 	$\mathcal{A} := \{A \subset [n] : \sum_{i \in A} a_i - \sum_{i \not
-	\in A} a_i = 0\}$. $\mathcal{A}$ is an anti-chain.
+			\in A} a_i = 0\}$. $\mathcal{A}$ is an anti-chain.
 \end{proof}
 
 \begin{theorem} (Erdos-Ko-Rado, Katona)
@@ -49,9 +50,9 @@
 	then $|\mathcal{A}| \leq \binom{n-l}{k-l}$. Hints:
 	\begin{enumerate}
 		\item Show that there exists $L \subset [n]$, $|L| = l$ such that
-			$L = A \cap B$ for $A,B \in \mathcal{A}$.
+		      $L = A \cap B$ for $A,B \in \mathcal{A}$.
 		\item Show that either $\mathcal{A} \subset \partial L := \{A \in
-			\binom{[n]}{k}: L \subset A\}$ or $|\mathcal{A}| = O(n^{k - l - 1})$.
+			      \binom{[n]}{k}: L \subset A\}$ or $|\mathcal{A}| = O(n^{k - l - 1})$.
 	\end{enumerate}
 \end{theorem}
 
@@ -69,16 +70,16 @@
 	$\mathcal{A} \subset \partial L$ and we are done, or there exists
 	$C \in \mathcal{A}$ such that $L \not \subset C$. How many such $C$
 	can exists? Because $A \cap B = L$, $L \not \subset C$, $|A \cap C|
-	\geq l$ and $|B \cap C| \geq l$
+		\geq l$ and $|B \cap C| \geq l$
 	we find that
 	\[
 		|C \cap (A \cup B)| = |C \cap (A \cap B)| + |C \cap(A \setminus
 		B)| + |C \cap (B \setminus A)| \geq l+1
 	\]
 	where we used the fact that $l \leq |C \cap A| = |C \cap L| + |C
-	\cap (A \setminus B)|$ and so $|C \cap (A \setminus B)| \geq 1$.
+		\cap (A \setminus B)|$ and so $|C \cap (A \setminus B)| \geq 1$.
 	So the number of such $C$ is at most $\binom{|A \cup
-	B|}{l+1}\binom{n - |A \cup B|}{k - l - 1} =  O(n^{k - l - 1})$. And
+			B|}{l+1}\binom{n - |A \cup B|}{k - l - 1} =  O(n^{k - l - 1})$. And
 	now, fix any such $C$,
 	how many elements of $\mathcal{A}$ may contain $L$? Because they
 	all intersect in $C$ an element outside of $L$,
@@ -94,32 +95,32 @@ I really liked Rob's motivation for continuing to study these extremal problems.
 \begin{enumerate}[label=(\alph*)]
 	\item An explicit construction that gives $R(k) \geq k^C$ for any fixed $C$!
 	\item The chromatic number of $\R^n$. We define $\chi(\R^n)$
-		% \[
-		%     \xi(\R^n) = \min \{k \in \N : \exists f : \R \to [k]
-		% \text{s.t.} \forall x,y \in \R^n, |x-y| = 1, f(x) \neq f(y)\}
-		% \]
-		as the minimal number of colors $k$ such that there exists a
-		function $f:\R^n \to [k]$ satisfying
-		that for every $x,y \in \R^n$ with $|x-y| = 1$, we have that
-		$f(x) \neq f(y)$.
-		For example, we know by taking a simplex on $\R^n$ that
-		$\chi(\R^n) \geq n+1$.
-		It is possible to show (by considering a tesselation by cubes
-		with diameter less than $1$) that the number is well defined for
-		any dimension.
-		We will use extremal stuff to prove some order of growth in $n$
-		of this parameter.
+	      % \[
+	      %     \xi(\R^n) = \min \{k \in \N : \exists f : \R \to [k]
+	      % \text{s.t.} \forall x,y \in \R^n, |x-y| = 1, f(x) \neq f(y)\}
+	      % \]
+	      as the minimal number of colors $k$ such that there exists a
+	      function $f:\R^n \to [k]$ satisfying
+	      that for every $x,y \in \R^n$ with $|x-y| = 1$, we have that
+	      $f(x) \neq f(y)$.
+	      For example, we know by taking a simplex on $\R^n$ that
+	      $\chi(\R^n) \geq n+1$.
+	      It is possible to show (by considering a tesselation by cubes
+	      with diameter less than $1$) that the number is well defined for
+	      any dimension.
+	      We will use extremal stuff to prove some order of growth in $n$
+	      of this parameter.
 
 	\item (Borsuk's Conjecture) Show that for every set $X \subset
-		\R^n$ it is possible to decompose it in $n+1$ sets $X_1, \dots X_{n+1}$
-		s.t. $\text{diam}(X_i) < X$.
+		      \R^n$ it is possible to decompose it in $n+1$ sets $X_1, \dots X_{n+1}$
+	      s.t. $\text{diam}(X_i) < X$.
 \end{enumerate}
 
 Now lets go back to some theorems. The next few ones are nice
 applications of linear algebra.
 \begin{definition}
 	Given $L \subset [n]$, we say a family $\mathcal{A} \subset
-	\mathcal{P}(n)$ is $L$-intersecting if for every $A\neq B \in \mathcal{A}$
+		\mathcal{P}(n)$ is $L$-intersecting if for every $A\neq B \in \mathcal{A}$
 	we have that $|A \cap B| \in L$.
 \end{definition}
 
@@ -148,7 +149,7 @@ applications of linear algebra.
 \end{theorem}
 \begin{proof}
 	Consider $f_A = \prod_{l \in L} (X\cdot \id_{A} - l) \in
-	\R[x_1,\dots, x_n]$, this always has degree less than $|L|$ and all
+		\R[x_1,\dots, x_n]$, this always has degree less than $|L|$ and all
 	monomials (after correcting the exponents) have degree at most $|L|$.
 	So, by the dimension bound (of vectors being L.I), we know that
 	$|\mathcal{A}| \leq \binom{n}{\leq |L|}$.
@@ -169,8 +170,8 @@ Now let's sketch some applications.
 	\[
 		c(A,B) =
 		\begin{cases}
-			\text{R} & \text{if} \quad |A\cap B| \in L\\
-			\text{G} & \text{if} \quad |A\cap B| \not \in L\\
+			\text{R} & \text{if} \quad |A\cap B| \in L      \\
+			\text{G} & \text{if} \quad |A\cap B| \not \in L \\
 		\end{cases}
 	\]
 	where $L \subset [k-1]$. Now, what's the maximum size of a red
@@ -187,7 +188,7 @@ Now let's sketch some applications.
 	and no green clique of size $\binom{n}{\leq p-1}$.
 
 	Suffices to show that if $N = \binom{n}{k}$, then $\binom{n}{\leq
-	\sqrt{k}} = N^{o(1)}$.
+			\sqrt{k}} = N^{o(1)}$.
 \end{proof}
 
 \begin{theorem}
@@ -207,7 +208,7 @@ Now let's sketch some applications.
 	we can always scale to be the right thing) and say
 	\[
 		E(G) = \{
-			(A,B) : |A \cap B| \neq t
+		(A,B) : |A \cap B| \neq t
 		\}
 	\]
 	For some $t \in \Z$. Here as we don't really care about the clique
