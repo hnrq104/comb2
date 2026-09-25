@@ -62,7 +62,100 @@ smart polynomials to get bounds on some nice problems.
 Now let's see some applications of this thing. All of them are similar in the sense that we construct a smart polynomial
 and apply this theorem, yielding a contradiction on the degree hypothesis.
 
-\begin{theorem}
+\begin{theorem}[Cauchy-Davenport]
+    Let $A,B \subset \Z_p$, then $|A + B| \geq \min(|A| + |B| - 1, p)$.
+\end{theorem}
+\begin{proof}
+    If $|A| + |B| > p$, then it is clear that $A \cap (x - B) \neq \varnothing$ for every $x \in \Z_p$, 
+    so $A + B = \Z_p$. Now suppose for sake of contradiction that $|A + B| < |A| + |B| - 1 \leq p - 1$,
+    consider the polynomial
+    \[
+    f(X,Y) = \prod_{z \in A + B}(X + Y - z).
+    \]
+    Note that $d(f) = |A + B| < |A| + |B| - 1 \leq p - 1$ by hypothesis. Furthermore, consider 
+    $t_1 + t_2 = |A + B|$ with $t_1 \leq |A| - 1$ and $t_2 \leq |B| - 1$, and the coefficient
+    of the monomial $X^{t_1}Y^{t_2}$ which is $\binom{|A + B|}{t_1} \neq 0 \pmod p$. So, 
+    by the Nullstellensatz 
+    [\ref{trm:combinatorial_nullstellensatz}],
+    there exists $x \in A$, $y \in B$ s.t $f(x,y) \neq 0$ which is absurd.
+\end{proof}
 
+After that we saw a fun application regarding covering the hypercube with hyperplanes.
+Note that it is trivial to cover $Q_n = \{0,1\}^n$ with two hyperplanes $\{x_1 = 0\} \cup \{x_1 = 1\}$.
+What can we say if we want to avoid an element, say $0$? We certainly can do it with $n$,
+as $Q_n \setminus \{0\} \subset \bigcup_{j \leq n} \{x_j = 1\}$. This is surprisingly the best.
+
+\begin{theorem}
+    Let $H_1, \dots H_m$ be hyperplanes such that $0 \not \in H_i$ for any $i$ and 
+    furthermore they cover the rest of the hypercube, $Q_n \subset \bigcup_{i=1}^m H_i$.
+    Then $m \geq n$.
 \end{theorem}
 
+\begin{proof}
+    Again we proceed by contradiction. Suppose there was a covering with $n-1$ hyperplanes $H_i$,
+    we will cook up a smart polynomial to apply Noga's theorem. We want a $f$ that is $0$ 
+    whenever $\vec{x} \in H_i$ and is $0$ at $\vec{0}$, because then we could apply our 
+    theorem and get a contradiction. So consider the equations that define the hyperplanes $H_i$
+    as 
+    \[
+        H_i = \{X \in \{0,1\}^n : A_i^TX - b_i = 0\}
+    \]
+    for vectors $A_i$ and constants $b_i$. Crucially, as $\vec{0} \not \in H_i$, $b_i \neq 0$ for all $i$.
+    Consider now the following function (on $\R$ even)
+    \[
+        f(X) = \prod_{i = 0}^{m} (A_i^T X - b_i)  - (1 - \id[X = \vec{0}])\prod_{i = 1}^m (-b_i).
+    \]
+    This function satisfies what we want but its not a polynomial. We can make it easily be one,
+    by remembering $ 1 - \id[X = \vec{0}] = \prod_{j = 1}^n (1 - X_j)$.
+    Putting this in our equation we get, 
+    \[
+        f(X) = \prod_{i = 0}^{m} (A_i^T X - b_i)  - \prod_{i = 1}^m (-b_i) \prod_{j=1}^n (1 - X_j).
+    \]
+    which is, by assumption, a degree $n$ polynomial. Taking $t_i = 1$ and 
+    $S_i = \{0,1\}$ we get by the Nullstellensatz a non-zero, which is different than $\vec{0}$,
+    absurd!
+\end{proof}
+
+The last application we saw was a seemingly very weird theorem of Alon, Friedman and Kalai.
+It states that a graph that is very very close to being regular, has a regular subgraph.
+A very nice corollary of this, that Sebastião is presenting eventually, is the extremal 
+number of $d$-regular graphs. Using this, Pyber proved that if $e(G) \geq C(d) n \log n$,
+$G$ contains a $d$-regular graph. Let's see the AFK (cool name) theorem.
+
+\begin{theorem} [AFK]
+    Let $p$ be a prime and suppose $G$ is a graph satisfying 
+    \[
+    d(G) > 2p - 2 \quad \& \quad \Delta(G) \leq 2p - 1
+    \]
+    where here $d(G)$ is the average degree. Then $G$ contains 
+    a $p$-regular subgraph.
+\end{theorem}
+
+\begin{proof}
+    Because we know that we will use the Nullstellensatz, we have 
+    to cook up a good polynomial $f$. As we are looking for general subgraphs
+    (not induced), it seems a good idea for our variables to be $X_e$ taking values $\{0,1\}$
+    where $e$ is an edge. We want the degree of every vertex to be either $0$ (the vertex doesn't connect 
+    to anyone and we can take it out) or $p$. 
+    By taking values mod $p$, we can make use of Fermat's 
+    Little Theorem, to write an indicator for that. Crucially, in $\Z_p$, $\id[x \neq p = 0] = 1 - x^{p-1}$.
+    So let's consider the product 
+    \[
+        \prod_{u \in V} 1 - \bigg(\sum_{e = \{u,v\} \in E} X_e \bigg)^{p-1}
+    \]
+    Note that this product is not $0$ on $H \subset G$ if and only if 
+    every vertex of $H$ has degree in $\{0,p\}$. But there is a problem, 
+    we might take $H = \varnothing$, so just like the previous application, 
+    we have to remove that possibility. We may consider 
+    \[
+    f(X) = \prod_{u \in V} 1 - \bigg(\sum_{e = \{u,v\} \in E} X_e \bigg)^{p-1}
+    - \prod_{e \in E} (1 - X_e).
+    \]
+    Now what is the degree of $f$? We clearly have $e(G)$ on the second term 
+    and at most $(p-1)n$ on the first. By the average degree condition, 
+    $e(G) > (2p-2)n/2 = (p-1)n$, so the second term wins! Now, considering $t_e = 1$
+    and $S_e = \{0,1\}$, we can apply the theorem to get a non zero which corresponds 
+    to a non-empty subgraph $H \subset G$ such that for every $v \in H$, $d(v) = 0 \pmod p$.
+    As $\Delta(G) \leq 2p - 1$, it must be that $d(v) \in \{0,p\}$ exactly as we 
+    wanted to show!
+\end{proof}
