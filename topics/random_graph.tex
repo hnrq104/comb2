@@ -485,3 +485,163 @@ Now to finish the proof, we just need to prove the following lemma,
 	\]
 	and is summable on $m$ if $C$ is a big enough constant.
 \end{proof}
+
+\subsection{A proof of the Kahn-Kalai Conjecture}
+We will show in this subsection a very cool conjecture that
+gives thresholds for a big family of monotone properties.
+
+The idea is the following. Thinking about $G(n,p)$, what is the threshold for
+an event $\{H \subset G(n,p)\}$ for a fixed $H$ of constant size? It
+is easy to show
+a lower bound by the first moment. If $m(H) = \max\{v(F)/e(F) : F \subset H\}$
+and $p \ll n^{-m(H)}$, then
+\[\Pr(H \subset G(n,p)) \leq \Ex\# \{ H \subset G(n,p)\} \to 1.\]
+By doing Janson or second moment, it is easy to show that this bound is tight!
+
+Notice here that we are actually looking for $F$, the densest subgraph
+which is the hardest to find. This threshhold is determined by the
+threshhold of $F$!
+Put it in hypergraph terms, this is because the hypergraph that
+encodes $F$ copies is
+a cover for the hypergraph that encodes $H$ copies.
+
+Let's state and prove the famous Kahn-Kalai conjecture!
+
+\begin{theorem}
+	Let $\HH$ be a hypergraph on vertex set $V$ of size $n$ and suppose
+	that for every covering $\cF$ of $\HH$,
+	$w_p(\cF) \geq 1$. Then
+	\[
+		\Pr(\HH[V_{C(\eps)p\log n}] = \varnothing) < \eps.
+	\]
+\end{theorem}
+
+\begin{remark}
+	Think of $\HH$ encoding matchings or hamiltonian cycles! If the
+	first moment threshhold is $1/n$,
+	but the real threshhold is $\log n / n$.
+\end{remark}
+
+\begin{remark}
+	This is a very nice theorem, but all applications of it actually use
+	the fractional version.
+	Where we define a fractional covering as a function $\lambda : 2^{V} \to [0,1]$
+	s.t for every edge $E \in \HH$, $\sum_{S \subset E} \lambda(S) \geq 1$.
+\end{remark}
+
+The main idea is to prove the contrapositive. If the probability of
+$\HH[V_{Cp\log n}]$ being empty
+is big, then we can find a cheap cover. So let's try that. For now on suppose
+\[
+	\Pr(\HH[V_p] = \varnothing) \geq 1/2.
+\]
+
+Now, let's consider $X_1, \dots, X_s$ each being a $q$-random set
+with $q = \alpha p$ where $\alpha$
+is a constant and $s = \log n$. We will iteratively build a cover $\cF$ of $\HH$
+which we will show is cheap with positive probability.
+
+Preemptively define  $k_i = 2^{-i}n$. Set our first partial cover to be
+\[
+	\cF_1 = \min \{E \setminus X_1 : E \in \HH\}
+\]
+where min here means we are take the minimal set.
+Clearly $\cF_1$ is a covering of $\HH$. Now we separate it in two parts,
+\[
+	\cF_1^{\leq k_1} = \{E \in \cF_1 : |E| \leq k_1\} \quad \& \quad
+	\cF_1^{>k_1} = \{E \in \cF_1 : |E| > k_1\}.
+\]
+Now we will use $X_2$ to build a covering of $\cF_1^{\leq k_1}$ the
+same way as before. We define
+\[
+	\cF_2 = \min \{E \setminus X_2 : E \in \cF_1^{\leq k_1}\}
+\]
+separate the big edges and the small edges and go on. The idea here
+is that the big edges are cheap,
+we can't find them in $V_p$ so let's only use them to make our cover.
+Proceeding this way,
+setting
+\[
+	\cF_i = \min \{E \setminus X_i : E \in \cF_{i-1}^{\leq k_{i-1}}\}
+\]
+and $\cF_i^{\leq k_i}$, $\cF_i^{> k_i}$ accordingly we get, by definition, that
+\[ \cF = \bigcup_{i = 1}^s \cF_i^{>k_i}\]
+is a covering for $\HH$. We now only have to prove one main lemma:
+\begin{lemma}
+	For some big enough $C$.
+	\[
+		\Ex[w_p(\cF_i^{>k_i})] \leq C^{-k_i}
+	\]
+\end{lemma}
+Let's see how it implies the theorem.
+Assuming it, and considering the random covering $\cF$, we have that
+\[
+	\Ex w_p(\cF) \leq \sum_{i = 1}^s \Ex w_p(\cF_i^{> k_i}) \leq \sum_{i
+	= 1}^s C^{-k_i} = O(C^{-1}).
+\]
+Now, by assumption $\Pr(\HH[V_p] = \varnothing) > 1/2$ so with $1/2$ chance,
+no $\cF_i$ is empty and furthermore with probability at least
+$1 - O(C^{-1})$, $w_p(\cF) < 1$. So there exists a non-empty cheap
+covering of $\HH$.
+
+\begin{proof}[Proof of the lemma]
+	The proof will be a smart counting and will use the minimality.
+	Let's looks closely
+	at $\Ex w_p(\cF_i^{>k_i})$. We may separate it on the possible value of $X_i$,
+	for this consider $\cG(I) = \min \{E - I: E \in \cF_{i-1}^{\leq
+	k_{i-1}}\}$ to be the next
+	covering if we chose $X_i$ as $I$. Then it is clear that
+
+	\[
+		\Ex w_p(\cF_i^{>k_i}) = \sum_{I \subset 2^V} \Pr(X_i = I) w_p(\cG^{>k_i}(I)).
+	\]
+	Now let's condition on $\cF_{i-1}$ and open up this right-hand side.
+	Note that
+	\[
+		w_p(\cG^{> k_i}(I)) = \sum_{k > k_i} p^k e(\cG^{k}(I)).
+	\]
+	Now we set $A_{m,k} = \{(I,J) : |I| = m, J \in \cG^{k}(I)\}$. We
+	just proved that
+	the previous expectation is exactly
+	\[
+		\sum_{m \leq n}  \sum_{k > k_i} p^k q^m(1-q)^{n-m} |A_{m,k}|.
+	\]
+	Now comes the ingenius trick! Let's bound the possible size of
+	$|A_{m,k}|$ by considering a simple map.
+	Consider $g : A_{m,k} \to \binom{V}{m + k}$ that sends $g(I,J) \to I
+	\cup J$. Let's see that
+	the pre-image of any value of this thing cannot be too big! So how
+	many guys can be such that
+	$g(I,J) = T$ where $T$ is some set? Note first that by definition,
+	if $(I,J) \in A_{m,k}$,
+	then $I \cup J = T$ contains an edge $\cF_{i-1}^{\leq k_{i-1}}[T]$.
+	Actually, furthermore,
+	if $E \in \cF_{i-1}^{\leq k_{i-1}}[T]$, then it must be that $J
+	\subset E$. Note that if this wasn't the case,
+	then $J \cap E$ would be a smaller set and it would contradict
+	minimality. So we actually have that
+	for all $F$ satisfying that, it must be that $F \subset \cap_{E \in
+	\cF_{i-1}^{\leq k_{i-1}}[T]} E$.
+	In particular, the number of such $F$ is bounded by $2^{k_{i-1}}$.
+	We find that, for $k \geq k_i$,
+	\[
+		|A_{m,k}| \leq 2^{k_{i-1}}\binom{n}{m  + k} \leq 2^{2k}\binom{n}{m + k}.
+	\]
+	Plugging this back in the equation, we get that it is less than
+	\[
+		\sum_{m \leq n} \sum_{k > k_i} p^k q^{m}(1-q)^{n-m}2^{2k} \binom{n}{m+k}.
+	\]
+	Swapping the sums and adding a $k$ factor to $q^m$ and removing one
+	from $(1-q)^{n - m}$
+	we get that this is at most
+	\[
+		\sum_{k > k_i} \frac{2^{2k}p^k(1-q)^k}{q^k} \sum_{m \leq n} q^{m+k}
+		(1-q)^{n - m - k} \binom{n}{m + k}.
+	\]
+	But notoriously, this inner sum is always less than $1$, so we get
+	\[
+		\Ex[w_p(\cF_i^{> k_i})] \leq \sum_{k > k_i} \frac{(4p(1-q))^k}{q^k}
+		= O((\alpha/4)^{-k}).
+	\]
+	So by taking $\alpha$ big enough we get our result!.
+\end{proof}
