@@ -645,3 +645,172 @@ covering of $\HH$.
 	\]
 	So by taking $\alpha$ big enough we get our result!.
 \end{proof}
+
+\begin{remark}
+	(About the Theorem) The same proof works under the assumption that
+	$\HH$ is $r$-uniform.
+	In this case, we define $k^{i} = 2^{-i}r$ and get a $\log r$ instead
+	of a $\log n$
+	in the statement of the main theorem.
+\end{remark}
+
+\subsubsection{Sunflowers}
+\todo{Maybe this should be in the extremal set theory section!}
+
+We will see an application of the previous theorem in this subsection.
+It actually came before
+and was the missing piece that people used to prove the Kahn-Kalai
+conjecture. But thankfully,
+Kahn-Kalai implies it \Smiley.
+
+\begin{definition}
+	Given a $r$ uniform hypergraph $\HH$, a $t$-sunflower of $\HH$ is a collection
+	of edges $S_1, \dots, S_t \in \HH$ such that for all $i \neq j$,
+	$S_i \cap S_j = \bigcap_{i=1}^t S_i$.
+\end{definition}
+\begin{remark}
+	We call the big intersection the core of the sunflower and we denote a petal
+	to be an edge without the core.
+\end{remark}
+
+A very nice extremal theorem by Erdös and Rado from the 60's states that
+every big enough $\HH$ has a $t$-sunflower. Note that we don't even care about
+the vertices of $\HH$.
+
+\begin{theorem}
+	If $\HH$ is $r$-uniform and $|\HH| \geq (rt)^r$, then $\HH$ contains
+	a $t$-sunflower.
+\end{theorem}
+\begin{proof}
+	Let's begin by noticing that if $\Delta(\HH)$ was bounded by
+	$\Delta$ and $|HH|$ was big
+	enough, then we could just do it greedily and find a sunflower with
+	empty core. More precisely,
+	we could choose a set $S_1$, remove every edge that intersects it -
+	at most $r\Delta$ -
+	and pick up another edge. So, if $(t-1)r\Delta \leq |HH|$ we are done!
+
+	So at first we will do exactly that. We would be very happy if this
+	was the case, but
+	we can't garantee it. What if some vertex belonged to a whole lot of
+	edges of $|HH|$?
+	Well in that case we would just add it to the core. Motivated by
+	that define $L$ to be a
+	maximal set such that
+	\[
+		d_{\HH}(L) \geq p^{|L|}|\HH|
+	\]
+	for any $p > |\HH|^{-1/r}$. Note that $\varnothing$ easily satisfies
+	this, so this maximal exists.
+	Furthermore, $|L| < r$, because if it wasn't the case, then $|L| =
+	r$, $d_{\HH}(L) \leq 1$,
+	but $p^{|L|}|\HH| > 1$. The big idea is now taking $L$ as the core. Note that,
+	if we define $\HH_L = \{E - L : E \in \HH\}$, by assumption, if $v \not \in L$,
+	then
+	\[
+		d_{\HH_L}(v) \leq d_{HH}(L \cup {v}) < p^{|L|+1}|\HH| \leq p|\HH_L|.
+	\]
+	So $\Delta(\HH_L) < p|\HH_L|$ meaning we can find a matching in $\HH_L$ of size
+	at least
+	\[
+		\frac{|HH_L|}{r\Delta(HH_L)} \geq \frac{1}{pr} = |HH|^{1/r}/r.
+	\]
+	In particular, if $(tr)^r \leq |HH|$, we can find a $t$-sunflower.
+\end{proof}
+\begin{remark}
+	This proof is very nice and we encapsulate all we need in this smart
+	definition of $L$.
+	But actually, $L$ gives a whole lot more of information. It gives
+	information of all codegrees as well!
+	Note that if $T \cap L = \varnothing$, then $d_{\HH_L}(T) < p^{|L| +
+	|T|}|\HH| \leq p^{|T|}|\HH_L|$.
+	The next good idea is to use this information as well.
+\end{remark}
+
+\begin{definition}
+	We say that a hypergraph $\cF$ is $p$-spread if for every $S \subset
+	V(\cF)$ we have that
+	\[
+		d_{\cF}(S) \leq p^{|S|}|\cF|.
+	\]
+\end{definition}
+
+Note that crucially, as we defined, $\HH_L$ is $p$-spread with $p =
+|HH|^{-1/r}$.
+Now, this is the crazy part, we will use the Kahn-Kalai Conjecture to
+find a matching
+more efficiently in $\HH_{L}$. For this we need a nice result that says that $p$
+spread implies no cheap covering.
+
+\begin{lemma}
+	Let $\cF$ be a $p$-spread hypergraph. Then for all fractional covers
+	$\lambda : 2^V \to [0,1]$
+	of $\cF$, we have $w_p(\lambda) \geq 1$.
+\end{lemma}
+\begin{proof}
+	Marcelo's proof of this uses linear programming duality smartly but
+	there is a simpler way.
+	Let $\lambda$ be a covering for $\cF$, then note that
+	\[
+		w_p(\lambda) = \sum_{S \subset V} p^{|S|}\lambda(S) =
+		\sum_{S \subset V} p^{|S|}\lambda(S) \frac{1}{d_{\cF}(S)} \sum_{E
+		\in \cF} \id[S \subset E].
+	\]
+	Swapping the summation order, we get
+	\[
+		\sum_{E \in \cF} \sum_{S \subset V}
+		\frac{p^{|S|}\lambda(S)}{d_{\cF}(S)} \id[S \subset E].
+	\]
+	Now by the $p$-spreadness hypothesis, we know $d_{\cF}(S) \leq
+	p^{|S|}|\cF|$. Then we can lowerbound
+	the last expression by
+	\[
+		\sum_{E \in \cF} \frac{1}{|\cF|} \sum_{S \subset V} \lambda(S)
+		\id[S \subset E] \geq \sum_{E \in \cF} \frac{1}{|\cF|} \geq 1
+	\]
+	where we used crucially that $\lambda$ is a covering of $\cF$.
+\end{proof}
+
+Now we can find a new bound for sunflowers!
+\begin{theorem}
+	There exists an absolute $C$ such that if $\HH$ is an $r$ uniform
+	hypergraph and
+	$(C \log r t\log t)^r < |\HH|$, then $\HH$ contains a $t$ sunflower.
+\end{theorem}
+
+\begin{proof}
+	Define $p > |\HH|^{-1/r}$, $L$ and $\HH_L$ exactly as before. We
+	noted that $\HH_L$ is $p$-spread,
+	and by the previous lemma, $\HH_L$ has no cheap covers. Now, if $C$
+	is the constant in Park-Pham's
+	theorem, setting $M = C \log r$, we have that
+	\[
+		\Pr( \HH_L [V_{Mp}] = \varnothing) < 1/2.
+	\]
+	So by sprinkling
+	\[
+		\Pr(\HH_L[V_{lMp}] = \varnothing) < \frac{1}{2^l}.
+	\]
+	Consider a random $t$-coloring of the vertices of $\HH_L$. That is set
+	$V = X_1 \cup X_2 \dots \cup X_t$, where each $X_i$ is a $1/t$
+	random set when looked at alone.
+	If $\Pr(\HH_L[X_i] = \varnothing) < 1/t$ then, by the union bound
+	\[
+		\Pr(\exists i \HH_L[X_i] = \varnothing) < 1
+	\]
+	in particular, with positive probability, $\HH_L[X_i]$ is not empty
+	for all $i$.
+	So we found a matching in $\HH_L$. What bounds did we get? Well, if
+	$1/2^l < Mpl$,
+	then we can find a $1/Mpl$ matching. Fixing $l = \log t$ and asking
+	$1/Mpl > t$,
+	we see that if
+	\[
+		\frac{|\HH|^{1/r}}{C\log r \log t} = t
+	\]
+	or in order terms, if
+	\[
+		|\HH| > (C \log r t \log t)^r
+	\]
+	we can find a $t$-sunflower.
+\end{proof}
