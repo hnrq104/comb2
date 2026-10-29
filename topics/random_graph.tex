@@ -624,9 +624,10 @@ covering of $\HH$.
 	\cF_{i-1}^{\leq k_{i-1}}[T]} E$.
 	In particular, the number of such $F$ is bounded by $2^{k_{i-1}}$.
 	We find that, for $k \geq k_i$,
-	\[
-		|A_{m,k}| \leq 2^{k_{i-1}}\binom{n}{m  + k} \leq 2^{2k}\binom{n}{m + k}.
-	\]
+	\begin{equation}
+		\label{kk:eq:switching}
+		|A_{m,k}| \leq 2^{k_{i-1}}\binom{n}{m  + k} \leq 2^{2k}\binom{n}{m + k}.	
+	\end{equation}
 	Plugging this back in the equation, we get that it is less than
 	\[
 		\sum_{m \leq n} \sum_{k > k_i} p^k q^{m}(1-q)^{n-m}2^{2k} \binom{n}{m+k}.
@@ -713,9 +714,9 @@ the vertices of $\HH$.
 	So $\Delta(\HH_L) < p|\HH_L|$ meaning we can find a matching in $\HH_L$ of size
 	at least
 	\[
-		\frac{|HH_L|}{r\Delta(HH_L)} \geq \frac{1}{pr} = |HH|^{1/r}/r.
+		\frac{|\HH_L|}{r\Delta(\HH_L)} \geq \frac{1}{pr} = |\HH|^{1/r}/r.
 	\]
-	In particular, if $(tr)^r \leq |HH|$, we can find a $t$-sunflower.
+	In particular, if $(tr)^r \leq |\HH|$, we can find a $t$-sunflower.
 \end{proof}
 \begin{remark}
 	This proof is very nice and we encapsulate all we need in this smart
@@ -814,3 +815,174 @@ Now we can find a new bound for sunflowers!
 	\]
 	we can find a $t$-sunflower.
 \end{proof}
+
+\subsubsection{A proof of one of Talagrand's Conjectures}
+
+Following the Kahn-Kalai Conjecture, which was already proven for fractional
+coverings. Talagrand made a very natural question:
+
+\begin{question}
+	Let $\HH$ be a hypergraph with a cheap fractional cover $\lambda$.
+	Does there exist a cheap cover $\cG$ of $\HH$?
+\end{question}
+
+This was tackled incompletely by Pham in a recent paper [2025] and most recently
+(last week as of writing this) A.I settled it.
+
+\begin{theorem}[Open A.I]
+	Let $\HH$ be a hypergraph containg a fractional covering $\lambda$
+	with $w_p(\lambda) < 1$ and $\lambda(\varnothing) = 0$.
+	For an absolute constant $C > 0$, there exists a integral cover $\cG$ of $\HH$
+	such that $w_{Cp}(\cG) < 1$.
+\end{theorem}
+
+The proof looks a lot like Pham's, but it has some very weird robot
+steps. We will
+make some definitions, replace the sprinkling steps in the Kahn-Kalai proof
+to some random coloring, and try to do a smarter switching step. By switching
+here I mean the nice proof of inequality [\ref{kk:eq:switching}].
+
+\begin{definition}
+	Fix $\HH$ and a fractional covering $\lambda$.
+	For each edge $E \in \HH$, we define a vertex measure $\sigma_E : E \to [0,1]$
+	given by
+	\[
+		\sigma_E(x) = \frac{1}{M_E} \sum_{S \subset E: x \in S} \frac{\lambda(S)}{|S|}.
+	\]
+	where $M_E$ is simply $\sum_{S \subset E}\lambda(S)$ so that
+	$\sigma_E$ sums up to $1$.
+\end{definition}
+
+Now, the idea is that we should really prioritize vertices with high $\sigma_E$
+when making up our cover. Things will seem to go sideway but let's
+follow along the proof.
+
+The key lemma looks a lot like the key lemma from Kahn-Kalai, it
+states that if some probability
+is sufficiently big, then we can build up a cheap integral cover.
+In our previous case, this probability was $\Pr(\HH[V_{Cp\log n}] =
+\varnothing)$.
+
+\begin{lemma}
+	\label{kk:weirdlemma}
+	Let $\HH$ be a hypergraph, $p \in (0,1)$ and $\lambda$ a fractional
+	covering of $\HH$ with $\lambda(\varnothing) = 0$.
+	For a big constant $D$, consider $s$
+	such that
+	\[
+		\sum_{j=1}^s D^jp = 1.
+	\]
+	Let $X_1, \dots X_s$ be a random coloring of $V$, such that independently for
+	each $x \in V$, $\Pr(x \in X_i) = D^ip$. Suppose furthermore that $w_{Dp}(\lambda) < 2^{-10}$.
+    Define $X_{>i} = \bigcup_{j > i} X_j$.
+	Let $\mathcal{E}$ be the event that for every $E \in \HH$,
+	there exists $1 \leq i \leq s$, such that
+	\[
+		\sum_{x \in X_{>i}} \sigma_E(x) > 2^{-i}.
+	\]
+	If $\Pr(\mathcal{E}) > 1/2$ then $\HH$ contains a
+	cover $\cG$ with $w_{Cp}(\cG) < 1$.
+\end{lemma}
+
+This weird lemma will give us the result. Let us show first that it is sufficient.
+\begin{lemma}
+    \label{kk:prob_E}
+    If $\HH$ admits a covering $\lambda$ with $w_{Dp}(\lambda) < 2^{-10}$, then
+    for $\mathcal{E}$ defined before, $\Pr(\mathcal{E}) > 1/2$.
+\end{lemma}
+
+    
+This proof is a bit magical, really something out from the machine.
+We will define a smart random variable $Z$ which has low expectation,
+but takes big values when $\mathcal{E}$ does not happen. 
+So $\Pr(\mathcal{E})$ must be low. So from now on we will be interested 
+in the event that there exists an edge $E$ that is tracked, i.e for every 
+$1 \leq i \leq s$,
+\[
+    \sum_{x \in X_{>i}} \sigma_E(x) \leq 2^{-i}.
+\]
+Let $a : V \to [s]$ be the coloring function defined by
+$a(x) = i \text{ such that } x \in X_i$. Note that if $E$ is tracked, 
+then by a simple summation,
+\[
+    \sum_{x \in E} \sigma_E(x)a(x) \leq 2.
+\]
+Furthermore, define for a set $S$ the average color of $S$ to be 
+$\bar{a}(S) = \frac{1}{|S|} \sum_{x \in S} a(x)$. Finally (and this is a crucial point)
+note that if we consider the measure on the subsets $S$ of $E$ given by 
+$\lambda(S)/M_E$. Then 
+\[
+    \sum_{S \subset E} \frac{\lambda(S)}{M_E} \bar{a}(S) 
+    = \sum_{S \subset E} \sum_{x \in S} \frac{\lambda(S)}{M_E|S|} a(x)
+\]
+which after swapping the summation is precisely 
+\[
+    \sum_{x \in E} a(x) \sigma_E(x) \leq 2.
+\]
+Now after all of this discussion, let's prove the previous lemma.
+\begin{proof}[Proof of \ref{kk:prob_E}]
+    Fix $C$ (which we will determine later) and define the magic random
+    variable $Z$ given by 
+    \[
+        Z = \sum_{S \subset V} \lambda(S) C^{4 - \bar{a}(S)}.
+    \]
+    Note crucially that if the event $\mathcal{E}$ does not happen, that is 
+    some edge $E$ is tracked. Then 
+    \[
+        Z \geq \sum_{S \subset E} \lambda(S) C^{4 - \bar{a}(S)}.
+    \]
+    But we have seen that, if $E$ is tracked, 
+    \[
+    \sum_{S \subset E} \frac{\lambda(S)}{M_E} \bar{a}(S) \leq 2. 
+    \]
+    So, by Markov, for at least half the sets (under the $\lambda(.)/M_E$ measure) $S$
+    we have that $\bar{a}(S) \leq 4$. We conclude that 
+    \[
+        Z \geq M_E \sum_{S \subset E} \frac{\lambda(S)}{M_E} C^{4 - \bar{a}(S)}
+        \geq \sum_{S \subset E: \bar{a}(S) \leq 4} \frac{\lambda(S)}{M_E} \geq \frac{1}{2}
+    \]
+    But let's compute the expectation of $Z$. We have that 
+    \[
+        \Ex Z = C^4\sum_{S \subset V} \lambda(S) \Ex C^{-\bar{a}(S)}.
+    \]
+    Now comes the nice bit, because of how we have chosen our coloring, 
+    we may use independence to open up $\Ex[C^{-\bar{S}}]$. It becomes
+    \[
+        \prod_{x \in S}\Ex C^{-a(x)/|S|} = (\Ex C^{-a(x)/|S|})^{|S|}.
+    \]
+    as all $a(x)$ are i.i.d.  But $a(x)$ has a simple, calculable distribution, 
+    we have that 
+    \[
+        \Ex C^{-a(x)/|S|} = \sum_{j = 1}^s C^{-j} p D^{j} \approx \frac{pD}{C^{1/|S|}}.
+    \]
+    as such, 
+    \[
+        \Ex Z \leq C^4 \sum_{S \subset V} \lambda(S) \frac{p^{|S|}D^{|S|}}{C} \leq C^3 w_{Dp}(\lambda) \leq C^3 2^{-10}.
+    \]
+    If $C$ is not too big, we are fine and can do the Markov argument. Note howerver 
+    that for this to work we need some assumptions on $D$ and $p$, we just need that $p$ is smaller 
+    than some small constant.
+
+    So
+    \[
+        C^32^{-10} \geq \Ex[Z] \geq \frac{1}{2} (1-\Pr(\mathcal{E}))
+    \]
+    so $\Pr(\mathcal{E}) \geq 1/2$, by choosing an appropriate $C$.
+\end{proof}
+
+Now let's try to prove the main lemma using a switching argument 
+similar to those seen before in \ref{kk:eq:switching}.
+
+\todo{the following lemma doesnt really make sense, we have to make it 
+correct following the random variables}
+\begin{lemma}
+    Let $\HH$ be a hypergraph with a fractional covering $\lambda$ 
+    ($\lambda(\varnothing) = 0$) with $w_{Dp}(\lambda) < 2^{-10}$. For some big constant $D$, set $X_i$ 
+    as before. If for every edge $E \in \HH$, $E$ is not tracked, i.e
+    there exists $i$ such that 
+    \[
+    \sum_{x \in X_{>i}} \sigma_E(x) > 2^{-i}
+    \]
+    then there exists a cheap integral covering $\cG$ with $w_{Cp}(\cG) < 1$ for some 
+    big absolute $C$.
+\end{lemma}

@@ -221,6 +221,95 @@ I just took these from my notes in random matrices.
 \begin{remark}
 	We also have the trivial lowerbound
 	\[
-		\Pr(\bigcap_{j=1}^{t} B_j^c) \geq \prod_{j = 1}^t \Pr(B_j^c).	
+		\Pr(\bigcap_{j=1}^{t} B_j^c) \geq \prod_{j = 1}^t \Pr(B_j^c).
 	\]
 \end{remark}
+
+\begin{remark}
+    The following is a version of the previous inequality with more general 
+    lowerbounds (and it has a better presentation as well).
+\end{remark}
+\begin{theorem}
+    Let $t_1, \dots, t_n$ be boolean random variables. Let $\mathcal{A}$ be a 
+    collection of sets $A \subset [n]$ (we may think of it as hypergraph edges).
+    Consider the random variable (or the random boolean polynomial)
+    \[
+    X = \sum_{A \in \mathcal{A}} \prod_{j \in A} t_j.
+    \]
+    We have 
+    \[
+    \Pr(X \leq \Ex X - T) \leq \exp(-T^2/\Delta)
+    \]
+    where $\Delta$ is defined just as before being 
+    \[
+        \Delta = \sum_{A \cap B \neq \varnothing} \Ex \prod_{j \in A \cup B} t_j.
+    \]
+\end{theorem}
+
+\begin{proof}[Tao's proof of \ref{trm:janson_ineq}]
+    Let's see a beautiful proof different from the one 
+    in the Probabilistic Method. We will rely as before on the exponential method.
+    Note that, defining $F(t) = \Ex \exp(-tX)$ and using Markov, we get that 
+    \[
+    \Pr(X \leq \Ex X - T) = \Pr(\exp(-tX) \geq \exp(-t (\Ex X - T)) 
+    \leq F(t) \exp(-t(\Ex X - T)).
+    \]
+    So, taking logs, an upper bound on $\log F(t) -t(\Ex X - T)$ yields 
+    an upper bound on our probability. Janson's ingenious trick is noting 
+    that $F(0) = 1$ and writing the $\log F(t)$ as an integral, so that
+    \[
+    \log F(t) -t(\Ex X - T) = \int_0^t \frac{F'(s)}{F(s)} ds -t(\Ex X - T).
+    \]
+    Now, $F'(t) = \Ex[-X \exp(-tX)]$ so the last expression becomes 
+    \[
+        - \int_0^t \frac{\Ex[X \exp(-sX)]}{F(s)} ds - t(\Ex X - T).
+    \]
+    So flipping signs, we want a lower bound on 
+    \[
+        \int_0^t \frac{\Ex[X \exp(-sX)]}{F(s)} ds + t(\Ex X - T)
+    \]
+    Now we remind that $X$ is of the form $\sum_{A \in \mathcal{A}} \prod_{j \in A} t_j$
+    and we use linearity inside the the integral to get
+    \[
+        \sum_{A \in \mathcal{A}}\int_0^t \frac{\Ex[(\prod_{j \in A} t_j)\exp(-yX)]}{\Ex \exp(-yX)} dy
+    \]
+    Letting $E_A$ be the event that for all $j \in A$, $t_j = 1$, we find that 
+    \[
+        \Ex[(\prod_{j \in A} t_j) \exp(-yX)] = \Pr(E_A)\Ex[\exp(-yX) | E_A].
+    \]
+    Writing $X = Y_A + Z_A$ where 
+    \[
+    Y_A = \sum_{\substack{B \in \mathcal{A}\\ A \cap B \neq \varnothing}} \prod_{j \in B} t_j
+    \quad \text{and} \quad 
+    Z_A = \sum_{\substack{B \in \mathcal{A}\\ A \cap B = \varnothing}} \prod_{j \in B} t_j
+    \]
+    we get that 
+    \[
+        \Ex[\exp(-yX) | E_A] = \Ex[\exp(-y(Y_A + Z_A)) | E_A] = 
+        \Ex[\exp(-yZ_A)] \Ex[\exp(-y Y_A) | E_A].
+    \]
+    substituting back in the sum, we get 
+    \[
+        \sum_{A \in \mathcal{A}} \Pr(E_A) \int_0^t \frac{\Ex[\exp(-sZ_A)]\Ex[\exp(-s Y_A)|E_A]}{F(s)} ds.
+    \]
+    Since clearly $Z_A \leq X$, we have that $\Ex[\exp(-sZ_A)] \geq F(s)$, from which 
+    the independent term cancels. So we get a lowerbound 
+    \[
+    \sum_{A \in \mathcal{A}} \Pr(E_A) \int_0^t \Ex[\exp(-s Y_A)|E_A] ds
+    \]
+    Applying Jensen's inequality for $\Ex[\exp(-s Y_A)|E_A] \geq \exp(-s \Ex[Y_A | E_A])$
+    we get a new lowerbound of 
+    \[
+        \int_0^t \sum_{A \in \mathcal{A}} \Pr(E_A) \exp(-s \Ex[Y_A | E_A]) ds.
+    \]
+    We may apply Jensen's again using the fact that $\sum_{A \in \mathcal{A}} \Pr(E_A) = \Ex X$
+    to get that this last integral is lower bounded by 
+    \[
+        \Ex X \int_0^t \exp\bigg( -s\sum_{A \in \mathcal{A}} \frac{\Pr(E_A)\Ex[Y_A|E_A]}{\Ex X}\bigg) ds = \Ex X \int_0^t \exp(-s \frac{\Delta}{\Ex X}) ds  
+    \]
+    we thus conclude by noticing that we can lowerbound the full expression by 
+    \[
+        \frac{(\Ex X)^2}{\Delta} (1 - \exp(-t \frac{\Delta}{\Ex X})) -t(\Ex X - T).
+    \]
+    maximizing over $t$ (or setting it $T/\Delta$) we get the result.
+\end{proof}
